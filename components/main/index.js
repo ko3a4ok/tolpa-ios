@@ -11,7 +11,8 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-import Drawer from 'react-native-drawer'
+import Drawer from 'react-native-drawer';
+import CategoriesHeader from './categories_header.js';
 
 
 class ControlPanel extends Component {
@@ -22,6 +23,7 @@ class ControlPanel extends Component {
       profile: {
         first_name: '',
         last_name: '',
+        categories: [],
       },
     };
     AsyncStorage.getItem('profile', (err, profile) => {
@@ -58,14 +60,40 @@ const navigationBar = (
   }} />
 )
 
+
+class MainFragment extends Component {
+  constructor(): void {
+    super();
+    this.state = {
+      profile: {
+        categories: [1, 2,],
+      },
+    };
+    AsyncStorage.getItem('profile', (err, profile) => {
+      if (!profile) return;
+      var user = JSON.parse(profile);
+      this.setState({profile: user.profile});
+    });
+  }
+
+
+  render() {
+    return (
+      <View style={{flex: 1, paddingTop: 40}}>
+        <CategoriesHeader category_ids={this.state.profile.categories} />
+      </View>
+    );
+  }
+}
 class MainView extends Component {
+
   render () {
     return (
       <Navigator
         initialRoute={{ title: 'My Initial Scene', index: 0 }}
         renderScene={(route, navigator) => {
           if (route.index == 0) {
-            return <View style={{flex: 1}}/>
+            return <MainFragment />
           }
         }}
         navigationBar={
