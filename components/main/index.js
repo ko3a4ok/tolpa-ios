@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import {
-  AsyncStorage,
-  AppRegistry,
   StyleSheet,
   Text,
   View,
@@ -15,38 +13,7 @@ import {
 import Drawer from 'react-native-drawer';
 import CategoriesHeader from './categories_header.js';
 import EventsListView from './events_list_view.js';
-
-
-class ControlPanel extends Component {
-
-  constructor(): void {
-    super();
-    this.state = {
-      profile: {
-        first_name: '',
-        last_name: '',
-        categories: [],
-      },
-    };
-    AsyncStorage.getItem('profile', (err, profile) => {
-      if (!profile) return;
-      var user = JSON.parse(profile);
-      this.setState({profile: user.profile});
-    });
-  }
-
-  render () {
-    return (
-      <View style={{backgroundColor: '#00ffaa', flex: 1, paddingTop: 70, alignItems: 'center',}}>
-        <Image
-          style={styles.profileImage}
-          source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
-        />
-      <Text style={{fontSize: 20, paddingTop: 10}}>{this.state.profile.first_name + " " + this.state.profile.last_name} </Text>
-      </View>
-    );
-  }
-}
+import ControlPanel from './side_menu.js';
 
 
 class MainFragment extends Component {
@@ -151,11 +118,3 @@ const drawerStyles = {
   drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
   main: {paddingLeft: 3},
 }
-
-const styles = StyleSheet.create({
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-  },
-});
