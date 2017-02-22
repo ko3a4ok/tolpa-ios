@@ -49,20 +49,6 @@ class ControlPanel extends Component {
 }
 
 
-const navigationBar = (
-  <Navigator.NavigationBar routeMapper={{
-    RightButton(route, navigator) {
-      return (
-        <NavButton
-          text="Login"
-          onPress={ () => {} }
-        />
-      );
-    }
-  }} />
-)
-
-
 class MainFragment extends Component {
   constructor(): void {
     super();
@@ -102,6 +88,7 @@ class MainView extends Component {
   render () {
     return (
       <Navigator
+        style={{paddingTop: 30}}
         initialRoute={{ title: 'My Initial Scene', index: 0 }}
         renderScene={(route, navigator) => {
           if (route.index == 0) {
@@ -110,15 +97,22 @@ class MainView extends Component {
         }}
         navigationBar={
          <Navigator.NavigationBar
+           style={{backgroundColor: '#25a67d'}}
+           navigationStyles={Navigator.NavigationBar.StylesIOS}
            routeMapper={{
              LeftButton: (route, navigator, index, navState) =>
              {
-               return null;
+                return (<Button
+                  color='white'
+                  title="≡"
+                  onPress={this.props.drawerOpen}
+                />);
+
              },
              RightButton: (route, navigator, index, navState) =>
                { return null; },
              Title: (route, navigator, index, navState) =>
-               { return null; },
+               { return <Text style={{color: 'white', fontFamily: 'Zapfino'}}>Tolpa</Text>; },
            }}
          />
       }
@@ -132,6 +126,7 @@ export default class MainScreen extends Component {
     return (
       <Drawer
         type="overlay"
+        ref={(ref) => this._drawer = ref}
         content={<ControlPanel />}
         openDrawerOffset={100}
         closedDrawerOffset={-3}
@@ -146,7 +141,7 @@ export default class MainScreen extends Component {
         initializeOpen={false}
         panCloseMask={0.2}
       >
-          <MainView />
+          <MainView drawerOpen={() => {this._drawer.open();}}/>
       </Drawer>
     );
   }
