@@ -12,7 +12,7 @@ import {
   ListView,
 } from 'react-native';
 
-const CATEGORIES=[
+export const CATEGORIES=[
   "Free",
   "Party",
   "Spiritual",
@@ -29,8 +29,23 @@ const CATEGORIES=[
 ];
 
 export default class CategoriesHeader extends Component {
+
+  _renderSeparator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
+    return (
+      <View
+        key={`${sectionID}-${rowID}`}
+        style={{
+          width:  1,
+          height: 20,
+          top: 7,
+          backgroundColor: '#25a67d',
+        }}
+      />
+    );
+  }
+
   _renderRow(rowData) {
-      return (<TouchableHighlight style={{height: 30}} underlayColor='#d5f6ed' onPress={() => {}}>
+      return (<TouchableHighlight style={{height: 40}} underlayColor='#d5f6ed' onPress={() => {}}>
         <Text style={styles.headerItem}>{CATEGORIES[parseInt(rowData)].toUpperCase()}</Text>
       </TouchableHighlight>
     );
@@ -44,6 +59,7 @@ export default class CategoriesHeader extends Component {
         horizontal={true}
         dataSource={dataSource}
         renderRow={this._renderRow}
+        renderSeparator={this._renderSeparator}
       />
     );
   }

@@ -8,11 +8,13 @@ import {
   Image,
   Button,
   Navigator,
+  ListView,
   TouchableHighlight,
 } from 'react-native';
 
 import Drawer from 'react-native-drawer';
 import CategoriesHeader from './categories_header.js';
+import EventsListView from './events_list_view.js';
 
 
 class ControlPanel extends Component {
@@ -76,11 +78,21 @@ class MainFragment extends Component {
     });
   }
 
+  _renderRow(rowData) {
+      return (<EventsListView categoryId={rowData}/>);
+  }
 
   render() {
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var dataSource = ds.cloneWithRows(['popular'].concat(this.state.profile.categories));
     return (
-      <View style={{flex: 1, paddingTop: 40}}>
+      <View style={{ paddingTop: 40}}>
         <CategoriesHeader category_ids={this.state.profile.categories} />
+        <ListView
+          enableEmptySections={true}
+          dataSource={dataSource}
+          renderRow={this._renderRow}
+        />
       </View>
     );
   }
