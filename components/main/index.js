@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  AsyncStorage,
   StyleSheet,
   Text,
   View,
@@ -14,11 +15,12 @@ import Drawer from 'react-native-drawer';
 import CategoriesHeader from './categories_header.js';
 import EventsListView from './events_list_view.js';
 import ControlPanel from './side_menu.js';
-
+import FullEventsListView from './full_event_list.js';
 
 class MainFragment extends Component {
   constructor(): void {
     super();
+    this._renderRow = this._renderRow.bind(this);
     this.state = {
       profile: {
         categories: [1, 2,],
@@ -32,7 +34,7 @@ class MainFragment extends Component {
   }
 
   _renderRow(rowData) {
-      return (<EventsListView categoryId={rowData}/>);
+      return (<EventsListView categoryId={rowData} navigator={this.props.navigator}/>);
   }
 
   render() {
@@ -56,10 +58,12 @@ class MainView extends Component {
     return (
       <Navigator
         style={{paddingTop: 30}}
-        initialRoute={{ title: 'My Initial Scene', index: 0 }}
+        initialRoute={{ title: 'tolpa', index: 0 }}
         renderScene={(route, navigator) => {
           if (route.index == 0) {
-            return <MainFragment />
+            return <MainFragment navigator={navigator}/>
+          } else if (route.index == 1) {
+            return <FullEventsListView categoryId={route.tagId} />
           }
         }}
         navigationBar={
@@ -79,7 +83,9 @@ class MainView extends Component {
              RightButton: (route, navigator, index, navState) =>
                { return null; },
              Title: (route, navigator, index, navState) =>
-               { return <Text style={{color: 'white', fontFamily: 'Zapfino'}}>Tolpa</Text>; },
+               {
+                  return <Text style={{color: 'white', fontSize: 20}}>{route.title}</Text>;
+                },
            }}
          />
       }

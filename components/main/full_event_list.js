@@ -26,18 +26,14 @@ import {
   getEvents
 } from '../network';
 
-import {
-  CATEGORIES,
-} from './categories_header';
 
-export default class EventsListView extends Component {
+export default class FullEventsListView extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       results: []
     }
-    this._renderFooter = this._renderFooter.bind(this);
   }
 
   _renderRow(rowData) {
@@ -47,8 +43,8 @@ export default class EventsListView extends Component {
       return (
         <Card>
           <CardContent>
-            <View style={{width: 200, height: 270, margin: -10}}>
-              <Image style={{height: 200, width: 200}}
+            <View style={{height: 270, margin: -10}}>
+              <Image style={{height: 200}}
                 source={{uri: rowData.mini_image_url}}/>
               <View style={styles.date}>
               <Text style={{color: 'white'}}>{day}</Text>
@@ -66,16 +62,6 @@ export default class EventsListView extends Component {
   }
 
 
-  _renderFooter(tagId, categoryName) {
-    return (<TouchableHighlight
-        onPress={() => {
-          this.props.navigator.push({index: 1, title: categoryName, tagId: tagId});
-        }}
-        style={styles.next}>
-        <Text style={{fontSize: 30}}> ⇨ </Text>
-      </TouchableHighlight>);
-  }
-
   async componentDidMount() {
     var res = await getEvents(this.props.categoryId);
     this.setState({
@@ -86,19 +72,13 @@ export default class EventsListView extends Component {
   render() {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     var dataSource = ds.cloneWithRows(this.state.results);
-    var tagId = this.props.categoryId;
-    var categoryName = tagId === "popular" ? "Popular" : CATEGORIES[tagId];
     return (
-      <View style={{height: 340, paddingTop: 20}}>
-        <Text style={styles.title}>{categoryName}</Text>
         <ListView
+          style={{top: 20}}
           enableEmptySections={true}
-          horizontal={true}
           dataSource={dataSource}
           renderRow={this._renderRow}
-          renderFooter={() => this._renderFooter(tagId, categoryName)}
         />
-      </View>
     );
   }
 }
@@ -114,22 +94,5 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-  },
-  next: {
-    top: 50,
-    margin: 50,
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor: '#25a67d77',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
-
-  title: {
-    padding: 5,
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'grey',
   },
 });
