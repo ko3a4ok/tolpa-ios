@@ -11,6 +11,8 @@ import {
   Image,
 } from 'react-native';
 
+import MapView from 'react-native-maps';
+
 import {
   getEvent,
 } from '../network';
@@ -51,6 +53,28 @@ export default class DetailEventView extends Component {
         value += " to ₴" + data.budget_max;
       return (<Text>{value}</Text>);
     }
+
+    _renderMap(data) {
+      if (!data.place || data.place.length == 0) return null;
+      return (<MapView
+          liteMode={true}
+          style={{height: 300}}
+          initialRegion={{
+            latitude: data.place[1],
+            longitude: data.place[0],
+            latitudeDelta: 0.00922,
+            longitudeDelta: 0.00421,
+          }}
+          >
+          <MapView.Marker
+            coordinate={{
+              latitude: data.place[1],
+              longitude: data.place[0],
+            }}
+          />
+      </MapView>);
+    }
+
     _renderContent(data) {
       var d = new Date(data.start);
       var day = moment(d).format('DD MMM');
@@ -67,7 +91,7 @@ export default class DetailEventView extends Component {
           {this._renderMoney(data)}
 
           <Text style={{marginTop: 10}}>{data.address}</Text>
-
+          {this._renderMap(data)}
           <Text style={{marginTop: 10}}>{data.description}</Text>
         </View>
       );
