@@ -53,3 +53,17 @@ export async function getEvents(categoryId, offset) {
   }
   return null;
 }
+
+export async function getEvent(eventId) {
+  let url = SERVER_URL + "/event/" + eventId + "/";
+  try {
+    let response = await fetch(url, {
+      headers: HEADERS,
+    });
+    let responseJson = await response.json();
+    return responseJson;
+  } catch(error) {
+    console.error(error);
+  }
+  return null;
+}

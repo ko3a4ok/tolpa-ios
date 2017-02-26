@@ -10,6 +10,7 @@ import {
   Button,
   Navigator,
   TouchableHighlight,
+  TouchableOpacity,
   ListView,
 } from 'react-native';
 
@@ -36,6 +37,7 @@ export default class FullEventsListView extends Component {
       results: []
     }
     this.loadEvents = this.loadEvents.bind(this);
+    this._renderRow = this._renderRow.bind(this);
     this.loading = false;
   }
 
@@ -46,11 +48,14 @@ export default class FullEventsListView extends Component {
       var d = new Date(rowData.start);
       var day = d.toDateString().split(" ").slice(1,3).join(' ');
       var time =  moment(d).format('ddd, hh:MM');
+      var nav = this.props.navigator;
       return (
+        <TouchableOpacity onPress={() => {nav.push({index: 2, title: rowData.name, data: rowData})}} >
         <Card>
           <CardContent>
             <View style={{height: 270, margin: -10}}>
               <Image style={{height: 200}}
+                resizeMode="cover"
                 source={{uri: rowData.mini_image_url}}/>
               <View style={styles.date}>
               <Text style={{color: 'white'}}>{day}</Text>
@@ -64,6 +69,7 @@ export default class FullEventsListView extends Component {
             </View>
           </CardContent>
         </Card>
+      </TouchableOpacity>
     );
   }
 
@@ -91,7 +97,7 @@ export default class FullEventsListView extends Component {
     var dataSource = ds.cloneWithRows(this.state.results);
     return (
         <ListView
-          style={{top: 20}}
+          style={{top: 70}}
           enableEmptySections={true}
           dataSource={dataSource}
           renderRow={this._renderRow}

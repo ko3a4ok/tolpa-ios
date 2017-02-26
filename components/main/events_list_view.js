@@ -9,6 +9,7 @@ import {
   Button,
   Navigator,
   TouchableHighlight,
+  TouchableOpacity,
   ListView,
 } from 'react-native';
 
@@ -38,13 +39,16 @@ export default class EventsListView extends Component {
       results: []
     }
     this._renderFooter = this._renderFooter.bind(this);
+    this._renderRow = this._renderRow.bind(this);
   }
 
   _renderRow(rowData) {
       var d = new Date(rowData.start);
       var day = d.toDateString().split(" ").slice(1,3).join(' ');
       var time =  moment(d).format('ddd, hh:MM');
+      var nav = this.props.navigator;
       return (
+        <TouchableOpacity onPress={() => nav.push({index: 2, title: rowData.name, data: rowData})}>
         <Card>
           <CardContent>
             <View style={{width: 200, height: 270, margin: -10}}>
@@ -62,6 +66,7 @@ export default class EventsListView extends Component {
             </View>
           </CardContent>
         </Card>
+      </TouchableOpacity>
     );
   }
 

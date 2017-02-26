@@ -16,6 +16,7 @@ import CategoriesHeader from './categories_header.js';
 import EventsListView from './events_list_view.js';
 import ControlPanel from './side_menu.js';
 import FullEventsListView from './full_event_list.js';
+import DetailEventView from './detail_event_view.js';
 
 class MainFragment extends Component {
   constructor(): void {
@@ -41,7 +42,7 @@ class MainFragment extends Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     var dataSource = ds.cloneWithRows(['popular'].concat(this.state.profile.categories));
     return (
-      <View style={{ paddingTop: 40}}>
+      <View style={{ paddingTop: 70}}>
         <CategoriesHeader category_ids={this.state.profile.categories} />
         <ListView
           enableEmptySections={true}
@@ -52,22 +53,37 @@ class MainFragment extends Component {
     );
   }
 }
+
+class NavigationBar extends Navigator.NavigationBar {
+  render() {
+    var routes = this.props.navState.routeStack;
+    if (routes.length) {
+      var route = routes[routes.length - 1];
+      if (route.index == 2) {
+        return null;
+      }
+    }
+    return super.render();
+  }
+}
+
 class MainView extends Component {
 
   render () {
     return (
       <Navigator
-        style={{paddingTop: 30}}
         initialRoute={{ title: 'tolpa', index: 0 }}
         renderScene={(route, navigator) => {
           if (route.index == 0) {
             return <MainFragment navigator={navigator}/>
           } else if (route.index == 1) {
-            return <FullEventsListView categoryId={route.tagId} />
+            return <FullEventsListView categoryId={route.tagId} navigator={navigator}/>
+          } else if (route.index == 2) {
+            return <DetailEventView data={route.data} navigator={navigator}/>
           }
         }}
         navigationBar={
-         <Navigator.NavigationBar
+         <NavigationBar
            style={{backgroundColor: '#25a67d'}}
            navigationStyles={Navigator.NavigationBar.StylesIOS}
            routeMapper={{
@@ -85,7 +101,7 @@ class MainView extends Component {
              Title: (route, navigator, index, navState) =>
                {
                   return <Text style={{color: 'white', fontSize: 20}}>{route.title}</Text>;
-                },
+               },
            }}
          />
       }
