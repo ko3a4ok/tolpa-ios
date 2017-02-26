@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  ActivityIndicator,
   AsyncStorage,
   AppRegistry,
   StyleSheet,
@@ -34,9 +35,14 @@ export default class FullEventsListView extends Component {
     this.state = {
       results: []
     }
+    this.loadEvents = this.loadEvents.bind(this);
+    this.loading = false;
   }
 
   _renderRow(rowData) {
+      if (!rowData) {
+        return (<ActivityIndicator style={{paddingTop: 20}}/>);
+      }
       var d = new Date(rowData.start);
       var day = d.toDateString().split(" ").slice(1,3).join(' ');
       var time =  moment(d).format('ddd, hh:MM');
@@ -62,11 +68,22 @@ export default class FullEventsListView extends Component {
   }
 
 
-  async componentDidMount() {
-    var res = await getEvents(this.props.categoryId);
+  async loadEvents() {
+    if (this.loading) return;
+    this.loading = true;
+    var offset = this.state.results.length;
     this.setState({
-      results: res,
+      results: this.state.results.concat(null),
     });
+    var res = await getEvents(this.props.categoryId, offset);
+    this.setState({
+      results: this.state.results.slice(0, -1).concat(res),
+    });
+    this.loading = false;
+  }
+
+  async componentDidMount() {
+    await this.loadEvents();
   }
 
   render() {
@@ -78,6 +95,7 @@ export default class FullEventsListView extends Component {
           enableEmptySections={true}
           dataSource={dataSource}
           renderRow={this._renderRow}
+          onEndReached={() => {this.loadEvents()}}
         />
     );
   }
