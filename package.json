@@ -15,7 +15,8 @@
     "react-native-easy-toast": "^1.0.5",
     "react-native-fbsdk": "^0.5.0",
     "react-native-linear-gradient": "^2.0.0",
-    "react-native-maps": "^0.13.0"
+    "react-native-maps": "^0.13.0",
+    "react-native-scrollable-tab-view": "^0.7.2"
   },
   "devDependencies": {
     "babel-jest": "18.0.0",

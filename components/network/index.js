@@ -76,3 +76,17 @@ export async function joinEvent(eventId, join) {
       headers: HEADERS,
     });
 }
+
+export async function getUserProfile(userId) {
+  let url = SERVER_URL + "/profile/" + userId + "/";
+  try {
+    let response = await fetch(url, {
+      headers: HEADERS,
+    });
+    let responseJson = await response.json();
+    return responseJson;
+  } catch(error) {
+    console.error(error);
+  }
+  return null;
+}

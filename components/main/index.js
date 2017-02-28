@@ -83,7 +83,7 @@ class MainView extends Component {
           } else if (route.index == 2) {
             return <DetailEventView data={route.data} navigator={navigator}/>
           } else if (route.index == 3) {
-            return <UserProfileView data={route.data} navigator={navigator}/>
+            return <UserProfileView user={route.data} navigator={navigator}/>
           }
         }}
         navigationBar={
