@@ -15,6 +15,7 @@ import MapView from 'react-native-maps';
 
 import {
   getEvent,
+  joinEvent,
 } from '../network';
 
 import moment from 'moment';
@@ -75,6 +76,11 @@ export default class DetailEventView extends Component {
       </MapView>);
     }
 
+    _joinEvent(join) {
+      this.state.data.joined = join;
+      this.setState(this.state);
+      joinEvent(this.state.data.id, join);
+    }
     _renderContent(data) {
       var d = new Date(data.start);
       var day = moment(d).format('DD MMM');
@@ -82,6 +88,12 @@ export default class DetailEventView extends Component {
 
       return (
         <View style={{padding: 10}}>
+          <TouchableOpacity
+            onPress={() => this._joinEvent(!this.state.data.joined)}
+            style={[{backgroundColor: !this.state.data.joined ? PRIMARY_COLOR: '#a00'}, styles.join]}>
+            <Text style={styles.joinText}>{this.state.data.joined ? "Leave" : "Join"}</Text>
+          </TouchableOpacity>
+
           <View style={{flex: 1, flexDirection:'row', justifyContent: 'space-between'}}>
             <Text style={{fontSize: 16}}>{day}</Text>
             <Text>{data.attenders_count} 👥</Text>
@@ -130,9 +142,6 @@ export default class DetailEventView extends Component {
       });
       var imageUrl = this.state.data.image_url;
       if (!imageUrl) imageUrl = this.props.data.mini_image_url;
-      console.log("==========================================================");
-      console.log(this.state.scrollY);
-      console.log("___________________________________________________________");
       return (
         <View style={{flex: 1}}>
           <View style={{height: Platform.OS === 'android' ? 24 : 26, position: 'absolute', top: 0, left: 0, right:0, backgroundColor: PRIMARY_COLOR}} />
@@ -265,5 +274,20 @@ export default class DetailEventView extends Component {
       textAlign: 'center',
       color: 'white',
       fontSize: 18,
+    },
+    join: {
+      borderRadius: 10,
+      marginBottom: 16,
+      height: 30,
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    joinText: {
+      fontWeight: 'bold',
+      textAlign: 'center',
+      alignSelf: 'center',
+      color: 'white',
+      backgroundColor: 'transparent',
     },
   });

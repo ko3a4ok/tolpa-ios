@@ -67,3 +67,12 @@ export async function getEvent(eventId) {
   }
   return null;
 }
+
+export async function joinEvent(eventId, join) {
+  let url = SERVER_URL + "/event/" + eventId + "/manage";
+  fetch(url,
+    {
+      method: join ? "POST" : "DELETE",
+      headers: HEADERS,
+    });
+}
