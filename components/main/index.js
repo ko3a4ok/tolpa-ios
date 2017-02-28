@@ -18,6 +18,8 @@ import ControlPanel from './side_menu.js';
 import FullEventsListView from './full_event_list.js';
 import DetailEventView from './detail_event_view.js';
 
+import UserProfileView from '../user';
+
 class MainFragment extends Component {
   constructor(): void {
     super();
@@ -80,6 +82,8 @@ class MainView extends Component {
             return <FullEventsListView categoryId={route.tagId} navigator={navigator}/>
           } else if (route.index == 2) {
             return <DetailEventView data={route.data} navigator={navigator}/>
+          } else if (route.index == 3) {
+            return <UserProfileView data={route.data} navigator={navigator}/>
           }
         }}
         navigationBar={

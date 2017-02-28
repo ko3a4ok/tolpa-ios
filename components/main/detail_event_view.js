@@ -36,7 +36,7 @@ export default class DetailEventView extends Component {
 
     async loadEvent() {
       var data = await getEvent(this.props.data.id);
-      this.setState(data);
+      this.setState({data: data});
     }
 
     async componentDidMount() {
@@ -81,11 +81,25 @@ export default class DetailEventView extends Component {
       this.setState(this.state);
       joinEvent(this.state.data.id, join);
     }
+
+    _renderOrganizer(user) {
+        if (!user) return null;
+        var userName = user.first_name + " " + user.last_name;
+        return (
+          <TouchableOpacity
+            onPress={() => this.props.navigator.push({index: 3, data: user, title: userName})}
+            style={styles.profile_container}>
+            <Text>Organized by: </Text>
+            <Text style={styles.profile_name}>{userName}</Text>
+            <Image source={{ uri: user.mini_profile_url }} style={styles.profile_icon}/>
+          </TouchableOpacity>
+        );
+    }
+
     _renderContent(data) {
       var d = new Date(data.start);
       var day = moment(d).format('DD MMM');
       var time =  moment(d).format('ddd, hh:mm');
-
       return (
         <View style={{padding: 10}}>
           <TouchableOpacity
@@ -93,6 +107,7 @@ export default class DetailEventView extends Component {
             style={[{backgroundColor: !this.state.data.joined ? PRIMARY_COLOR: '#a00'}, styles.join]}>
             <Text style={styles.joinText}>{this.state.data.joined ? "Leave" : "Join"}</Text>
           </TouchableOpacity>
+          {this._renderOrganizer(data.created_by)}
 
           <View style={{flex: 1, flexDirection:'row', justifyContent: 'space-between'}}>
             <Text style={{fontSize: 16}}>{day}</Text>
@@ -290,4 +305,18 @@ export default class DetailEventView extends Component {
       color: 'white',
       backgroundColor: 'transparent',
     },
+    profile_icon: {
+      marginLeft: 5,
+      height: 20,
+      width: 20,
+      borderRadius: 10,
+    },
+    profile_container: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      flexDirection: 'row',
+    },
+    profile_name: {
+      fontWeight: 'bold',
+    }
   });
