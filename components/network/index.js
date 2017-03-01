@@ -1,4 +1,5 @@
 const SERVER_URL = "https://meethere-dev.herokuapp.com";
+// const SERVER_URL = "http://10.0.0.113:8000";
 var HEADERS = new Headers();
 export function updateHeader(token) {
   HEADERS.append('Content-Type', 'application/json');
@@ -40,8 +41,12 @@ export async function checkEmail(email) {
 
 export async function getEvents(categoryId, offset) {
   let url = SERVER_URL + "/find-event/tags/all/" + categoryId + "/";
+  return await getEventsByUrl(url, offset);
+}
+
+async function getEventsByUrl(url, offset) {
   if (offset !== undefined)
-    url += "?offset="+offset;
+    url += (url.includes("?") ? "&" : "?") + "offset="+offset;
   try {
     let response = await fetch(url, {
       headers: HEADERS,
@@ -89,4 +94,14 @@ export async function getUserProfile(userId) {
     console.error(error);
   }
   return null;
+}
+
+export async function getEventsCreatedBy(userId, offset) {
+  let url = SERVER_URL + "/find-event/?created_by=" + userId;
+  return await getEventsByUrl(url, offset);
+}
+
+export async function getAttendedEvents(userId, past, offset) {
+  let url = SERVER_URL + '/user/'+userId+'/events/' + (past ? "past/" : "future/");
+  return await getEventsByUrl(url, offset);
 }

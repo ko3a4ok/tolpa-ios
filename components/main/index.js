@@ -19,6 +19,9 @@ import FullEventsListView from './full_event_list.js';
 import DetailEventView from './detail_event_view.js';
 
 import UserProfileView from '../user';
+import {
+  getEvents,
+} from '../network';
 
 class MainFragment extends Component {
   constructor(): void {
@@ -79,7 +82,9 @@ class MainView extends Component {
           if (route.index == 0) {
             return <MainFragment navigator={navigator}/>
           } else if (route.index == 1) {
-            return <FullEventsListView categoryId={route.tagId} navigator={navigator}/>
+            return <View style={{top: 70}}>
+              <FullEventsListView getEvents={getEvents.bind(null, route.tagId)} navigator={navigator}/>
+            </View>
           } else if (route.index == 2) {
             return <DetailEventView data={route.data} navigator={navigator}/>
           } else if (route.index == 3) {

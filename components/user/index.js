@@ -16,11 +16,15 @@ import ScrollableTabView,{
 
 import {
   getUserProfile,
+  getEventsCreatedBy,
+  getAttendedEvents,
 } from '../network';
 
 import {
   CATEGORIES,
 } from '../main/categories_header.js';
+
+import FullEventsListView from '../main/full_event_list.js';
 
 const PRIMARY_COLOR = '#25a67d';
 
@@ -96,7 +100,20 @@ class ProfileView extends Component {
   }
 }
 export default class UserProfileView extends Component {
+
+  profileHeader() {
+    return (<ProfileView user={this.props.user}/>);
+  }
+  constructor(props) {
+    super(props);
+    this.profileHeader = this.profileHeader.bind(this);
+  }
+
   render() {
+    var createdByFn = getEventsCreatedBy.bind(null, this.props.user.user_id);
+    var pastEventsFn = getAttendedEvents.bind(null, this.props.user.user_id, false);
+    var futureEventsFn = getAttendedEvents.bind(null, this.props.user.user_id, true);
+
     return (
       <ScrollableTabView
         tabBarActiveTextColor={PRIMARY_COLOR}
@@ -104,10 +121,10 @@ export default class UserProfileView extends Component {
         renderTabBar={() => <DefaultTabBar underlineStyle={{backgroundColor: PRIMARY_COLOR}} />}
         ref={(tabView) => { this.tabView = tabView; }}
       >
-      <ProfileView tabLabel='User Profile' user={this.props.user}/>
-      <Text tabLabel='Organizer'></Text>
-      <Text tabLabel='Past'></Text>
-      <Text tabLabel='Future'></Text>
+      <FullEventsListView tabLabel='Profile' getEvents={createdByFn} navigator={this.props.navigator} header={this.profileHeader}/>
+      <FullEventsListView tabLabel='Past' getEvents={pastEventsFn} navigator={this.props.navigator}/>
+      <FullEventsListView tabLabel='Future' getEvents={futureEventsFn} navigator={this.props.navigator}/>
+
     </ScrollableTabView>
     );
   }

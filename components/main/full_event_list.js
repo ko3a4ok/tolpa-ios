@@ -38,7 +38,7 @@ export default class FullEventsListView extends Component {
     }
     this.loadEvents = this.loadEvents.bind(this);
     this._renderRow = this._renderRow.bind(this);
-    this.loading = false;
+    this.loading = -1;
   }
 
   _renderRow(rowData) {
@@ -52,8 +52,7 @@ export default class FullEventsListView extends Component {
       return (
         <TouchableOpacity onPress={() => {nav.push({index: 2, title: rowData.name, data: rowData})}} >
         <Card>
-          <CardContent>
-            <View style={{height: 270, margin: -10}}>
+            <View style={{height: 270, margin: 10, alignSelf: 'stretch',}}>
               <Image style={{height: 200}}
                 resizeMode="cover"
                 source={{uri: rowData.mini_image_url}}/>
@@ -67,7 +66,6 @@ export default class FullEventsListView extends Component {
                 <Text>👥{rowData.attenders_count}</Text>
               </View>
             </View>
-          </CardContent>
         </Card>
       </TouchableOpacity>
     );
@@ -75,17 +73,18 @@ export default class FullEventsListView extends Component {
 
 
   async loadEvents() {
-    if (this.loading) return;
-    this.loading = true;
     var offset = this.state.results.length;
+    if (offset > 0 && !this.state.results.slice(-1)[0])
+      offset--;
+    if (this.loading >= offset) return;
+    this.loading = offset;
     this.setState({
       results: this.state.results.concat(null),
     });
-    var res = await getEvents(this.props.categoryId, offset);
+    var res = await this.props.getEvents(offset);
     this.setState({
       results: this.state.results.slice(0, -1).concat(res),
     });
-    this.loading = false;
   }
 
   async componentDidMount() {
@@ -97,10 +96,10 @@ export default class FullEventsListView extends Component {
     var dataSource = ds.cloneWithRows(this.state.results);
     return (
         <ListView
-          style={{top: 70}}
           enableEmptySections={true}
           dataSource={dataSource}
           renderRow={this._renderRow}
+          renderHeader={this.props.header}
           onEndReached={() => {this.loadEvents()}}
         />
     );
