@@ -110,3 +110,8 @@ export async function getAttendersList(eventId, offset) {
   let url = SERVER_URL + '/event/' + eventId + '/attenders/';
   return await getResultByUrl(url, offset);
 }
+
+export async function getFollowList(userId, following, offset) {
+  let url = SERVER_URL + '/user/' + userId + (following ? '/followings/': '/followers/');
+  return await getResultByUrl(url, offset);
+}

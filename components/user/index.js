@@ -15,6 +15,7 @@ import ScrollableTabView,{
 } from 'react-native-scrollable-tab-view';
 
 import {
+  getFollowList,
   getUserProfile,
   getEventsCreatedBy,
   getAttendedEvents,
@@ -78,6 +79,31 @@ class ProfileView extends Component {
     return <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>{res}</View>;
   }
 
+  _renderFollows() {
+    var user = this.state.user;
+    return (
+    <View style={{flex: 1, flexDirection: 'row'}}>
+      <TouchableOpacity
+        onPress={ () => this.props.navigator.push({
+          index: 4,
+          title: 'Followers',
+          getUsers: getFollowList.bind(null, user.user_id, false),
+        })}
+        style={[styles.follow_container, {marginLeft: 0}]}>
+        <Text style={styles.follow}>{user.followers_count ? user.followers_count : 0} Followers</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={ () => this.props.navigator.push({
+          index: 4,
+          title: 'Following',
+          getUsers: getFollowList.bind(null, user.user_id, true),
+        })}
+        style={[styles.follow_container, {marginRight: 0}]}>
+        <Text style={styles.follow}>{user.followings_count ? user.followings_count : 0} Following</Text>
+      </TouchableOpacity>
+    </View>);
+  }
+
   render() {
     var user = this.state.user;
     var imageUrl = user.mini_profile_url;
@@ -100,6 +126,7 @@ class ProfileView extends Component {
             {this._renderEmail()}
           </View>
         </View>
+        {this._renderFollows()}
         {this._renderTags()}
       </View>
     );
@@ -108,7 +135,7 @@ class ProfileView extends Component {
 export default class UserProfileView extends Component {
 
   profileHeader() {
-    return (<ProfileView user={this.props.user}/>);
+    return (<ProfileView user={this.props.user} navigator={this.props.navigator} />);
   }
   constructor(props) {
     super(props);
@@ -153,4 +180,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 20,
   },
+  follow: {
+    overflow: 'hidden',
+  },
+  follow_container: {
+    height: 30,
+    margin: 10,
+    borderRadius: 15,
+    backgroundColor: PRIMARY_COLOR + '33',
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
