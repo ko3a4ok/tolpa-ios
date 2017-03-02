@@ -124,3 +124,8 @@ export async function followUser(userId, follow) {
       headers: HEADERS,
     });
 }
+
+export async function searchEventsByText(text, offset) {
+  let url = SERVER_URL + "/search/all/?q=" + text;
+  return await getResultByUrl(url, offset);
+}

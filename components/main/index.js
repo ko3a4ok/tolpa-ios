@@ -12,11 +12,16 @@ import {
 } from 'react-native';
 
 import Drawer from 'react-native-drawer';
+import SearchBar from 'react-native-search-bar';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+
 import CategoriesHeader from './categories_header.js';
 import EventsListView from './events_list_view.js';
 import ControlPanel from './side_menu.js';
 import FullEventsListView from './full_event_list.js';
 import DetailEventView from './detail_event_view.js';
+import SearchContentView from './search.js';
 
 import UserProfileView from '../user';
 import UsersListView from '../user/user_list.js';
@@ -33,6 +38,7 @@ class MainFragment extends Component {
       profile: {
         categories: [1, 2,],
       },
+      search: false,
     };
     AsyncStorage.getItem('profile', (err, profile) => {
       if (!profile) return;
@@ -76,9 +82,33 @@ class NavigationBar extends Navigator.NavigationBar {
 
 class MainView extends Component {
 
+  constructor(): void {
+    super();
+    this.state = {
+      search: false,
+    };
+  }
+  _renderSearch() {
+    if (!this.state.search) return null;
+    return (<SearchBar
+      showsCancelButton={true}
+      style={{position: 'absolute', top: 20, left: 0, right: 0, bottom: 0, height: 46}}
+      ref='searchBar'
+      placeholder='Search'
+      onSearchButtonPress={(text) => {
+        this.setState({search: false});
+        this.refs.navigator.push({index: 5, text: text, title: 'Search ' + text});
+      }}
+      onCancelButtonPress={() => {
+        this.setState({search: false});
+      }}
+      />);
+  }
   render () {
     return (
+      <View style={{flex: 1}}>
       <Navigator
+        ref="navigator"
         initialRoute={{ title: 'tolpa', index: 0 }}
         renderScene={(route, navigator) => {
           if (route.index == 0) {
@@ -95,7 +125,11 @@ class MainView extends Component {
             return <View style={{top: 70}}>
               <UsersListView getUsers={route.getUsers} navigator={navigator}/>
             </View>
-          }
+          } else if (route.index == 5) {
+           return <View style={{top: 70}}>
+             <SearchContentView searchText={route.text} navigator={navigator}/>
+           </View>
+         }
         }}
         navigationBar={
          <NavigationBar
@@ -112,7 +146,17 @@ class MainView extends Component {
 
              },
              RightButton: (route, navigator, index, navState) =>
-               { return null; },
+               {
+                 if (route.index > 0) return null;
+                 return (<Icon.Button
+                   onPress={()=>{
+                     this.setState({search: true});}
+                   }
+                   backgroundColor="transparent"
+                   name="ios-search"
+                   size={20}
+                   color="white" />);
+                  },
              Title: (route, navigator, index, navState) =>
                {
                   return (<View style={{flex: 1, justifyContent: 'center'}}>
@@ -123,6 +167,8 @@ class MainView extends Component {
          />
       }
         />
+      {this._renderSearch()}
+      </View>
     );
   }
 }
