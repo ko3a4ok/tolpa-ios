@@ -19,6 +19,8 @@ import FullEventsListView from './full_event_list.js';
 import DetailEventView from './detail_event_view.js';
 
 import UserProfileView from '../user';
+import UsersListView from '../user/user_list.js';
+
 import {
   getEvents,
 } from '../network';
@@ -89,6 +91,10 @@ class MainView extends Component {
             return <DetailEventView data={route.data} navigator={navigator}/>
           } else if (route.index == 3) {
             return <UserProfileView user={route.data} navigator={navigator}/>
+          } else if (route.index == 4) {
+            return <View style={{top: 70}}>
+              <UsersListView getUsers={route.getUsers} navigator={navigator}/>
+            </View>
           }
         }}
         navigationBar={
@@ -109,7 +115,9 @@ class MainView extends Component {
                { return null; },
              Title: (route, navigator, index, navState) =>
                {
-                  return <Text style={{color: 'white', fontSize: 20}}>{route.title}</Text>;
+                  return (<View style={{flex: 1, justifyContent: 'center'}}>
+                      <Text numberOfLines={1} style={styles.title}>{route.title}</Text>
+                    </View>);
                },
            }}
          />
@@ -149,3 +157,11 @@ const drawerStyles = {
   drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
   main: {paddingLeft: 3},
 }
+
+const styles = StyleSheet.create({
+  title: {
+    marginLeft: 20,
+    color: 'white',
+    fontSize: 20,
+  }
+});

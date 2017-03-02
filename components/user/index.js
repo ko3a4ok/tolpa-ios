@@ -83,10 +83,16 @@ class ProfileView extends Component {
     var imageUrl = user.mini_profile_url;
     if (user.profile_url)
       imageUrl = user.profile_url;
+    var imageSource = {};
+    if (imageUrl) {
+      imageSource.uri = imageUrl;
+    }
     return (
       <View style={{padding: 15}}>
         <View style={{flexDirection: 'row'}}>
-          <Image source={{uri: imageUrl}} style={styles.profile_image} />
+          <Image
+            defaultSource={require('./default_profile_image.png')}
+            source={imageSource} style={styles.profile_image} />
           <View style={{marginLeft: 15}}>
             <Text style={{fontSize: 20}}>{user.first_name} {user.last_name}</Text>
             <Text>{user.location}</Text>

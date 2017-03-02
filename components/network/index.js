@@ -41,10 +41,10 @@ export async function checkEmail(email) {
 
 export async function getEvents(categoryId, offset) {
   let url = SERVER_URL + "/find-event/tags/all/" + categoryId + "/";
-  return await getEventsByUrl(url, offset);
+  return await getResultByUrl(url, offset);
 }
 
-async function getEventsByUrl(url, offset) {
+async function getResultByUrl(url, offset) {
   if (offset !== undefined)
     url += (url.includes("?") ? "&" : "?") + "offset="+offset;
   try {
@@ -98,10 +98,15 @@ export async function getUserProfile(userId) {
 
 export async function getEventsCreatedBy(userId, offset) {
   let url = SERVER_URL + "/find-event/?created_by=" + userId;
-  return await getEventsByUrl(url, offset);
+  return await getResultByUrl(url, offset);
 }
 
 export async function getAttendedEvents(userId, past, offset) {
   let url = SERVER_URL + '/user/'+userId+'/events/' + (past ? "past/" : "future/");
-  return await getEventsByUrl(url, offset);
+  return await getResultByUrl(url, offset);
+}
+
+export async function getAttendersList(eventId, offset) {
+  let url = SERVER_URL + '/event/' + eventId + '/attenders/';
+  return await getResultByUrl(url, offset);
 }

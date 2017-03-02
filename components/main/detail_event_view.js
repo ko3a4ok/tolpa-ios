@@ -14,6 +14,7 @@ import {
 import MapView from 'react-native-maps';
 
 import {
+  getAttendersList,
   getEvent,
   joinEvent,
 } from '../network';
@@ -111,7 +112,12 @@ export default class DetailEventView extends Component {
 
           <View style={{flex: 1, flexDirection:'row', justifyContent: 'space-between'}}>
             <Text style={{fontSize: 16}}>{day}</Text>
-            <Text>{data.attenders_count} 👥</Text>
+            <TouchableOpacity onPress={() => this.props.navigator.push({
+                index: 4,
+                getUsers: getAttendersList.bind(null, data.id),
+                title: data.name})}>
+              <Text>{data.attenders_count} 👥</Text>
+            </TouchableOpacity>
           </View>
           <Text>{time}</Text>
 
