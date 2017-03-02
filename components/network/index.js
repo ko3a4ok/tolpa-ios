@@ -115,3 +115,12 @@ export async function getFollowList(userId, following, offset) {
   let url = SERVER_URL + '/user/' + userId + (following ? '/followings/': '/followers/');
   return await getResultByUrl(url, offset);
 }
+
+export async function followUser(userId, follow) {
+  let url = SERVER_URL + "/user/" + userId + "/follow";
+  fetch(url,
+    {
+      method: follow ? "POST" : "DELETE",
+      headers: HEADERS,
+    });
+}

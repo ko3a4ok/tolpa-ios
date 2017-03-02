@@ -15,6 +15,7 @@ import ScrollableTabView,{
 } from 'react-native-scrollable-tab-view';
 
 import {
+  followUser,
   getFollowList,
   getUserProfile,
   getEventsCreatedBy,
@@ -104,6 +105,20 @@ class ProfileView extends Component {
     </View>);
   }
 
+  _followUser() {
+    this.state.user.follow = !this.state.user.follow;
+    this.setState(this.state);
+    followUser(this.state.user.user_id, this.state.user.follow);
+  }
+
+  _renderFollowButton() {
+    return (<TouchableOpacity
+      onPress={() => this._followUser(!this.state.user.follow)}
+      style={[{backgroundColor: !this.state.user.follow ? PRIMARY_COLOR: '#a00'}, styles.make_follow]}>
+      <Text style={styles.make_follow_text}>{this.state.user.follow ? "Unfollow" : "Follow"}</Text>
+    </TouchableOpacity>);
+  }
+
   render() {
     var user = this.state.user;
     var imageUrl = user.mini_profile_url;
@@ -120,6 +135,7 @@ class ProfileView extends Component {
             defaultSource={require('./default_profile_image.png')}
             source={imageSource} style={styles.profile_image} />
           <View style={{marginLeft: 15}}>
+            {this._renderFollowButton()}
             <Text style={{fontSize: 20}}>{user.first_name} {user.last_name}</Text>
             <Text>{user.location}</Text>
             <Text>{this._getAge()} {this._getGender()} </Text>
@@ -192,5 +208,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  make_follow: {
+    borderRadius: 10,
+    height: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  make_follow_text: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    alignSelf: 'center',
+    color: 'white',
+    backgroundColor: 'transparent',
+  },
+
 });
