@@ -126,7 +126,7 @@ class MainView extends Component {
               <UsersListView getUsers={route.getUsers} navigator={navigator}/>
             </View>
           } else if (route.index == 5) {
-           return <View style={{top: 70}}>
+           return <View style={{top: 70, flex: 1}}>
              <SearchContentView searchText={route.text} navigator={navigator}/>
            </View>
          }

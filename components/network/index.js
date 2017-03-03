@@ -129,3 +129,9 @@ export async function searchEventsByText(text, offset) {
   let url = SERVER_URL + "/search/all/?q=" + text;
   return await getResultByUrl(url, offset);
 }
+
+
+export async function searchUsersByText(text, offset) {
+  let url = SERVER_URL + "/user/search/?q=" + text;
+  return await getResultByUrl(url, offset);
+}
