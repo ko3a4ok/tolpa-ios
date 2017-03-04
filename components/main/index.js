@@ -174,12 +174,32 @@ class MainView extends Component {
 }
 
 export default class MainScreen extends Component {
+  constructor(props) {
+    super(props);
+    this._selectedMenuItem = this._selectedMenuItem.bind(this);
+  }
+  _selectedMenuItem(index) {
+    this._drawer.close();
+    if (index == 0) {
+      this._mainView.refs.navigator.resetTo({index: 0, title: 'Tolpa'});
+    } else if (index == 1) {
+      AsyncStorage.getItem('profile', (err, profile) => {
+        var user = JSON.parse(profile).profile;
+        user.user_id = user._id;
+        this._mainView.refs.navigator.resetTo({index: 3, title: user.first_name + ' ' + user.last_name, data: user});
+      });
+    } else if (index == 2) {
+
+    } else if (index == 3) {
+
+    }
+  }
   render () {
     return (
       <Drawer
         type="overlay"
         ref={(ref) => this._drawer = ref}
-        content={<ControlPanel />}
+        content={<ControlPanel selectedMenuItem={this._selectedMenuItem} />}
         openDrawerOffset={100}
         closedDrawerOffset={-3}
         styles={drawerStyles}
@@ -193,7 +213,9 @@ export default class MainScreen extends Component {
         initializeOpen={false}
         panCloseMask={0.2}
       >
-          <MainView drawerOpen={() => {this._drawer.open();}}/>
+          <MainView
+            ref={(ref) => this._mainView = ref}
+            drawerOpen={() => {this._drawer.open();}}/>
       </Drawer>
     );
   }
