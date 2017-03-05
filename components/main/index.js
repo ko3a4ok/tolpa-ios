@@ -36,7 +36,7 @@ class MainFragment extends Component {
     this._renderRow = this._renderRow.bind(this);
     this.state = {
       profile: {
-        categories: [1, 2,],
+        categories: [],
       },
       search: false,
     };
@@ -56,7 +56,7 @@ class MainFragment extends Component {
     var dataSource = ds.cloneWithRows(['popular'].concat(this.state.profile.categories));
     return (
       <View style={{ paddingTop: 70}}>
-        <CategoriesHeader category_ids={this.state.profile.categories} />
+        <CategoriesHeader />
         <ListView
           enableEmptySections={true}
           dataSource={dataSource}

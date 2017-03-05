@@ -135,3 +135,10 @@ export async function searchUsersByText(text, offset) {
   let url = SERVER_URL + "/user/search/?q=" + text;
   return await getResultByUrl(url, offset);
 }
+
+export async function getPopularCategories() {
+  let url = SERVER_URL + "/tags/popular";
+  let result = await getResultByUrl(url, 0);
+  if (!result) return null;
+  return result.map((x) => x.id);
+}

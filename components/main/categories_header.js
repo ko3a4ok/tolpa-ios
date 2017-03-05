@@ -12,6 +12,11 @@ import {
   ListView,
 } from 'react-native';
 
+import {
+  getPopularCategories
+} from '../network';
+
+
 export const CATEGORIES=[
   "Free",
   "Party",
@@ -29,6 +34,24 @@ export const CATEGORIES=[
 ];
 
 export default class CategoriesHeader extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      tags: [],
+    }
+    AsyncStorage.getItem('tags', (err, tags) => {
+      if (!tags) return;
+      this.setState({tags: JSON.parse(tags)});
+    });
+  }
+
+  async componentDidMount() {
+    var tags = await getPopularCategories();
+    this.setState({tags: tags});
+    AsyncStorage.setItem('tags', JSON.stringify(tags));
+  }
+
 
   _renderSeparator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
     return (
@@ -53,10 +76,11 @@ export default class CategoriesHeader extends Component {
 
   render() {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    var dataSource = ds.cloneWithRows(this.props.category_ids);
+    var dataSource = ds.cloneWithRows(this.state.tags);
     return (
       <ListView
         horizontal={true}
+        enableEmptySections={true}
         dataSource={dataSource}
         renderRow={this._renderRow}
         renderSeparator={this._renderSeparator}
