@@ -58,7 +58,7 @@ class MainFragment extends Component {
     var dataSource = ds.cloneWithRows(['popular'].concat(this.state.profile.categories));
     return (
       <View style={{ paddingTop: 70}}>
-        <CategoriesHeader />
+        <CategoriesHeader navigator={this.props.navigator}/>
         <ListView
           enableEmptySections={true}
           dataSource={dataSource}

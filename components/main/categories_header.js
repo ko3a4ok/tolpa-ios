@@ -37,6 +37,7 @@ export default class CategoriesHeader extends Component {
 
   constructor(props) {
     super(props);
+    this._renderRow = this._renderRow.bind(this);
     this.state = {
       tags: [],
     }
@@ -67,9 +68,12 @@ export default class CategoriesHeader extends Component {
     );
   }
 
-  _renderRow(rowData) {
-      return (<TouchableHighlight style={{height: 40}} underlayColor='#d5f6ed' onPress={() => {}}>
-        <Text style={styles.headerItem}>{CATEGORIES[parseInt(rowData)].toUpperCase()}</Text>
+  _renderRow(tagId) {
+      var categoryName = CATEGORIES[parseInt(tagId)];
+      return (<TouchableHighlight style={{height: 40}} underlayColor='#d5f6ed' onPress={() => {
+        this.props.navigator.push({index: 1, title: categoryName, tagId: tagId});
+      }}>
+        <Text style={styles.headerItem}>{categoryName.toUpperCase()}</Text>
       </TouchableHighlight>
     );
   }
