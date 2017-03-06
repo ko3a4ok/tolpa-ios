@@ -24,6 +24,7 @@ export default class ControlPanel extends Component {
       {index: 0, icon: 'event', text: "Events"},
       {index: 1, icon: 'account-circle', text: "Profile"},
       {index: 2, icon: 'event-available', text: 'Create Event'},
+      {index: 4, icon: 'explore', text: 'Explore'},
       {index: 3, icon: 'settings', text: 'Settings'},
     ];
     this.state = {

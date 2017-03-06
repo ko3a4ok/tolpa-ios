@@ -142,3 +142,8 @@ export async function getPopularCategories() {
   if (!result) return null;
   return result.map((x) => x.id);
 }
+
+export async function findEventsNear(lon, lat) {
+  let url = SERVER_URL + "/search/future/?lat=" + lat + "&lon=" + lon + "&limit=30";
+  return await getResultByUrl(url);
+}

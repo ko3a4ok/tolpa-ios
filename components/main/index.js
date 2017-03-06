@@ -26,6 +26,8 @@ import SearchContentView from './search.js';
 import UserProfileView from '../user';
 import UsersListView from '../user/user_list.js';
 
+import ExploreView from '../explore';
+
 import {
   getEvents,
 } from '../network';
@@ -129,6 +131,10 @@ class MainView extends Component {
            return <View style={{top: 70, flex: 1}}>
              <SearchContentView searchText={route.text} navigator={navigator}/>
            </View>
+         } else if (route.index == 6) {
+           return <View style={{top: 56, flex: 1}}>
+             <ExploreView navigator={navigator}/>
+           </View>
          }
         }}
         navigationBar={
@@ -192,6 +198,8 @@ export default class MainScreen extends Component {
 
     } else if (index == 3) {
 
+    } else if (index == 4) {
+      this._mainView.refs.navigator.resetTo({index: 6, title: 'Explore'});
     }
   }
   render () {
