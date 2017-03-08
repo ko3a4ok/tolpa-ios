@@ -112,6 +112,15 @@ class ProfileView extends Component {
   }
 
   _renderFollowButton() {
+    if (this.state.user.user_id == this.props.app.state.profile.user_id) {
+      return (<TouchableOpacity
+        onPress={() => {
+          this.props.navigator.push({title: "Edit profile", data: this.state.user, index: 7});
+        }}
+        style={[{backgroundColor: PRIMARY_COLOR}, styles.make_follow]}>
+        <Text style={styles.make_follow_text}>Edit Profile</Text>
+      </TouchableOpacity>);
+    }
     return (<TouchableOpacity
       onPress={() => this._followUser(!this.state.user.follow)}
       style={[{backgroundColor: !this.state.user.follow ? PRIMARY_COLOR: '#a00'}, styles.make_follow]}>
@@ -151,7 +160,7 @@ class ProfileView extends Component {
 export default class UserProfileView extends Component {
 
   profileHeader() {
-    return (<ProfileView user={this.props.user} navigator={this.props.navigator} />);
+    return (<ProfileView user={this.props.user} navigator={this.props.navigator} app={this.props.app}/>);
   }
   constructor(props) {
     super(props);

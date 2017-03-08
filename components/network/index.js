@@ -147,3 +147,21 @@ export async function findEventsNear(lon, lat) {
   let url = SERVER_URL + "/search/future/?lat=" + lat + "&lon=" + lon + "&limit=30";
   return await getResultByUrl(url);
 }
+
+
+export async function updateProfile(user_id, data) {
+  try {
+    let response = await fetch(SERVER_URL + "/profile/" + user_id + "/",
+      {
+        method: "PATCH",
+        headers: HEADERS,
+        body: data,
+      }
+    );
+    let responseJson = await response.json();
+    return responseJson;
+  } catch(error) {
+    console.error(error);
+  }
+  return null;
+}

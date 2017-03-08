@@ -24,6 +24,7 @@ import DetailEventView from './detail_event_view.js';
 import SearchContentView from './search.js';
 
 import UserProfileView from '../user';
+import EditUserProfileView from '../user/edit.js';
 import UsersListView from '../user/user_list.js';
 
 import ExploreView from '../explore';
@@ -33,20 +34,14 @@ import {
 } from '../network';
 
 class MainFragment extends Component {
-  constructor(): void {
-    super();
+  constructor(props): void {
+    super(props);
     this._renderRow = this._renderRow.bind(this);
     this.state = {
-      profile: {
-        categories: [],
-      },
+      profile: props.app.state.profile,
       search: false,
     };
-    AsyncStorage.getItem('profile', (err, profile) => {
-      if (!profile) return;
-      var user = JSON.parse(profile);
-      this.setState({profile: user.profile});
-    });
+
   }
 
   _renderRow(rowData) {
@@ -84,8 +79,8 @@ class NavigationBar extends Navigator.NavigationBar {
 
 class MainView extends Component {
 
-  constructor(): void {
-    super();
+  constructor(props): void {
+    super(props);
     this.state = {
       search: false,
     };
@@ -114,7 +109,7 @@ class MainView extends Component {
         initialRoute={{ title: 'tolpa', index: 0 }}
         renderScene={(route, navigator) => {
           if (route.index == 0) {
-            return <MainFragment navigator={navigator}/>
+            return <MainFragment navigator={navigator} app={this.props.app} />
           } else if (route.index == 1) {
             return <View style={{top: 70}}>
               <FullEventsListView getEvents={getEvents.bind(null, route.tagId)} navigator={navigator}/>
@@ -122,7 +117,7 @@ class MainView extends Component {
           } else if (route.index == 2) {
             return <DetailEventView data={route.data} navigator={navigator}/>
           } else if (route.index == 3) {
-            return <UserProfileView user={route.data} navigator={navigator}/>
+            return <UserProfileView user={route.data} navigator={navigator} app={this.props.app} />
           } else if (route.index == 4) {
             return <View style={{top: 70}}>
               <UsersListView getUsers={route.getUsers} navigator={navigator}/>
@@ -134,6 +129,10 @@ class MainView extends Component {
          } else if (route.index == 6) {
            return <View style={{top: 56, flex: 1}}>
              <ExploreView navigator={navigator}/>
+           </View>
+         } else if (route.index == 7) {
+           return <View style={{top: 70, flex: 1}}>
+             <EditUserProfileView user={route.data} navigator={navigator} app={this.props.app} />
            </View>
          }
         }}
@@ -189,11 +188,8 @@ export default class MainScreen extends Component {
     if (index == 0) {
       this._mainView.refs.navigator.resetTo({index: 0, title: 'Tolpa'});
     } else if (index == 1) {
-      AsyncStorage.getItem('profile', (err, profile) => {
-        var user = JSON.parse(profile).profile;
-        user.user_id = user._id;
-        this._mainView.refs.navigator.resetTo({index: 3, title: user.first_name + ' ' + user.last_name, data: user});
-      });
+      var user = this.props.app.state.profile;
+      this._mainView.refs.navigator.resetTo({index: 3, title: user.first_name + ' ' + user.last_name, data: user});
     } else if (index == 2) {
 
     } else if (index == 3) {
@@ -207,7 +203,7 @@ export default class MainScreen extends Component {
       <Drawer
         type="overlay"
         ref={(ref) => this._drawer = ref}
-        content={<ControlPanel selectedMenuItem={this._selectedMenuItem} />}
+        content={<ControlPanel selectedMenuItem={this._selectedMenuItem} app={this.props.app}/>}
         openDrawerOffset={100}
         closedDrawerOffset={-3}
         styles={drawerStyles}
@@ -222,6 +218,7 @@ export default class MainScreen extends Component {
         panCloseMask={0.2}
       >
           <MainView
+            app={this.props.app}
             ref={(ref) => this._mainView = ref}
             drawerOpen={() => {this._drawer.open();}}/>
       </Drawer>

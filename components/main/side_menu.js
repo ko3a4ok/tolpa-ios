@@ -16,8 +16,8 @@ import {PRIMARY_COLOR} from '../global';
 
 export default class ControlPanel extends Component {
 
-  constructor(): void {
-    super();
+  constructor(props): void {
+    super(props);
     this._renderHeader = this._renderHeader.bind(this);
     this._renderRow = this._renderRow.bind(this);
     this.data = [
@@ -28,20 +28,10 @@ export default class ControlPanel extends Component {
       {index: 3, icon: 'settings', text: 'Settings'},
     ];
     this.state = {
-      profile: {
-        first_name: '',
-        last_name: '',
-        categories: [],
-      },
+      profile: props.app.state.profile,
       data: this.data,
       selected: 0,
     };
-    AsyncStorage.getItem('profile', (err, profile) => {
-      if (!profile) return;
-      var user = JSON.parse(profile);
-      this.setState({profile: user.profile});
-    });
-
   }
 
   _renderHeader () {

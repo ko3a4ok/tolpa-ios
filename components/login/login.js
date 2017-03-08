@@ -60,7 +60,8 @@ export default class LoginScreen extends Component {
       this.refs.toast.show(resp);
       return;
     }
-    AsyncStorage.setItem('profile', JSON.stringify(resp));
+    AsyncStorage.setItem('profile', JSON.stringify(resp.profile));
+    AsyncStorage.setItem('token', JSON.stringify(resp.token));
   }
 
   signInBlock() {

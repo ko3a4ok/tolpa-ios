@@ -15,21 +15,20 @@ export default class Tolpa extends Component {
     this.state = {
       profile: undefined,
     };
-    AsyncStorage.getItem('profile', (err, profile) => {
-      console.log(profile);
-      if (profile) {
-        var user = JSON.parse(profile);
-        updateHeader(user.token);
-      }
-      this.setState({profile: profile});
+    AsyncStorage.multiGet(['profile', 'token'], (err, stores) => {
+      if (!stores) return;
+      updateHeader(stores[1][1]);
+      var user = JSON.parse(stores[0][1]);
+      user.user_id = user._id;
+      this.setState({profile: user});
     });
   }
 
   render() {
     if (this.state.profile === undefined) return null;
     if (this.state.profile) {
-      return (<MainScreen /> );
+      return (<MainScreen app={this}/> );
     }
-    return (<FirstScreen />);
+    return (<FirstScreen app={this}/>);
   }
 }
