@@ -17,8 +17,11 @@ import ModalPicker from 'react-native-modal-picker'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Toast, {DURATION} from 'react-native-easy-toast';
 
+var ImagePicker = require('react-native-image-picker');
+
 import {
   updateProfile,
+  uploadUserProfileImage,
 } from '../network' ;
 
 
@@ -31,6 +34,7 @@ const PRIMARY_COLOR = '#25a67d';
 export default class EditUserProfileView extends Component {
   constructor(props) {
     super(props);
+    this._loadImage = this._loadImage.bind(this);
     this.state = {
       user: props.user,
       birthday: props.user.birthday,
@@ -103,6 +107,41 @@ export default class EditUserProfileView extends Component {
 
   }
 
+  async _loadImage() {
+    var options = {
+      maxWidth: 400,
+      maxHeight: 400,
+      mediaType: 'photo',
+      quality: 0.7,
+      noData: true,
+      allowsEditing: true,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images'
+      }
+    };
+    let that = this;
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+      if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        that.setState({avatarSource: { uri: response.uri }});
+        uploadUserProfileImage(response.uri);
+      }
+    });
+  }
+
+  _renderPhotoChooser() {
+    if (this.state.avatarSource) return null;
+    return (<Icon
+      opacity={0}
+      backgroundColor="transparent"
+      name="camera"
+      size={40}
+      color="#fff7"
+    />);
+  }
   render() {
     var user = this.state.user;
     var imageUrl = user.mini_profile_url;
@@ -112,6 +151,8 @@ export default class EditUserProfileView extends Component {
     if (imageUrl) {
       imageSource.uri = imageUrl;
     }
+    if (this.state.avatarSource)
+      imageSource = this.state.avatarSource;
 
     return (
       <View style={{padding: 15, flex: 1}}>
@@ -121,13 +162,9 @@ export default class EditUserProfileView extends Component {
               defaultSource={require('./default_profile_image.png')}
               source={imageSource} style={styles.profile_image} />
             <TouchableOpacity
+              onPress={this._loadImage}
               style={{position: 'absolute', top: 30, left: 30}}>
-              <Icon
-                backgroundColor="transparent"
-                name="camera"
-                size={40}
-                color="#fff7"
-              />
+              {this._renderPhotoChooser()}
             </TouchableOpacity>
           </View>
           <View style={{marginLeft: 15, flex: 1}} keyboardShouldPersistTaps="always">

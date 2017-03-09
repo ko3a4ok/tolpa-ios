@@ -1,5 +1,5 @@
 const SERVER_URL = "https://meethere-dev.herokuapp.com";
-// const SERVER_URL = "http://10.0.0.113:8000";
+SERVER_URL = "http://10.0.0.113:8000";
 var HEADERS = new Headers();
 export function updateHeader(token) {
   HEADERS.append('Content-Type', 'application/json');
@@ -164,4 +164,25 @@ export async function updateProfile(user_id, data) {
     console.error(error);
   }
   return null;
+}
+
+
+async function uploadImage(url, fileUri) {
+  var formData  = new FormData();
+  formData.append('file', {uri: fileUri, name: 'file'} );
+  return await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': HEADERS.get('Authorization'),
+      'Content-Type': 'multipart/form-data',
+      'Content-Disposition': 'form-data',
+    },
+    body: formData
+  });
+}
+
+
+export async function uploadUserProfileImage(fileUri) {
+  let url = SERVER_URL + "/user/profile/photo";
+  await uploadImage(url, fileUri);
 }

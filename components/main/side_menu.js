@@ -35,10 +35,10 @@ export default class ControlPanel extends Component {
   }
 
   _renderHeader () {
-    var user = this.state.profile;
+    var user = this.props.app.state.profile;
     var imageSource = {};
     if (user.mini_profile_url) {
-      imageSource.uri = imageUrl;
+      imageSource.uri = user.mini_profile_url;
     }
 
     return (
