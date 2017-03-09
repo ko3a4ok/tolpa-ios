@@ -13,6 +13,7 @@ import Toast, {DURATION} from 'react-native-easy-toast'
 import {
   checkEmail,
   loginWithEmail,
+  updateHeader,
 } from '../network' ;
 
 
@@ -60,8 +61,11 @@ export default class LoginScreen extends Component {
       this.refs.toast.show(resp);
       return;
     }
+    resp.profile.user_id = resp.profile._id;
+    updateHeader(resp.token);
     AsyncStorage.setItem('profile', JSON.stringify(resp.profile));
-    AsyncStorage.setItem('token', JSON.stringify(resp.token));
+    AsyncStorage.setItem('token', resp.token);
+    this.props.app.setState({profile: resp.profile});
   }
 
   signInBlock() {

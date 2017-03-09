@@ -50,7 +50,7 @@ export default class FirstScreen extends Component {
           if (route.index == 0) {
             return <Intro navigator={navigator}/>
           } else {
-            return <LoginScreen navigator={navigator} />
+            return <LoginScreen navigator={navigator} app={this.props.app}/>
           }
         }}
         navigationBar={

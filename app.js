@@ -16,7 +16,10 @@ export default class Tolpa extends Component {
       profile: undefined,
     };
     AsyncStorage.multiGet(['profile', 'token'], (err, stores) => {
-      if (!stores) return;
+      if (!stores[0][1]) {
+        this.setState({profile: null});
+        return;
+      }
       updateHeader(stores[1][1]);
       var user = JSON.parse(stores[0][1]);
       user.user_id = user._id;
