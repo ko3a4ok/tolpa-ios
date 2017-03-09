@@ -1,5 +1,5 @@
 const SERVER_URL = "https://meethere-dev.herokuapp.com";
-SERVER_URL = "http://10.0.0.113:8000";
+// SERVER_URL = "http://10.0.0.113:8000";
 var HEADERS = new Headers();
 export function updateHeader(token) {
   HEADERS.append('Content-Type', 'application/json');

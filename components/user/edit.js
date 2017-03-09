@@ -94,6 +94,8 @@ export default class EditUserProfileView extends Component {
     if (newProfile.birthday) {
       newProfile.birthday = new Date(newProfile.birthday).toISOString();
     }
+    if (this.state.avatarSource)
+      await uploadUserProfileImage(this.state.avatarSource.uri);
     var res = await updateProfile(this.props.user.user_id, JSON.stringify(newProfile));
     if (res) {
       res.user_id = this.props.user.user_id;
@@ -127,7 +129,6 @@ export default class EditUserProfileView extends Component {
         console.log('ImagePicker Error: ', response.error);
       } else {
         that.setState({avatarSource: { uri: response.uri }});
-        uploadUserProfileImage(response.uri);
       }
     });
   }
