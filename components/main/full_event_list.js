@@ -28,6 +28,27 @@ import {
   getEvents
 } from '../network';
 
+export function renderEvent(rowData, nav) {
+  if (!rowData) return null;
+  var d = new Date(rowData.start);
+  var day = d.toDateString().split(" ").slice(1,3).join(' ');
+  var time =  moment(d).format('ddd, HH:mm');
+  return (<TouchableOpacity onPress={() => {nav.push({index: 2, title: rowData.name, data: rowData})}}
+    style={{height: 270, margin: 10, alignSelf: 'stretch',}}>
+    <Image style={{height: 200}}
+      resizeMode="cover"
+      source={{uri: rowData.mini_image_url}}/>
+    <View style={styles.date}>
+    <Text style={{color: 'white'}}>{day}</Text>
+    </View>
+    <Text numberOfLines={2} style={{height: 50, fontSize: 16}}>{rowData.name}</Text>
+    <View style={{flex: 1, flexDirection:'row', justifyContent: 'space-between'}}>
+      <Text>{time}</Text>
+      <Text>{!rowData.budget_min ? "free" : "₴" + rowData.budget_min + "+"}</Text>
+      <Text>👥{rowData.attenders_count}</Text>
+    </View>
+</TouchableOpacity>);
+}
 
 export default class FullEventsListView extends Component {
 
@@ -45,29 +66,11 @@ export default class FullEventsListView extends Component {
       if (!rowData) {
         return (<ActivityIndicator style={{paddingTop: 20}}/>);
       }
-      var d = new Date(rowData.start);
-      var day = d.toDateString().split(" ").slice(1,3).join(' ');
-      var time =  moment(d).format('ddd, hh:MM');
       var nav = this.props.navigator;
       return (
-        <TouchableOpacity onPress={() => {nav.push({index: 2, title: rowData.name, data: rowData})}} >
         <Card>
-            <View style={{height: 270, margin: 10, alignSelf: 'stretch',}}>
-              <Image style={{height: 200}}
-                resizeMode="cover"
-                source={{uri: rowData.mini_image_url}}/>
-              <View style={styles.date}>
-              <Text style={{color: 'white'}}>{day}</Text>
-              </View>
-              <Text numberOfLines={2} style={{height: 50, fontSize: 16}}>{rowData.name}</Text>
-              <View style={{flex: 1, flexDirection:'row', justifyContent: 'space-between'}}>
-                <Text>{time}</Text>
-                <Text>{!rowData.budget_min ? "free" : "₴" + rowData.budget_min + "+"}</Text>
-                <Text>👥{rowData.attenders_count}</Text>
-              </View>
-            </View>
+          {renderEvent(rowData, nav)}
         </Card>
-      </TouchableOpacity>
     );
   }
 

@@ -45,7 +45,7 @@ export default class EventsListView extends Component {
   _renderRow(rowData) {
       var d = new Date(rowData.start);
       var day = d.toDateString().split(" ").slice(1,3).join(' ');
-      var time =  moment(d).format('ddd, hh:MM');
+      var time =  moment(d).format('ddd, HH:mm');
       var nav = this.props.navigator;
       return (
         <TouchableOpacity onPress={() => nav.push({index: 2, title: rowData.name, data: rowData})}>

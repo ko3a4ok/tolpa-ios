@@ -186,3 +186,9 @@ export async function uploadUserProfileImage(fileUri) {
   let url = SERVER_URL + "/user/profile/photo";
   await uploadImage(url, fileUri);
 }
+
+
+export async function getNews(offset) {
+  let url = SERVER_URL + "/feed/";
+  return await getResultByUrl(url, offset);
+}

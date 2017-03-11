@@ -26,6 +26,7 @@ import SearchContentView from './search.js';
 import UserProfileView from '../user';
 import EditUserProfileView from '../user/edit.js';
 import UsersListView from '../user/user_list.js';
+import NewsView from './news.js';
 
 import ExploreView from '../explore';
 
@@ -134,6 +135,10 @@ class MainView extends Component {
            return <View style={{top: 70, flex: 1}}>
              <EditUserProfileView user={route.data} navigator={navigator} app={this.props.app} />
            </View>
+         } else if (route.index == 8) {
+           return <View style={{top: 70, flex: 1}}>
+             <NewsView navigator={navigator} app={this.props.app} />
+           </View>
          }
         }}
         navigationBar={
@@ -196,6 +201,8 @@ export default class MainScreen extends Component {
 
     } else if (index == 4) {
       this._mainView.refs.navigator.resetTo({index: 6, title: 'Explore'});
+    } else if (index == 5) {
+      this._mainView.refs.navigator.resetTo({index: 8, title: 'News'});
     }
   }
   render () {
