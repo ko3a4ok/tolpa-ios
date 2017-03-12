@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import MapView from 'react-native-maps';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {
   getAttendersList,
@@ -130,6 +131,19 @@ export default class DetailEventView extends Component {
       );
     }
 
+    _renderChatButton(eventId, navigator) {
+      return (<Icon.Button
+        onPress={() => {
+          navigator.push({title: 'Comments', index: 9, event_id: eventId})
+        }}
+        name="chat"
+        backgroundColor='transparent'
+        selectedIconColor='transparent'
+        borderRadius={0}
+        size={30}
+        color="white" />);
+    }
+
     render() {
       const imageOpacity = this.state.scrollY.interpolate({
         inputRange: [0, HEADER_HEIGHT - NAVBAR_HEIGHT],
@@ -191,7 +205,7 @@ export default class DetailEventView extends Component {
             <View style={styles.navbar}>
               <Animated.View style={[styles.navbarBackground, { opacity: navBarBackgroundOpacity }]} />
 
-              <View style={[StyleSheet.absoluteFill, {flexDirection: 'row', alignItems: 'center'}]}>
+              <View style={[StyleSheet.absoluteFill, {flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}]}>
                 <TouchableOpacity onPress={() => { this.props.navigator.pop() }} hitSlop={{top: 15, left: 15, bottom: 15, right: 15}}>
                   <Image
                     style={styles.backButton}
@@ -202,8 +216,7 @@ export default class DetailEventView extends Component {
                 <Animated.View pointerEvents="none" style={[styles.titleContainer, {opacity: titleOpacity, transform: [{ translateY: titleTranslate }] }]}>
                   <Text style={styles.title}>{this.state.data.name}</Text>
                 </Animated.View>
-
-                <View style={styles.rightButton} />
+                {this._renderChatButton(this.state.data.id, this.props.navigator)}
               </View>
             </View>
           </View>
@@ -278,7 +291,6 @@ export default class DetailEventView extends Component {
     },
     rightButton: {
       width: 20,
-      height: 20,
       marginRight: 16,
     },
     titleContainer: {

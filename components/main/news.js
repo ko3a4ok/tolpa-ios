@@ -15,6 +15,7 @@ import {
 
 import moment from 'moment';
 import {renderEvent} from './full_event_list.js';
+import {timeSince} from '../global';
 import {
   getNews,
 } from '../network';
@@ -45,7 +46,7 @@ export default class NewsView extends Component {
       }
       var userName = rowData.user.first_name + ' ' + rowData.user.last_name;
       var nav = this.props.navigator;
-      var time = this.timeSince(new Date(rowData.time));
+      var time = timeSince(new Date(rowData.time));
       var user = rowData.user;
       var imageUrl = user.mini_profile_url;
       var imageSource = {};
@@ -68,31 +69,6 @@ export default class NewsView extends Component {
               {renderEvent(rowData.event, nav)}
         </Card>
     );
-  }
-
-  timeSince(date) {
-    var seconds = Math.floor((new Date() - date) / 1000);
-    var interval = Math.floor(seconds / 31536000);
-    if (interval > 1) {
-        return interval + " years";
-    }
-    interval = Math.floor(seconds / 2592000);
-    if (interval > 1) {
-        return interval + " months";
-    }
-    interval = Math.floor(seconds / 86400);
-    if (interval > 1) {
-        return interval + " days";
-    }
-    interval = Math.floor(seconds / 3600);
-    if (interval > 1) {
-        return interval + " hours";
-    }
-    interval = Math.floor(seconds / 60);
-    if (interval > 1) {
-        return interval + " minutes";
-    }
-    return Math.floor(seconds) + " seconds";
   }
 
   async loadNews() {

@@ -192,3 +192,24 @@ export async function getNews(offset) {
   let url = SERVER_URL + "/feed/";
   return await getResultByUrl(url, offset);
 }
+
+export async function getComments(eventId, offset) {
+  let url = SERVER_URL + "/event/" + eventId + "/comment/";
+  return await getResultByUrl(url, offset);
+}
+
+export async function sendComment(eventId, text) {
+  let url = SERVER_URL + "/event/" + eventId + "/comment/";
+  try {
+    var res = await fetch(url,
+      {
+        method: "POST",
+        headers: HEADERS,
+        body: JSON.stringify({text: text}),
+      });
+      return await res.json();
+  } catch(error) {
+    console.error(error);
+  }
+  return null;
+}

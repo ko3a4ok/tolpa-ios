@@ -27,6 +27,7 @@ import UserProfileView from '../user';
 import EditUserProfileView from '../user/edit.js';
 import UsersListView from '../user/user_list.js';
 import NewsView from './news.js';
+import CommentsView from './comments.js';
 
 import ExploreView from '../explore';
 
@@ -139,6 +140,10 @@ class MainView extends Component {
            return <View style={{top: 70, flex: 1}}>
              <NewsView navigator={navigator} app={this.props.app} />
            </View>
+         } else if (route.index == 9) {
+         return <View style={{top: 70, flex: 1}}>
+           <CommentsView navigator={navigator} eventId={route.event_id} />
+         </View>
          }
         }}
         navigationBar={
