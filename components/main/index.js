@@ -157,6 +157,7 @@ class MainView extends Component {
                   return (<Icon.Button
                     color='white'
                     backgroundColor='transparent'
+                    underlayColor='transparent'
                     name='ios-arrow-back'
                     onPress={()=> {navigator.pop()}}
                   />);
@@ -255,6 +256,6 @@ const styles = StyleSheet.create({
   title: {
     marginLeft: 20,
     color: 'white',
-    fontSize: 20,
+    fontSize: 18,
   }
 });

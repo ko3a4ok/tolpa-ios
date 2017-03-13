@@ -33,20 +33,21 @@ export default class UsersListView extends Component {
       }
       var nav = this.props.navigator;
       var imageUrl = user.mini_profile_url;
+      var userName = user.first_name + " " + user.last_name;
       var imageSource = {};
       if (imageUrl)
         imageSource.uri = imageUrl;
       return (
         <TouchableOpacity
             style={{padding: 10}}
-            onPress={() => {nav.push({index: 3, data: user, title: user.name})}} >
+            onPress={() => {nav.push({index: 3, data: user, title: userName})}} >
           <View style={{flexDirection: 'row'}}>
             <Image
               source={imageSource}
               defaultSource={require('./default_profile_image.png')}
               style={styles.profile_image} />
             <View style={{alignItems: 'center', justifyContent: 'center', }}>
-              <Text style={styles.profile_name}>{user.first_name} {user.last_name}</Text>
+              <Text style={styles.profile_name}>{userName}</Text>
             </View>
           </View>
         </TouchableOpacity>

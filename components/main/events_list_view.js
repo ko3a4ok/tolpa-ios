@@ -8,7 +8,6 @@ import {
   Image,
   Button,
   Navigator,
-  TouchableHighlight,
   TouchableOpacity,
   ListView,
 } from 'react-native';
@@ -72,13 +71,13 @@ export default class EventsListView extends Component {
 
 
   _renderFooter(tagId, categoryName) {
-    return (<TouchableHighlight
+    return (<TouchableOpacity
         onPress={() => {
           this.props.navigator.push({index: 1, title: categoryName, tagId: tagId});
         }}
         style={styles.next}>
         <Text style={{fontSize: 30}}> ⇨ </Text>
-      </TouchableHighlight>);
+      </TouchableOpacity>);
   }
 
   async componentDidMount() {
