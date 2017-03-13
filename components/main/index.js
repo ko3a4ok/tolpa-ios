@@ -153,6 +153,14 @@ class MainView extends Component {
            routeMapper={{
              LeftButton: (route, navigator, index, navState) =>
              {
+                if (navState.routeStack.length > 1)
+                  return (<Icon.Button
+                    color='white'
+                    backgroundColor='transparent'
+                    name='ios-arrow-back'
+                    onPress={()=> {navigator.pop()}}
+                  />);
+
                 return (<Button
                   color='white'
                   title="≡"
