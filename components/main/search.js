@@ -31,6 +31,7 @@ export default class SearchContentView extends Component {
       <FullEventsListView
         style={{flex: 1}}
         tabLabel='Events'
+        sortable={true}
         navigator={this.props.navigator}
         getEvents={searchEventsByText.bind(null, this.props.searchText)}
       />

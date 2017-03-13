@@ -14,6 +14,9 @@ import {
   ListView,
 } from 'react-native';
 
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import {
   Card,
   CardImage,
@@ -24,9 +27,7 @@ import {
 
 import moment from 'moment';
 
-import {
-  getEvents
-} from '../network';
+import {PRIMARY_COLOR} from '../global';
 
 export function renderEvent(rowData, nav) {
   if (!rowData) return null;
@@ -60,6 +61,7 @@ export default class FullEventsListView extends Component {
     this.loadEvents = this.loadEvents.bind(this);
     this._renderRow = this._renderRow.bind(this);
     this.loading = -1;
+    this.params = '';
   }
 
   _renderRow(rowData) {
@@ -84,20 +86,89 @@ export default class FullEventsListView extends Component {
     this.setState({
       results: this.state.results.concat(null),
     });
-    var res = await this.props.getEvents(offset);
+    var res = await this.props.getEvents(offset, this.params);
     this.setState({
       results: this.state.results.slice(0, -1).concat(res),
     });
+  }
+
+  async invalidateSearch() {
+    this.setState({sort: this.state.sort});
+    if (!this.state.sort) {
+      this.params = '';
+    }
+    else if (this.state.sort == 'location') {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.state.results = [];
+          this.loading = -1;
+          this.params = "&lat=" + position.coords.longitude + "&lon=" + position.coords.latitude;
+          this.loadEvents();
+
+        },
+        (error) => alert(JSON.stringify(error)),
+        {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      );
+      return;
+    } else {
+      this.params = "&sort_by=" + this.state.sort;
+    }
+    this.state.results = [];
+    this.loading = -1;
+    await this.loadEvents();
   }
 
   async componentDidMount() {
     await this.loadEvents();
   }
 
+  _renderSortButtons() {
+    if (!this.props.sortable) return;
+    var icons = {
+      undefined: 'md-options',
+      'start': 'md-time',
+      '-start': 'md-time',
+      'budget_min': 'md-cash',
+      '-budget_min': 'md-cash',
+      'location': 'md-navigate'
+    }
+    var mainIcon = icons[this.state.sort];
+    var sort = this.state.sort;
+    var that = this;
+    return (
+      <ActionButton
+        degrees={180}
+        icon={<Icon name={mainIcon} style={styles.actionButtonIcon}/>}
+        buttonColor={PRIMARY_COLOR} >
+        <ActionButton.Item buttonColor='#9b59b6' title="Sort by Cost" onPress={() => {
+            if (sort == 'budget_min') that.state.sort = '-budget_min';
+            else that.state.sort = 'budget_min';
+            this.invalidateSearch();
+          }}>
+          <Icon name="md-cash" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+        <ActionButton.Item buttonColor='#3498db' title="Sort by Time" onPress={() => {
+            if (sort == 'start') that.state.sort = '-start';
+            else that.state.sort = 'start';
+            this.invalidateSearch();
+          }}>
+          <Icon name="md-time" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+        <ActionButton.Item buttonColor='#1abc9c' title="Sort by Distance" onPress={() => {
+            that.state.sort = 'location';
+            this.invalidateSearch();
+          }}>
+          <Icon name="md-navigate" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+      </ActionButton>
+    );
+  }
+
   render() {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     var dataSource = ds.cloneWithRows(this.state.results);
     return (
+      <View style={{flex:1, marginBottom: 70}}>
         <ListView
           enableEmptySections={true}
           dataSource={dataSource}
@@ -105,11 +176,18 @@ export default class FullEventsListView extends Component {
           renderHeader={this.props.header}
           onEndReached={() => {this.loadEvents()}}
         />
+      {this._renderSortButtons()}
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
+  },
   date: {
     flex: 1,
     flexDirection:'row',

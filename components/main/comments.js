@@ -10,8 +10,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import AnimatedList from 'react-native-animated-list';
-
 import {
   getComments,
   sendComment,

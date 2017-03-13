@@ -96,7 +96,7 @@ class MainView extends Component {
       placeholder='Search'
       onSearchButtonPress={(text) => {
         this.setState({search: false});
-        this.refs.navigator.push({index: 5, text: text, title: 'Search ' + text});
+        this.refs.navigator.push({index: 5, text: text.toLowerCase(), title: 'Search ' + text});
       }}
       onCancelButtonPress={() => {
         this.setState({search: false});

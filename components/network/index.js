@@ -125,8 +125,8 @@ export async function followUser(userId, follow) {
     });
 }
 
-export async function searchEventsByText(text, offset) {
-  let url = SERVER_URL + "/search/all/?q=" + text;
+export async function searchEventsByText(text, offset, params='') {
+  let url = SERVER_URL + "/search/all/?q=" + text + params;
   return await getResultByUrl(url, offset);
 }
 
