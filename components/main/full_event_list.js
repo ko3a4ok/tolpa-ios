@@ -168,7 +168,7 @@ export default class FullEventsListView extends Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     var dataSource = ds.cloneWithRows(this.state.results);
     return (
-      <View style={{flex:1, marginBottom: 70}}>
+      <View style={{flex:1, marginBottom: this.props.sortable ? 70 : 0}}>
         <ListView
           enableEmptySections={true}
           dataSource={dataSource}
