@@ -113,7 +113,7 @@ class MainView extends Component {
           if (route.index == 0) {
             return <MainFragment navigator={navigator} app={this.props.app} />
           } else if (route.index == 1) {
-            return <View style={{top: 70}}>
+            return <View style={{top: 70, flex: 1}}>
               <FullEventsListView getEvents={getEvents.bind(null, route.tagId)} navigator={navigator}/>
             </View>
           } else if (route.index == 2) {
