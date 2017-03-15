@@ -28,6 +28,7 @@ import EditUserProfileView from '../user/edit.js';
 import UsersListView from '../user/user_list.js';
 import NewsView from './news.js';
 import CommentsView from './comments.js';
+import CreateEventView from './create.js';
 
 import ExploreView from '../explore';
 
@@ -144,7 +145,11 @@ class MainView extends Component {
          return <View style={{top: 70, flex: 1}}>
            <CommentsView navigator={navigator} eventId={route.event_id} />
          </View>
-         }
+       } else if (route.index == 10) {
+         return <View style={{top: 70, flex: 1}}>
+           <CreateEventView navigator={navigator} />
+         </View>
+       }
         }}
         navigationBar={
          <NavigationBar
@@ -210,7 +215,7 @@ export default class MainScreen extends Component {
       var user = this.props.app.state.profile;
       this._mainView.refs.navigator.resetTo({index: 3, title: user.first_name + ' ' + user.last_name, data: user});
     } else if (index == 2) {
-
+      this._mainView.refs.navigator.push({index: 10, title: 'Create Event'});
     } else if (index == 3) {
 
     } else if (index == 4) {

@@ -213,3 +213,24 @@ export async function sendComment(eventId, text) {
   }
   return null;
 }
+
+export async function createEvent(event) {
+  let url = SERVER_URL + "/event/";
+  try {
+    var res = await fetch(url,
+      {
+        method: "POST",
+        headers: HEADERS,
+        body: JSON.stringify(event),
+      });
+      return await res.json();
+  } catch(error) {
+    console.error(error);
+  }
+  return null;
+}
+
+export async function uploadEventImage(eventId, fileUri) {
+  let url = SERVER_URL + "/event/" + eventId + "/image_upload";
+  await uploadImage(url, fileUri);
+}

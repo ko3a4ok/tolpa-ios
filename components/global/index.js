@@ -26,3 +26,8 @@ export function timeSince(date) {
   }
   return "just now";
 }
+
+export const KYIV = {
+  latitude: 50.45,
+  longitude: 30.5234,
+}
