@@ -234,3 +234,12 @@ export async function uploadEventImage(eventId, fileUri) {
   let url = SERVER_URL + "/event/" + eventId + "/image_upload";
   await uploadImage(url, fileUri);
 }
+
+export async function logout() {
+  let url = SERVER_URL + "/auth/logout";
+  fetch(url,
+    {
+      headers: HEADERS,
+    });
+   HEADERS = new Headers();
+}

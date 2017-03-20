@@ -31,6 +31,7 @@ import CommentsView from './comments.js';
 import CreateEventView from './create.js';
 
 import ExploreView from '../explore';
+import SettingsView from '../settings';
 
 import {
   getEvents,
@@ -149,6 +150,10 @@ class MainView extends Component {
          return <View style={{top: 70, flex: 1}}>
            <CreateEventView navigator={navigator} />
          </View>
+       } else if (route.index == 11) {
+         return (<View style={{top: 70, flex: 1}}>
+           <SettingsView app={this.props.app}/>
+         </View>);
        }
         }}
         navigationBar={
@@ -217,7 +222,7 @@ export default class MainScreen extends Component {
     } else if (index == 2) {
       this._mainView.refs.navigator.push({index: 10, title: 'Create Event'});
     } else if (index == 3) {
-
+      this._mainView.refs.navigator.push({index: 11, title: 'Settings'});
     } else if (index == 4) {
       this._mainView.refs.navigator.resetTo({index: 6, title: 'Explore'});
     } else if (index == 5) {

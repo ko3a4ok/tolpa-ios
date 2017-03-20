@@ -38,11 +38,6 @@ export default class FirstScreen extends Component {
   static navBarRouteMapper = {
   }
   render() {
-    AsyncStorage.getItem('profile', (err, profile) => {
-      if (!profile) return;
-      var user = JSON.parse(profile);
-      console.warn('Hello, '+ user.profile.first_name + " " + user.profile.last_name);
-    });
     return (
       <Navigator
         initialRoute={{ title: 'My Initial Scene', index: 0 }}

@@ -2,6 +2,7 @@ import FirstScreen from './components/login';
 import MainScreen from './components/main';
 import {
   updateHeader,
+  logout,
 } from './components/network';
 import {
   AsyncStorage,
@@ -33,5 +34,12 @@ export default class Tolpa extends Component {
       return (<MainScreen app={this}/> );
     }
     return (<FirstScreen app={this}/>);
+  }
+
+  logout() {
+    logout();
+    AsyncStorage.clear((err)=> {
+      this.setState({profile: null});
+    });
   }
 }
