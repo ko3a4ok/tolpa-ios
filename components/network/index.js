@@ -243,3 +243,20 @@ export async function logout() {
     });
    HEADERS = new Headers();
 }
+
+export async function loginWithFb(token) {
+  try {
+    let response = await fetch(SERVER_URL + "/auth/facebook",
+      {
+        headers: {
+          'Authorization': 'Bearer facebook ' + token
+        },
+      }
+    );
+    let responseJson = await response.json();
+    return responseJson;
+  } catch(error) {
+    console.error(error);
+  }
+  return null;
+}

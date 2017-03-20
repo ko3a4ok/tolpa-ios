@@ -23,7 +23,6 @@ export default class SettingsView extends Component {
           borderHide={'Both'}
           icon={
             <Icon name="exit-to-app" size={40} color={PRIMARY_COLOR} alignSelf='center'/>
-
             }
           onPress={() => this.props.app.logout()}
         />

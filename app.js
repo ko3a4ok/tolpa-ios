@@ -6,7 +6,14 @@ import {
 } from './components/network';
 import {
   AsyncStorage,
+  Alert,
 } from 'react-native';
+
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginManager,
+} = FBSDK;
+
 
 import React, { Component } from 'react';
 export default class Tolpa extends Component {
@@ -38,8 +45,22 @@ export default class Tolpa extends Component {
 
   logout() {
     logout();
+    LoginManager.logOut();
     AsyncStorage.clear((err)=> {
       this.setState({profile: null});
     });
+  }
+
+  postLogin(resp) {
+    if (typeof resp === 'string') {
+      this.refs.toast.show(resp);
+      Alert.alert("Oops", resp);
+      return;
+    }
+    resp.profile.user_id = resp.profile._id;
+    updateHeader(resp.token);
+    AsyncStorage.setItem('profile', JSON.stringify(resp.profile));
+    AsyncStorage.setItem('token', resp.token);
+    this.setState({profile: resp.profile});
   }
 }

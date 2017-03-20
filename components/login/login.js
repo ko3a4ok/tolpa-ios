@@ -57,15 +57,7 @@ export default class LoginScreen extends Component {
       return;
     }
     var resp = await loginWithEmail(this.state.email, this.state.password);
-    if (typeof resp === 'string') {
-      this.refs.toast.show(resp);
-      return;
-    }
-    resp.profile.user_id = resp.profile._id;
-    updateHeader(resp.token);
-    AsyncStorage.setItem('profile', JSON.stringify(resp.profile));
-    AsyncStorage.setItem('token', resp.token);
-    this.props.app.setState({profile: resp.profile});
+    this.props.app.postLogin(resp);
   }
 
   signInBlock() {

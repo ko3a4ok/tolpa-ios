@@ -3,6 +3,7 @@ import MegaBackground from './megabackground.js';
 import LoginScreen from './login.js';
 import MainScreen from '../main';
 import {
+  ActivityIndicator,
   AsyncStorage,
   AppRegistry,
   StyleSheet,
@@ -15,10 +16,14 @@ import {
 
 const FBSDK = require('react-native-fbsdk');
 const {
-  LoginButton,
+  LoginManager,
   AccessToken
 } = FBSDK;
 
+import {
+  loginWithFb
+} from '../network' ;
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const navigationBar = (
       <Navigator.NavigationBar routeMapper={{
@@ -43,7 +48,7 @@ export default class FirstScreen extends Component {
         initialRoute={{ title: 'My Initial Scene', index: 0 }}
         renderScene={(route, navigator) => {
           if (route.index == 0) {
-            return <Intro navigator={navigator}/>
+            return <Intro navigator={navigator} app={this.props.app}/>
           } else {
             return <LoginScreen navigator={navigator} app={this.props.app}/>
           }
@@ -75,45 +80,72 @@ export default class FirstScreen extends Component {
   }
 }
 
+class Intro extends Component {
 
-function Intro (props) {
-  return (<View style={styles.container}>
-    <MegaBackground style={styles.linearGradient} />
-    <Text style={{color:'white', 'fontSize':100, top:100, fontFamily: 'Zapfino' }}>tolpa</Text>
-    <View style={{flex: 1, alignItems: 'flex-end', flexDirection: 'row'}}>
-      <View style={{padding: 10, flex: 1, flexDirection: 'column', alignItems: 'center',}}>
-        <FbButton />
-        <Button
-          title="Enter with email"
-          onPress={()=>{
-            props.navigator.push({index: 1, title: 'Login'});
-          }}
-        />
-      </View>
-    </View>
-  </View>);
-}
+  constructor(props) {
+    super(props);
+    this.state = {}
+    this.fbLogin = this.fbLogin.bind(this);
+    this.facebookButton = this.facebookButton.bind(this);
+    this.loginWithFacebook = this.loginWithFacebook.bind(this);
+  }
 
-function FbButton(props) {
-  return <LoginButton
-    publishPermissions={["publish_actions"]}
-    onLoginFinished={
-      (error, result) => {
-        if (error) {
-          alert("login has error: " + result.error);
-        } else if (result.isCancelled) {
+  async fbLogin(token) {
+    this.setState({fbLoading: true});
+    var resp = await loginWithFb(token);
+    this.props.app.postLogin(resp);
+    this.setState({fbLoading: undefined});
+  }
+
+  loginWithFacebook() {
+    var that = this;
+    LoginManager.logInWithReadPermissions([]).then(
+      function(result) {
+        if (result.isCancelled) {
           alert("login is cancelled.");
         } else {
           AccessToken.getCurrentAccessToken().then(
             (data) => {
-              alert(data.accessToken.toString())
+              var fbToken = data.accessToken.toString();
+              that.fbLogin(fbToken);
             }
           )
         }
       }
+    );
+  }
+
+  facebookButton() {
+    if (this.state.fbLoading) {
+      return (<ActivityIndicator style={{flex: 1}}/>);
     }
-    onLogoutFinished={() => alert("logout.")}/>
+    return (<Icon.Button
+       style={{flex: 1}}
+       name="facebook" backgroundColor="#3b5998" onPress={this.loginWithFacebook}>
+    Login with Facebook
+  </Icon.Button>);
+  }
+
+  render() {
+    return (<View style={styles.container}>
+      <MegaBackground style={styles.linearGradient} />
+      <Text style={{color:'white', 'fontSize':100, top:100, fontFamily: 'Zapfino' }}>tolpa</Text>
+      <View style={{flex: 1, alignItems: 'flex-end', flexDirection: 'row'}}>
+        <View style={styles.bottomButtons}>
+          {this.facebookButton()}
+          <Icon.Button
+            style={{flex: 1}}
+            name="envelope"
+            onPress={()=>{
+              this.props.navigator.push({index: 1, title: 'Login'});
+            }}
+          >Enter with email</Icon.Button>
+        </View>
+      </View>
+    </View>);
+  }
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -128,4 +160,12 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  bottomButtons: {
+    padding: 10,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    height: 50
+  }
 });
