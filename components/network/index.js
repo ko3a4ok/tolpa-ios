@@ -214,12 +214,14 @@ export async function sendComment(eventId, text) {
   return null;
 }
 
-export async function createEvent(event) {
+export async function createEvent(event, eventId) {
   let url = SERVER_URL + "/event/";
+  if (eventId)
+    url += eventId + "/";
   try {
     var res = await fetch(url,
       {
-        method: "POST",
+        method: eventId ? "PATCH" : "POST",
         headers: HEADERS,
         body: JSON.stringify(event),
       });

@@ -119,7 +119,7 @@ class MainView extends Component {
               <FullEventsListView getEvents={getEvents.bind(null, route.tagId)} navigator={navigator}/>
             </View>
           } else if (route.index == 2) {
-            return <DetailEventView data={route.data} navigator={navigator}/>
+            return <DetailEventView data={route.data} navigator={navigator} app={this.props.app}/>
           } else if (route.index == 3) {
             return <UserProfileView user={route.data} navigator={navigator} app={this.props.app} />
           } else if (route.index == 4) {
@@ -148,7 +148,7 @@ class MainView extends Component {
          </View>
        } else if (route.index == 10) {
          return <View style={{top: 70, flex: 1}}>
-           <CreateEventView navigator={navigator} />
+           <CreateEventView navigator={navigator} data={route.data}/>
          </View>
        } else if (route.index == 11) {
          return (<View style={{top: 70, flex: 1}}>

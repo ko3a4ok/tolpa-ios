@@ -98,16 +98,24 @@ export default class DetailEventView extends Component {
         );
     }
 
+    _edit(data, navigator) {
+      navigator.push({title: data.name, index: 10, data: data});
+    }
+
     _renderContent(data) {
       var d = new Date(data.start);
       var day = moment(d).format('DD MMM');
       var time =  moment(d).format('ddd, hh:mm');
+      var event = this.state.data;
+      var can_edit = event.created_by && event.created_by.user_id == this.props.app.state.profile.user_id;
       return (
         <View style={{padding: 10}}>
           <TouchableOpacity
-            onPress={() => this._joinEvent(!this.state.data.joined)}
+            onPress={() => can_edit ? this._edit(this.state.data, this.props.navigator) : this._joinEvent(!this.state.data.joined)}
             style={[{backgroundColor: !this.state.data.joined ? PRIMARY_COLOR: '#a00'}, styles.join]}>
-            <Text style={styles.joinText}>{this.state.data.joined ? "Leave" : "Join"}</Text>
+            <Text style={styles.joinText}>{
+                can_edit ? "Edit" :
+                this.state.data.joined ? "Leave" : "Join"}</Text>
           </TouchableOpacity>
           {this._renderOrganizer(data.created_by)}
 

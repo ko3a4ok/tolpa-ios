@@ -48,6 +48,26 @@ export default class CreateEventView extends Component {
         imageSource: {},
         tags: new Set(),
       }
+      if (props.data) {
+        var event = props.data;
+        Object.assign(this.state, event);
+        this.state.title = event.name;
+        this.state.desc = event.description;
+        this.state.tags = new Set(event.tags);
+        if (event.start)
+          this.state.start = moment(new Date(event.start)).format(DATE_FORMAT);
+        if (event.end)
+          this.state.end = moment(new Date(event.end)).format(DATE_FORMAT);
+        if (event.image_url)
+          this.state.imageSource.uri = event.image_url;
+        if (event.place)
+          this.state.location = {
+            latitude: event.place[1],
+            longitude: event.place[0],
+            latitudeDelta: 0.0822,
+            longitudeDelta: 0.0421,
+          }
+      }
     }
 
     async _loadImage() {
@@ -179,14 +199,16 @@ export default class CreateEventView extends Component {
             }}
             min={0}
             max={1001}
-            values={[0,1000]}/>
+            values={this.props.data ? [this.props.data.budget_min, this.props.data.budget_max] : [0,1000]}/>
         </View>
       );
     }
 
     async _updateAddress(event) {
       var cc = event.nativeEvent.coordinate;
-      this.setState({location: cc});
+      this.setState({location: Object.assign(cc,
+                    {latitudeDelta: 0.0822,
+                    longitudeDelta: 0.0421})});
       if (this.state.addressed) return;
       var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+cc.latitude + "," + cc.longitude;
       try {
@@ -205,7 +227,7 @@ export default class CreateEventView extends Component {
           onPress={this._updateAddress}
             liteMode={true}
             style={{height: 250}}
-            initialRegion={{
+            initialRegion={this.state.location ? this.state.location : {
               latitude: KYIV.latitude,
               longitude: KYIV.longitude,
               latitudeDelta: 0.0822,
@@ -246,7 +268,7 @@ export default class CreateEventView extends Component {
           <Text style={[styles.category, {
               color: "white",
               fontWeight: "bold",
-            }]}>Create Event</Text>
+            }]}>{this.props.data ? "Update" : "Create"} Event</Text>
         </TouchableOpacity>
       );
     }
@@ -269,19 +291,24 @@ export default class CreateEventView extends Component {
       if (this.state.location)
         event.place = [this.state.location.longitude, this.state.location.latitude];
 
-      res = await createEvent(event);
+      if (this.props.data)
+        res = await createEvent(event, this.props.data.id);
+      else
+        res = await createEvent(event);
       if (!res.id) {
         this.refs.toast.show('Oops!');
         this.setState({creating: false});
         return;
       }
-      this.refs.toast.show('Ya!');
-
-      if (this.state.imageSource) {
+      if ((this.state.imageSource && !this.props.data) ||
+          this.state.imageSource.uri != this.props.data.image_url) {
         image = await uploadEventImage(res.id, this.state.imageSource.uri);
         Object.assign(res, image);
       }
-      this.props.navigator.replace({index: 2, title: res.name, data: res});
+      if (!this.props.data)
+        this.props.navigator.replace({index: 2, title: res.name, data: res});
+      else
+        this.props.navigator.replacePreviousAndPop({index: 2, title: res.name, data: res});
     }
     render() {
       return (
@@ -299,6 +326,7 @@ export default class CreateEventView extends Component {
           </View>
           <Toast ref="toast" />
           <TextInput
+            defaultValue={this.state.title}
             style={[styles.input, styles.input_text, {fontWeight: 'bold'}]}
             placeholder="Title"
             autoCapitalize="sentences"
@@ -306,6 +334,7 @@ export default class CreateEventView extends Component {
             multiline={false}
             />
           <TextInput
+            defaultValue={this.state.desc}
             placeholder="Description"
             multiline={true}
             onChangeText={text => this.setState({desc: text})}
