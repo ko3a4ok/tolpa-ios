@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {
   getAttendersList,
+  getFollowList,
   getEvent,
   joinEvent,
 } from '../network';
@@ -122,6 +123,12 @@ export default class DetailEventView extends Component {
           <View style={{flex: 1, flexDirection:'row', justifyContent: 'space-between'}}>
             <Text style={{fontSize: 16}}>{day}</Text>
             <TouchableOpacity onPress={() => this.props.navigator.push({
+                inviteUsersRoute: {
+                  invitedEvent: event.id,
+                  index: 4,
+                  getUsers: getFollowList.bind(null, this.props.app.state.profile.user_id, false),
+                  title: 'Invite friends',
+                },
                 index: 4,
                 getUsers: getAttendersList.bind(null, data.id),
                 title: data.name})}>

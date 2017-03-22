@@ -11,8 +11,11 @@ import {
 } from 'react-native';
 
 import {
+  invite,
   getEvents
 } from '../network';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 export default class UsersListView extends Component {
@@ -20,11 +23,18 @@ export default class UsersListView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      invited: new Set(),
       results: []
     }
     this.loadUsers = this.loadUsers.bind(this);
     this._renderRow = this._renderRow.bind(this);
     this.loading = -1;
+  }
+
+  onClickInvite(userId) {
+    this.state.invited.add(userId);
+    this.setState({invited: this.state.invited});
+    invite(userId, this.props.invitedEvent);
   }
 
   _renderRow(user) {
@@ -37,8 +47,10 @@ export default class UsersListView extends Component {
       var imageSource = {};
       if (imageUrl)
         imageSource.uri = imageUrl;
+      var invite = this.props.invitedEvent != null;
       return (
         <TouchableOpacity
+            disabled={invite}
             style={{padding: 10}}
             onPress={() => {nav.push({index: 3, data: user, title: userName})}} >
           <View style={{flexDirection: 'row'}}>
@@ -46,9 +58,16 @@ export default class UsersListView extends Component {
               source={imageSource}
               defaultSource={require('./default_profile_image.png')}
               style={styles.profile_image} />
-            <View style={{alignItems: 'center', justifyContent: 'center', }}>
+            <View style={{alignItems: 'center', flex: 1, justifyContent: 'space-between', flexDirection: 'row'}}>
               <Text style={styles.profile_name}>{userName}</Text>
+              {!invite
+                ? null : this.state.invited.has(user.user_id)
+                ? <Icon name="done" size={30} />
+                : <Icon.Button name="person-add" size={30} onPress={()=> this.onClickInvite(user.user_id)} />
+              }
+
             </View>
+
           </View>
         </TouchableOpacity>
     );

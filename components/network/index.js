@@ -262,3 +262,12 @@ export async function loginWithFb(token) {
   }
   return null;
 }
+
+export async function invite(userId, eventId) {
+  let url = SERVER_URL + "/event/" + eventId + "/invite/" + userId;
+  fetch(url,
+    {
+      method: "POST",
+      headers: HEADERS,
+    });
+}

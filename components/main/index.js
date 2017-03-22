@@ -13,7 +13,7 @@ import {
 
 import Drawer from 'react-native-drawer';
 import SearchBar from 'react-native-search-bar';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 import CategoriesHeader from './categories_header.js';
@@ -124,7 +124,7 @@ class MainView extends Component {
             return <UserProfileView user={route.data} navigator={navigator} app={this.props.app} />
           } else if (route.index == 4) {
             return <View style={{top: 70}}>
-              <UsersListView getUsers={route.getUsers} navigator={navigator}/>
+              <UsersListView getUsers={route.getUsers} navigator={navigator} invitedEvent={route.invitedEvent}/>
             </View>
           } else if (route.index == 5) {
            return <View style={{top: 70, flex: 1}}>
@@ -168,7 +168,8 @@ class MainView extends Component {
                     color='white'
                     backgroundColor='transparent'
                     underlayColor='transparent'
-                    name='ios-arrow-back'
+                    size={30}
+                    name='keyboard-arrow-left'
                     onPress={()=> {navigator.pop()}}
                   />);
 
@@ -181,19 +182,27 @@ class MainView extends Component {
              },
              RightButton: (route, navigator, index, navState) =>
                {
+                 if (route.index == 4 && route.inviteUsersRoute) {
+                   return (<Icon.Button
+                     onPress={()=>navigator.push(route.inviteUsersRoute)}
+                     backgroundColor="transparent"
+                     name="group-add"
+                     size={30}
+                     color="white" />);
+                 }
                  if (route.index > 0) return null;
                  return (<Icon.Button
                    onPress={()=>{
                      this.setState({search: true});}
                    }
                    backgroundColor="transparent"
-                   name="ios-search"
-                   size={20}
+                   name="search"
+                   size={30}
                    color="white" />);
                   },
              Title: (route, navigator, index, navState) =>
                {
-                  return (<View style={{flex: 1, justifyContent: 'center'}}>
+                  return (<View style={{flex: 1,}}>
                       <Text numberOfLines={1} style={styles.title}>{route.title}</Text>
                     </View>);
                },
