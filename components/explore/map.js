@@ -4,6 +4,8 @@ import {
   View,
   Text,
   TouchableHighlight,
+  PermissionsAndroid,
+  Platform,
 } from 'react-native';
 
 import MapView from 'react-native-maps';
@@ -30,7 +32,25 @@ export default class ExploreMapView extends Component {
     }
   }
 
-  componentDidMount() {
+  async requestLocationPermission() {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        'title': 'Location Permission',
+        'message': ''
+      }
+    )
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      this.initMap();
+    } else {
+      console.log("Camera permission denied")
+    }
+  } catch (err) {
+    console.warn(err)
+  }
+}
+  initMap() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         position.coords.latitudeDelta = 0.0922;
@@ -42,6 +62,20 @@ export default class ExploreMapView extends Component {
       (error) => alert(JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
+
+  }
+  async componentDidMount() {
+    if (Platform.OS !== 'android') {
+      this.initMap();
+      return;
+    }
+    var granted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+    if (granted) {
+      this.initMap();
+      return;
+    }
+    this.requestLocationPermission();
+
   }
 
   async onRegionChange(region) {
@@ -58,7 +92,8 @@ export default class ExploreMapView extends Component {
     return (
       <MapView
         style={{flex: 1}}
-        region={this.state.region}
+        liteMode={false}
+        initialRegion={this.state.region}
         showsUserLocation={true}
         onRegionChangeComplete={this.onRegionChange}
       >

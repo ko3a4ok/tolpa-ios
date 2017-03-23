@@ -43,7 +43,7 @@ export default class ControlPanel extends Component {
     }
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 0.7}}>
           <LinearGradient
             start={{x: 1, y: 0.0}}
             end={{x: 0, y: 0}}
@@ -110,6 +110,7 @@ export default class ControlPanel extends Component {
         <ListView
           enableEmptySections={true}
           dataSource={dataSource}
+          style={{backgroundColor: 'white'}}
           renderRow={this._renderRow}
           renderHeader={this._renderHeader}
           renderSeparator={this._renderSeparator}
@@ -121,16 +122,15 @@ export default class ControlPanel extends Component {
 
 const styles = StyleSheet.create({
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
     margin: 10,
   },
   profileName: {
-    left: 15,
-    fontSize: 20,
+    fontSize: 18,
     color: 'white',
-    'backgroundColor': 'transparent',
+    backgroundColor: 'transparent',
   },
   linearGradient: {
     position: 'absolute',

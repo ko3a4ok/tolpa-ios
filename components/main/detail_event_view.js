@@ -254,7 +254,7 @@ export default class DetailEventView extends Component {
     fill: {
       flex: 1,
       backgroundColor: '#fff',
-      marginTop: Platform.OS === 'android' ? 24 : 26,
+      marginTop: Platform.OS === 'android' ? 0 : 26,
     },
     image: {
       height: HEADER_HEIGHT,

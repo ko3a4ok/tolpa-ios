@@ -21,6 +21,8 @@ import {
 } from 'react-native-card-view';
 
 import moment from 'moment';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 import {
   getEvents
@@ -76,7 +78,7 @@ export default class EventsListView extends Component {
           this.props.navigator.push({index: 1, title: categoryName, tagId: tagId});
         }}
         style={styles.next}>
-        <Text style={{fontSize: 30}}> ⇨ </Text>
+        <Icon name="more-horiz" size={30} color="white"/>
       </TouchableOpacity>);
   }
 

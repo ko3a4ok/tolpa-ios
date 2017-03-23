@@ -9,6 +9,7 @@ import {
   Navigator,
   ListView,
   TouchableHighlight,
+  StatusBar,
 } from 'react-native';
 
 import Drawer from 'react-native-drawer';
@@ -36,6 +37,7 @@ import SettingsView from '../settings';
 import {
   getEvents,
 } from '../network';
+import {PRIMARY_COLOR} from '../global';
 
 class MainFragment extends Component {
   constructor(props): void {
@@ -108,6 +110,10 @@ class MainView extends Component {
   render () {
     return (
       <View style={{flex: 1}}>
+      <StatusBar
+       backgroundColor={PRIMARY_COLOR}
+       barStyle="light-content"
+     />
       <Navigator
         ref="navigator"
         initialRoute={{ title: 'tolpa', index: 0 }}
@@ -158,8 +164,7 @@ class MainView extends Component {
         }}
         navigationBar={
          <NavigationBar
-           style={{backgroundColor: '#25a67d'}}
-           navigationStyles={Navigator.NavigationBar.StylesIOS}
+           style={{backgroundColor: PRIMARY_COLOR, height: 46}}
            routeMapper={{
              LeftButton: (route, navigator, index, navState) =>
              {
@@ -173,9 +178,11 @@ class MainView extends Component {
                     onPress={()=> {navigator.pop()}}
                   />);
 
-                return (<Button
+                return (<Icon.Button
                   color='white'
-                  title="≡"
+                  backgroundColor="transparent"
+                  name="menu"
+                  size={30}
                   onPress={this.props.drawerOpen}
                 />);
 
@@ -202,7 +209,7 @@ class MainView extends Component {
                   },
              Title: (route, navigator, index, navState) =>
                {
-                  return (<View style={{flex: 1,}}>
+                  return (<View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                       <Text numberOfLines={1} style={styles.title}>{route.title}</Text>
                     </View>);
                },
@@ -244,7 +251,7 @@ export default class MainScreen extends Component {
         type="overlay"
         ref={(ref) => this._drawer = ref}
         content={<ControlPanel selectedMenuItem={this._selectedMenuItem} app={this.props.app}/>}
-        openDrawerOffset={100}
+        openDrawerOffset={50}
         closedDrawerOffset={-3}
         styles={drawerStyles}
         tweenHandler={(ratio) => ({
@@ -273,7 +280,6 @@ const drawerStyles = {
 
 const styles = StyleSheet.create({
   title: {
-    marginLeft: 20,
     color: 'white',
     fontSize: 18,
   }
