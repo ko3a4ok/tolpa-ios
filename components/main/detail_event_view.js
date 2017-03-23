@@ -22,8 +22,8 @@ import {
 } from '../network';
 
 import moment from 'moment';
+import {PRIMARY_COLOR} from "../global";
 
-const PRIMARY_COLOR = '#25a67d';
 
 export default class DetailEventView extends Component {
 

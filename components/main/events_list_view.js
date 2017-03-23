@@ -49,7 +49,9 @@ export default class EventsListView extends Component {
       var time =  moment(d).format('ddd, HH:mm');
       var nav = this.props.navigator;
       return (
-        <TouchableOpacity onPress={() => nav.push({index: 2, title: rowData.name, data: rowData})}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => nav.push({index: 2, title: rowData.name, data: rowData})}>
         <Card>
           <CardContent>
             <View style={{width: 200, height: 270, margin: -10}}>

@@ -1,6 +1,7 @@
 'use strict';
 
 export const PRIMARY_COLOR = '#25a67d';
+export const DARK_COLOR = '#16805e';
 
 export function timeSince(date) {
   var seconds = Math.floor((new Date() - date) / 1000);

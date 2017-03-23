@@ -76,7 +76,7 @@ export default class CommentsView extends Component {
   }
 
   async componentDidMount() {
-    await this.loadComments();
+    this.loadComments();
   }
 
   async _sendComment(text) {
@@ -127,7 +127,7 @@ export default class CommentsView extends Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     var dataSource = ds.cloneWithRows(this.state.results);
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: 'white'}}>
         <ListView
           enableEmptySections={true}
           dataSource={dataSource}
