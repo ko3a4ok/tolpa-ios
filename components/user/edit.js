@@ -15,7 +15,8 @@ import DatePicker from 'react-native-datepicker'
 import ModalPicker from 'react-native-modal-picker'
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Toast, {DURATION} from 'react-native-easy-toast';
+import Toast from 'react-native-easy-toast';
+import {PRIMARY_COLOR} from "../global/index";
 
 var ImagePicker = require('react-native-image-picker');
 
@@ -29,7 +30,6 @@ import {
   CATEGORIES,
 } from '../main/categories_header.js';
 
-const PRIMARY_COLOR = '#25a67d';
 
 export default class EditUserProfileView extends Component {
   constructor(props) {
@@ -163,17 +163,17 @@ export default class EditUserProfileView extends Component {
               defaultSource={require('./default_profile_image.png')}
               source={imageSource} style={styles.profile_image} />
             <TouchableOpacity
-              onPress={this._loadImage}
-              style={{position: 'absolute', top: 30, left: 30}}>
+              style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center',}}
+              onPress={this._loadImage}>
               {this._renderPhotoChooser()}
             </TouchableOpacity>
           </View>
-          <View style={{marginLeft: 15, flex: 1}} keyboardShouldPersistTaps="always">
+          <View style={{marginLeft: 5, flex: 1}} >
             <TextInput
               onChangeText={(text) => this.setState({name: text})}
               placeholder="Full Name"
               autoCapitalize="words"
-              style={[styles.input, {fontSize: 20}]}
+              style={[styles.input, {fontSize: 20, height: 35}]}
               defaultValue={user.first_name + " " + user.last_name} />
             <TextInput
               onChangeText={(text) => this.setState({location: text})}
@@ -210,12 +210,13 @@ export default class EditUserProfileView extends Component {
                     width: 50,
                     height: 25,
                     fontSize: 14,
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-start'
+                    padding: 0,
+                    color: 'black',
                   }}
+                  underlineColorAndroid='transparent'
                   editable={false}
                   placeholder="Gender"
-                  value={this.state.gender == undefined ? "" : (this.state.gender ? '♂' : '♀')} />
+                  value={this.state.gender === undefined ? "" : (this.state.gender ? '♂' : '♀')} />
           </ModalPicker>
           <DatePicker
             date={this.state.birthday}
@@ -227,6 +228,7 @@ export default class EditUserProfileView extends Component {
             maxDate="2016-01-01"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
+            underlineColorAndroid='transparent'
             customStyles={{
               dateInput: {
                   borderWidth: 0,
@@ -284,9 +286,10 @@ const styles = StyleSheet.create({
     width: 100,
   },
   input : {
-    flex: 1,
-    padding: 4,
-    height: 25,
+    flex: 0,
+    paddingVertical: 0,
+    height: 30,
+    fontSize: 15,
   },
   tag_container: {
     margin: 3,

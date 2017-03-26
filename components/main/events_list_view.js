@@ -56,6 +56,7 @@ export default class EventsListView extends Component {
           <CardContent>
             <View style={{width: 200, height: 270, margin: -10}}>
               <Image style={{height: 200, width: 200}}
+                blurRadius={1}
                 source={{uri: rowData.mini_image_url}}/>
               <View style={styles.date}>
               <Text style={{color: 'white'}}>{day}</Text>

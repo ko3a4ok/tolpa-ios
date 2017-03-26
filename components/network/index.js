@@ -255,6 +255,7 @@ export async function loginWithFb(token) {
         },
       }
     );
+    if (response.status > 200) return null;
     let responseJson = await response.json();
     return responseJson;
   } catch(error) {
