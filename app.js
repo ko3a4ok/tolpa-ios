@@ -53,7 +53,6 @@ export default class Tolpa extends Component {
 
   postLogin(resp) {
     if (typeof resp === 'string') {
-      this.refs.toast.show(resp);
       Alert.alert("Oops", resp);
       return;
     }

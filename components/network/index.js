@@ -7,10 +7,9 @@ export function updateHeader(token) {
   HEADERS.append('Authorization', 'Token ' + token);
 }
 
-export async function loginWithEmail(login, password) {
-  let data = 'email='+login+'&password=' + password;
+async function _sign(data, path) {
   try {
-    let response = await fetch(SERVER_URL + "/auth/email/login",
+    let response = await fetch(SERVER_URL + path,
       {
         method: "POST",
         headers: {
@@ -20,14 +19,36 @@ export async function loginWithEmail(login, password) {
         body: data,
       }
     );
-    let responseJson = await response.json();
-    return responseJson;
+    return await response.json();
   } catch(error) {
     console.error(error);
   }
   return null;
 }
+export async function loginWithEmail(login, password) {
+  let data = 'email='+login+'&password=' + password;
+  let path = "/auth/email/login";
+  return await _sign(data, path);
+}
 
+
+export async function signUp(login, password, first_name, last_name) {
+  let params = {
+    email: login,
+    password: password,
+    username: login,
+    first_name: first_name,
+    last_name: last_name,
+  };
+
+  let esc = encodeURIComponent;
+  let data = Object.keys(params)
+    .map(k => esc(k) + '=' + esc(params[k]))
+    .join('&');
+  let path = "/auth/register";
+  return await _sign(data, path);
+
+}
 export async function checkEmail(email) {
   try {
     let response = await fetch(SERVER_URL + "/auth/email/check?email=" + email);

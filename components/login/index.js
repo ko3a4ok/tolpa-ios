@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import MegaBackground from './megabackground.js';
 import LoginScreen from './login.js';
-import MainScreen from '../main';
 import {
   ActivityIndicator,
   AsyncStorage,
@@ -13,6 +12,7 @@ import {
   Navigator,
   TouchableHighlight,
 } from 'react-native';
+import {PRIMARY_COLOR} from "../global/index";
 
 const FBSDK = require('react-native-fbsdk');
 const {
@@ -44,7 +44,10 @@ export default class FirstScreen extends Component {
   }
   render() {
     return (
-      <Navigator
+      <View style={styles.container}>
+    <MegaBackground style={styles.linearGradient} />
+    <Navigator
+        style={styles.linearGradient}
         initialRoute={{ title: 'My Initial Scene', index: 0 }}
         renderScene={(route, navigator) => {
           if (route.index == 0) {
@@ -62,20 +65,29 @@ export default class FirstScreen extends Component {
                return null;
               } else {
                return (
-                 <TouchableHighlight onPress={() => navigator.pop()}>
-                   <Text>Back</Text>
-                 </TouchableHighlight>
+                 <View style={styles.in_center}>
+                 <Icon onPress={() => navigator.pop()}
+                  name="angle-left"
+                  size={25}
+                  style={{backgroundColor: 'transparent', padding: 5}}
+                   />
+                  </View>
                );
               }
              },
              RightButton: (route, navigator, index, navState) =>
                { return null; },
              Title: (route, navigator, index, navState) =>
-               { return null; },
+               {
+                 if (route.index == 0) return null;
+                 return (
+                <View style={styles.in_center}>
+                <Text>Sign In/Up</Text>
+                </View>); },
            }}
          />
       }
-        />
+        /></View>
     );
   }
 }
@@ -128,12 +140,11 @@ class Intro extends Component {
 
   render() {
     return (<View style={styles.container}>
-      <MegaBackground style={styles.linearGradient} />
       <Text style={{color:'white', 'fontSize':100, top:100, fontFamily: 'Zapfino' }}>tolpa</Text>
       <View style={styles.bottomButtons}>
         {this.facebookButton()}
         <Icon.Button
-          style={{alignItems: 'center', justifyContent: 'center'}}
+          style={{alignItems: 'center', justifyContent: 'center', backgroundColor: PRIMARY_COLOR}}
           name="envelope"
           onPress={()=>{
             this.props.navigator.push({index: 1, title: 'Login'});
@@ -166,5 +177,10 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'space-between',
     height: 100,
-  }
+  },
+  in_center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
