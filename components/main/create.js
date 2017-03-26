@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Platform
 } from 'react-native';
 
 import MapView from 'react-native-maps';
@@ -146,7 +147,7 @@ export default class CreateEventView extends Component {
           placeholder={end? 'End' : 'Start'}
           confirmBtnText="Confirm"
           cancelBtnText="Cancel"
-          style={{marginTop: 10}}
+          style={{height: 50}}
           customStyles={{
             dateInput: styles.input,
           }}
@@ -172,6 +173,7 @@ export default class CreateEventView extends Component {
         else
           priceText = '₴' + this.state.budget_min + "-" + this.state.budget_max;
       }
+      var h = Platform.OS === 'android' ? 20: 3;
       return (
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{marginTop: 10, flex: 1}}>Price: {priceText}</Text>
@@ -183,23 +185,19 @@ export default class CreateEventView extends Component {
               });
             }}
             selectedStyle={{
+              borderRadius: 1,
               backgroundColor: PRIMARY_COLOR,
-              height: 3,
+              height: h,
             }}
             unselectedStyle={{
-              backgroundColor: 'grey',
-              height: 1,
+              backgroundColor: '#ddd',
+              height: h,
+              borderRadius: 1,
 
-            }}
-            touchDimensions={{
-              height: 40,
-              width: 40,
-              borderRadius: 20,
-              slipDisplacement: 40
             }}
             min={0}
             max={1001}
-            values={this.props.data ? [this.props.data.budget_min, this.props.data.budget_max] : [0,1000]}/>
+            values={this.props.data ? [this.props.data.budget_min, this.props.data.budget_max] : [0,500]}/>
         </View>
       );
     }
@@ -372,6 +370,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     minHeight: 40,
     marginTop: 10,
+    paddingVertical: 0,
     right: 0,
   },
   input_text: {
