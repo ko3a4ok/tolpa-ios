@@ -6,6 +6,7 @@ import {
   Animated,
   StyleSheet,
 } from 'react-native';
+import {PRIMARY_COLOR} from "../global";
 
 
 const PERIOD = 2000;
@@ -42,7 +43,7 @@ class BGLinearLayout extends Component {
       <Animated.View style={[styles.linearGradient, {opacity: this.state.animatedStartValue}]}>
         <LinearGradient
           start={this.props.start}
-          start={this.props.end}
+          end={this.props.end}
           colors={this.props.colors}
           style={styles.linearGradient} />
       </Animated.View>
@@ -55,10 +56,10 @@ export default class MegaBackground extends Component {
   render() {
     return (
       <View style={this.props.style}>
-        <LinearGradient delay={0} colors={['#614385', '#516395']} style={styles.linearGradient} />
+        <LinearGradient delay={0} colors={[PRIMARY_COLOR, '#516395']} style={styles.linearGradient} />
         <BGLinearLayout delay={1} colors={['#5f2c82', '#49a09d']} start={{x: 0.0, y: 0.0}} end={{x: -1, y: 0}}/>
-        <BGLinearLayout delay={2} colors={['#4776E6', '#8E54E9']} start={{x: 0.0, y: 0.0}} end={{x: 0, y: 1}}/>
-        <BGLinearLayout delay={3} colors={['#7141e2', '#d46cb3']} start={{x: 0.0, y: 0.0}} end={{x: 1, y: 0}}/>
+        <BGLinearLayout delay={2} colors={[PRIMARY_COLOR, '#8E54E9']} start={{x: 0.0, y: 0.0}} end={{x: 0, y: 1}}/>
+        <BGLinearLayout delay={3} colors={[PRIMARY_COLOR, '#d46cb3']} start={{x: 0.0, y: 0.0}} end={{x: 1, y: 0}}/>
       </View>
     );
   }

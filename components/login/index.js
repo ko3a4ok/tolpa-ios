@@ -120,7 +120,7 @@ class Intro extends Component {
       return (<ActivityIndicator style={{flex: 1}}/>);
     }
     return (<Icon.Button
-       style={{flex: 1}}
+      style={{alignItems: 'center', justifyContent: 'center'}}
        name="facebook" backgroundColor="#3b5998" onPress={this.loginWithFacebook}>
     Login with Facebook
   </Icon.Button>);
@@ -130,17 +130,15 @@ class Intro extends Component {
     return (<View style={styles.container}>
       <MegaBackground style={styles.linearGradient} />
       <Text style={{color:'white', 'fontSize':100, top:100, fontFamily: 'Zapfino' }}>tolpa</Text>
-      <View style={{flex: 1, alignItems: 'flex-end', flexDirection: 'row'}}>
-        <View style={styles.bottomButtons}>
-          {this.facebookButton()}
-          <Icon.Button
-            style={{flex: 1}}
-            name="envelope"
-            onPress={()=>{
-              this.props.navigator.push({index: 1, title: 'Login'});
-            }}
-          >Enter with email</Icon.Button>
-        </View>
+      <View style={styles.bottomButtons}>
+        {this.facebookButton()}
+        <Icon.Button
+          style={{alignItems: 'center', justifyContent: 'center'}}
+          name="envelope"
+          onPress={()=>{
+            this.props.navigator.push({index: 1, title: 'Login'});
+          }}
+        >Enter with email</Icon.Button>
       </View>
     </View>);
   }
@@ -161,11 +159,12 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   bottomButtons: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
     padding: 10,
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    height: 50
+    justifyContent: 'space-between',
+    height: 100,
   }
 });
