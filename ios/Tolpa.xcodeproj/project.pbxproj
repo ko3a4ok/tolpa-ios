@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -60,6 +59,8 @@
 		EB2467CBFA6243A28D41FCDF /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1B2926219F45D0B0D53920 /* libBVLinearGradient.a */; };
 		F0E6327877FA4648BED09B02 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 763D5318853845CDA764C509 /* libAirMaps.a */; };
 		F317CAD185E6422190705EC8 /* libRNSearchBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D64696436504A2585F1509F /* libRNSearchBar.a */; };
+		E03E5BF5D9764A9D83C28E3F /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F921A3AD914DDD9CFC7A48 /* libRCTActionSheet.a */; };
+		75BA6632AAFA46BCAA883838 /* libRCTBEEPickerManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B737E47EDC7642579828452E /* libRCTBEEPickerManager.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -382,6 +383,10 @@
 		C0F3365B1E62C1B8009A7E01 /* RCTConvert+GMSMapViewType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTConvert+GMSMapViewType.m"; sourceTree = "<group>"; };
 		D13EBAB709604A43ABBF2169 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		D4208C7162614EC0B8990E49 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		4957272049FC42CBA2A4322E /* Slider.xcodeproj */ = {isa = PBXFileReference; name = "Slider.xcodeproj"; path = "../node_modules/react-native-multi-slider/iOS/Slider.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		06F921A3AD914DDD9CFC7A48 /* libRCTActionSheet.a */ = {isa = PBXFileReference; name = "libRCTActionSheet.a"; path = "libRCTActionSheet.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		A79C16BB1C9F4B77A8A2FEE0 /* RCTBEEPickerManager.xcodeproj */ = {isa = PBXFileReference; name = "RCTBEEPickerManager.xcodeproj"; path = "../node_modules/react-native-picker/ios/RCTBEEPickerManager.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		B737E47EDC7642579828452E /* libRCTBEEPickerManager.a */ = {isa = PBXFileReference; name = "libRCTBEEPickerManager.a"; path = "libRCTBEEPickerManager.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -411,6 +416,8 @@
 				C081728D1E68C35300FE23F7 /* libRNSearchBar.a in Frameworks */,
 				F317CAD185E6422190705EC8 /* libRNSearchBar.a in Frameworks */,
 				5E0E65DFEE7D44078A475CA7 /* libRNImagePicker.a in Frameworks */,
+				E03E5BF5D9764A9D83C28E3F /* libRCTActionSheet.a in Frameworks */,
+				75BA6632AAFA46BCAA883838 /* libRCTBEEPickerManager.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,6 +572,8 @@
 				3621E68EFA1B4EB5B13D4F33 /* RNVectorIcons.xcodeproj */,
 				340B1A47509243958146B8CA /* RNSearchBar.xcodeproj */,
 				9297E60D365B49A08AC9640E /* RNImagePicker.xcodeproj */,
+				4957272049FC42CBA2A4322E /* Slider.xcodeproj */,
+				A79C16BB1C9F4B77A8A2FEE0 /* RCTBEEPickerManager.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1269,6 +1278,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tolpa;
 				PRODUCT_NAME = Tolpa;
 				VERSIONING_SYSTEM = "apple-generic";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Tolpa\"",
+					"\"$(SRCROOT)/Tolpa\"",
+				);
 			};
 			name = Debug;
 		};
@@ -1303,6 +1317,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tolpa;
 				PRODUCT_NAME = Tolpa;
 				VERSIONING_SYSTEM = "apple-generic";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Tolpa\"",
+					"\"$(SRCROOT)/Tolpa\"",
+				);
 			};
 			name = Release;
 		};

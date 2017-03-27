@@ -324,3 +324,13 @@ export async function getNotificationSettings() {
   let url = SERVER_URL + "/settings/notifications";
   return getSettings(url);
 }
+
+export async function getPrivacySettings() {
+  let url = SERVER_URL + "/settings/privacy";
+  return getSettings(url);
+}
+
+export function updatePrivacySettings(param) {
+  let url = SERVER_URL + "/settings/privacy";
+  updateSettings(url, param);
+}
