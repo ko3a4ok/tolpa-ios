@@ -64,6 +64,7 @@ export default class SettingsView extends Component {
           updatePrivacySettings(param);
         },
       });
+      Picker.show();
   }
   render() {
     return (
