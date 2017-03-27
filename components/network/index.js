@@ -179,6 +179,7 @@ export async function updateProfile(user_id, data) {
         body: data,
       }
     );
+    if (response.status > 200) return null;
     let responseJson = await response.json();
     return responseJson;
   } catch(error) {
@@ -190,7 +191,7 @@ export async function updateProfile(user_id, data) {
 
 async function uploadImage(url, fileUri) {
   var formData  = new FormData();
-  formData.append('file', {uri: fileUri, name: 'file'} );
+  formData.append('file', {uri: fileUri, type: 'image/jpg', name: 'file'} );
   return await fetch(url, {
     method: 'POST',
     headers: {
