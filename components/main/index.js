@@ -163,7 +163,7 @@ class MainView extends Component {
            <CreateEventView navigator={navigator} data={route.data}/>
          </View>
        } else if (route.index == 11) {
-         return (<View style={{top: TOP, flex: 1}}>
+         return (<View style={{marginTop: TOP, flex: 1,}}>
            <SettingsView app={this.props.app}/>
          </View>);
        }
