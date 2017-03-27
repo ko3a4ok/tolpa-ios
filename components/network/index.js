@@ -293,3 +293,34 @@ export async function invite(userId, eventId) {
       headers: HEADERS,
     });
 }
+
+
+function updateSettings(url, param) {
+  fetch(url,
+    {
+      method: "PATCH",
+      headers: HEADERS,
+      body: JSON.stringify(param),
+    });
+}
+export function updateNotificationSettings(param) {
+  let url = SERVER_URL + "/settings/notifications";
+  updateSettings(url, param);
+}
+
+
+async function getSettings(url) {
+  try {
+    let response = await fetch(url, {
+      headers: HEADERS,
+    });
+    return await response.json();
+  } catch(error) {
+    console.error(error);
+  }
+  return null;
+}
+export async function getNotificationSettings() {
+  let url = SERVER_URL + "/settings/notifications";
+  return getSettings(url);
+}
