@@ -32,13 +32,18 @@ import {
   CATEGORIES,
 } from './categories_header';
 
+const KEY_TAG = "property_tag_";
 export default class EventsListView extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       results: []
-    }
+    };
+    AsyncStorage.getItem(KEY_TAG + props.categoryId, (err, tags)=>{
+      if (!tags) return;
+      this.setState({results: JSON.parse(tags)});
+    });
     this._renderFooter = this._renderFooter.bind(this);
     this._renderRow = this._renderRow.bind(this);
   }
@@ -87,9 +92,11 @@ export default class EventsListView extends Component {
 
   async componentDidMount() {
     var res = await getEvents(this.props.categoryId);
+    if (!res) return;
     this.setState({
       results: res,
     });
+    AsyncStorage.setItem(KEY_TAG + this.props.categoryId, JSON.stringify(res));
   }
 
   render() {

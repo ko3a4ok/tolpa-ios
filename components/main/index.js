@@ -56,7 +56,9 @@ class MainFragment extends Component {
   }
 
   _renderRow(rowData) {
-      return (<EventsListView categoryId={rowData} navigator={this.props.navigator}/>);
+      return (<EventsListView
+        key={rowData}
+        categoryId={rowData} navigator={this.props.navigator}/>);
   }
 
   render() {

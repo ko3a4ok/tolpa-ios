@@ -75,7 +75,7 @@ async function getResultByUrl(url, offset) {
     let responseJson = await response.json();
     return responseJson.results;
   } catch(error) {
-    console.error(error);
+    console.log(error);
   }
   return null;
 }
@@ -112,7 +112,7 @@ export async function getUserProfile(userId) {
     let responseJson = await response.json();
     return responseJson;
   } catch(error) {
-    console.error(error);
+    console.log(error);
   }
   return null;
 }

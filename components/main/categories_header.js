@@ -15,6 +15,7 @@ import {
 import {
   getPopularCategories
 } from '../network';
+import {PRIMARY_COLOR} from "../global/index";
 
 
 export const CATEGORIES=[
@@ -40,7 +41,7 @@ export default class CategoriesHeader extends Component {
     this._renderRow = this._renderRow.bind(this);
     this.state = {
       tags: [],
-    }
+    };
     AsyncStorage.getItem('tags', (err, tags) => {
       if (!tags) return;
       this.setState({tags: JSON.parse(tags)});
@@ -49,6 +50,7 @@ export default class CategoriesHeader extends Component {
 
   async componentDidMount() {
     var tags = await getPopularCategories();
+    if (!tags) return;
     this.setState({tags: tags});
     AsyncStorage.setItem('tags', JSON.stringify(tags));
   }
@@ -97,6 +99,6 @@ const styles = StyleSheet.create({
   headerItem: {
     padding: 10,
     fontWeight: 'bold',
-    color: '#25a67d',
+    color: PRIMARY_COLOR,
   },
 });
