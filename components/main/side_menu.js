@@ -24,6 +24,7 @@ export default class ControlPanel extends Component {
       {index: 0, icon: 'event', text: "Events"},
       {index: 5, icon: 'event-note', text: "News"},
       {index: 2, icon: 'event-available', text: 'Create Event'},
+      {index: 6, icon: 'view-quilt', text: 'Categories'},
       {index: 1, icon: 'account-circle', text: "Profile"},
       {index: 4, icon: 'explore', text: 'Explore'},
       {index: 3, icon: 'settings', text: 'Settings'},

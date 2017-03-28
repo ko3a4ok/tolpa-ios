@@ -25,6 +25,7 @@ import ControlPanel from './side_menu.js';
 import FullEventsListView from './full_event_list.js';
 import DetailEventView from './detail_event_view.js';
 import SearchContentView from './search.js';
+import CategoriesList from './categories_list';
 
 import UserProfileView from '../user';
 import EditUserProfileView from '../user/edit.js';
@@ -168,6 +169,10 @@ class MainView extends Component {
          return (<View style={{marginTop: TOP, flex: 1,}}>
            <SettingsView app={this.props.app}/>
          </View>);
+       } else if (route.index == 12) {
+         return (<View style={{marginTop: TOP, flex: 1,}}>
+           <CategoriesList navigator={navigator}/>
+         </View>);
        }
         }}
         navigationBar={
@@ -251,6 +256,8 @@ export default class MainScreen extends Component {
       this._mainView.refs.navigator.resetTo({index: 6, title: 'Explore'});
     } else if (index == 5) {
       this._mainView.refs.navigator.resetTo({index: 8, title: 'News'});
+    } else if (index == 6) {
+      this._mainView.refs.navigator.push({index: 12, title: 'Categories'});
     }
   }
   render () {

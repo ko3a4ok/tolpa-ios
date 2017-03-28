@@ -18,7 +18,7 @@ import {
 import {PRIMARY_COLOR} from "../global/index";
 
 
-export const CATEGORIES=[
+export const CATEGORIES = [
   "Free",
   "Party",
   "Spiritual",
