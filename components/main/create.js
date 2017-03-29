@@ -16,7 +16,7 @@ import MapView from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-picker';
 import DatePicker from 'react-native-datepicker'
-import MultiSlider from 'react-native-multi-slider';
+import MultiSlider from './multi-slider';
 import Toast, {DURATION} from 'react-native-easy-toast';
 
 import moment from 'moment';
@@ -164,16 +164,15 @@ export default class CreateEventView extends Component {
     _renderPrice() {
       var priceText = 'None';
       if (this.state.budget_min !== undefined) {
-        if (this.state.budget_max == 1)
+        if (this.state.budget_max == 0)
           priceText = 'Free';
-        else if (this.state.budget_max == this.state.budget_min+1)
+        else if (this.state.budget_max == this.state.budget_min)
           priceText = '₴' + this.state.budget_max;
         else if (this.state.budget_max == 1001)
           priceText = '₴' + this.state.budget_min + "+";
         else
           priceText = '₴' + this.state.budget_min + "-" + this.state.budget_max;
       }
-      var h = Platform.OS === 'android' ? 20: 3;
       return (
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{marginTop: 10, flex: 1}}>Price: {priceText}</Text>
@@ -183,17 +182,6 @@ export default class CreateEventView extends Component {
                 budget_min: arr[0],
                 budget_max: arr[1],
               });
-            }}
-            selectedStyle={{
-              borderRadius: 1,
-              backgroundColor: PRIMARY_COLOR,
-              height: h,
-            }}
-            unselectedStyle={{
-              backgroundColor: '#ddd',
-              height: h,
-              borderRadius: 1,
-
             }}
             min={0}
             max={1001}
