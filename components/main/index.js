@@ -131,6 +131,7 @@ class MainView extends Component {
       <StatusBar
        backgroundColor={DARK_COLOR}
      />
+      <View style={{position: 'absolute', left: 0, right: 0, backgroundColor: PRIMARY_COLOR, height: TOP}} />
       <Navigator
         ref="navigator"
         initialRoute={{ title: 'tolpa', index: 0 }}
