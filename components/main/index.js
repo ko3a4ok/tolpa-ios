@@ -13,6 +13,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   StatusBar,
+  BackAndroid,
 } from 'react-native';
 
 import Drawer from 'react-native-drawer';
@@ -96,6 +97,15 @@ class MainView extends Component {
     this.state = {
       search: false,
     };
+    const that = this;
+    BackAndroid.addEventListener('hardwareBackPress', function() {
+      const routes = that.refs.navigator.getCurrentRoutes();
+      if (routes && routes.length > 1) {
+        that.refs.navigator.pop();
+        return true;
+      }
+      return false;
+    });
   }
   _renderSearch() {
     if (!this.state.search) return null;
