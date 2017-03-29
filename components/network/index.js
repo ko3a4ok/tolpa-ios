@@ -1,4 +1,4 @@
-const SERVER_URL = "https://meethere-dev.herokuapp.com";
+const SERVER_URL = __DEV__ ? "https://meethere-dev.herokuapp.com" : "https://meethere-prod.herokuapp.com";
 // SERVER_URL = "http://10.0.0.113:8000";
 var HEADERS = new Headers();
 export function updateHeader(token) {

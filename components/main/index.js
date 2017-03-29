@@ -269,15 +269,12 @@ export default class MainScreen extends Component {
         openDrawerOffset={50}
         closedDrawerOffset={-3}
         styles={drawerStyles}
-        tweenHandler={(ratio) => ({
-          main: { opacity:(2-ratio)/2 }
-        })}
+        tweenDuration={150}
         negotiatePan={true}
         panOpenMask={5}
         captureGestures={true}
         tapToClose={true}
         initializeOpen={false}
-        panCloseMask={0.2}
       >
           <MainView
             app={this.props.app}

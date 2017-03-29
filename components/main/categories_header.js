@@ -49,10 +49,11 @@ export default class CategoriesHeader extends Component {
   }
 
   async componentDidMount() {
-    var tags = await getPopularCategories();
-    if (!tags) return;
-    this.setState({tags: tags});
-    AsyncStorage.setItem('tags', JSON.stringify(tags));
+    var tags = getPopularCategories().then((tags)=>{
+      if (!tags) return;
+      this.setState({tags: tags});
+      AsyncStorage.setItem('tags', JSON.stringify(tags));
+    });
   }
 
 

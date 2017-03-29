@@ -91,12 +91,13 @@ export default class EventsListView extends Component {
   }
 
   async componentDidMount() {
-    var res = await getEvents(this.props.categoryId);
-    if (!res) return;
-    this.setState({
-      results: res,
+    var res = getEvents(this.props.categoryId).then((res)=>{
+      if (!res) return;
+      this.setState({
+        results: res,
+      });
+      AsyncStorage.setItem(KEY_TAG + this.props.categoryId, JSON.stringify(res));
     });
-    AsyncStorage.setItem(KEY_TAG + this.props.categoryId, JSON.stringify(res));
   }
 
   render() {
