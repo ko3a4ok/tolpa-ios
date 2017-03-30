@@ -51,7 +51,7 @@ export default class EditUserProfileView extends Component {
     if (!user.categories) return null;
     var res = [];
     var that = this;
-    [...CATEGORIES.keys()].forEach(function(tagId){
+    CATEGORIES.map(function(tag, tagId){
       var selected = user.categories.includes(tagId);
       res.push(
         <TouchableOpacity
@@ -68,7 +68,7 @@ export default class EditUserProfileView extends Component {
           style={styles.tag_container}>
         <Text
           style={[styles.category, selected ? styles.selected_category : styles.nonselected_category]}
-          key={tagId}>{CATEGORIES[tagId]}
+          key={tagId}>{tag}
         </Text>
       </TouchableOpacity>
       );
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
   category: {
     overflow: 'hidden',
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 3,
     margin: 2,
     borderColor: PRIMARY_COLOR,
     borderWidth: 0,

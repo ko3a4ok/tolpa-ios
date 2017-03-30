@@ -112,7 +112,7 @@ export default class CreateEventView extends Component {
       var res = [];
       var that = this;
       var tags = this.state.tags;
-      [...CATEGORIES.keys()].forEach(function(tagId){
+      CATEGORIES.map(function(tag, tagId){
         var selected = tags.has(tagId);
         res.push(
           <TouchableOpacity
@@ -128,7 +128,7 @@ export default class CreateEventView extends Component {
             style={styles.tag_container}>
           <Text
             style={[styles.category, selected ? styles.selected_category : styles.nonselected_category]}
-            key={tagId}>{CATEGORIES[tagId]}
+            key={tagId}>{tag}
           </Text>
         </TouchableOpacity>
         );
@@ -378,14 +378,12 @@ const styles = StyleSheet.create({
   category: {
     overflow: 'hidden',
     paddingHorizontal: 10,
-    paddingVertical: 5,
     margin: 2,
     borderColor: PRIMARY_COLOR,
     borderWidth: 0,
     borderRadius: 5,
-    height: 25,
     textAlign: 'center',
-
+    alignSelf: 'center',
   },
   nonselected_category : {
     backgroundColor: PRIMARY_COLOR + '33',
@@ -401,7 +399,7 @@ const styles = StyleSheet.create({
   },
   tag_container: {
     margin: 3,
-    height: 25,
+    height: 27,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
