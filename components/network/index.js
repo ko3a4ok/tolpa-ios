@@ -229,6 +229,7 @@ export async function sendComment(eventId, text) {
         headers: HEADERS,
         body: JSON.stringify({text: text}),
       });
+      if (res.status != 201) return null;
       return await res.json();
   } catch(error) {
     console.error(error);

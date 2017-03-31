@@ -80,7 +80,8 @@ export default class CommentsView extends Component {
   }
 
   async _sendComment(text) {
-    res = await sendComment(this.props.eventId, text)
+    if (!text) return;
+    res = await sendComment(this.props.eventId, text);
     if (!res) {
       this.setState({comment: text});
       return;
@@ -92,7 +93,9 @@ export default class CommentsView extends Component {
   }
 
   _renderHeader() {
-    return (<TextInput
+    return (
+      <View style={{padding: 10}}>
+      <TextInput
       onChangeText={(text) => this.setState({comment: text})}
       value={this.state.comment}
       onSubmitEditing={() => {
@@ -100,12 +103,13 @@ export default class CommentsView extends Component {
         this.setState({comment: undefined});
         this._sendComment(text);
       }}
-      style={{margin: 10, height: 20}}
+      style={{paddingVertical: 0, paddingHorizontal: 5, height: 40}}
       clearButtonMode='always'
       autoCapitalize='sentences'
       autoFocus={true}
       returnKeyType='send'
-      placeholder="Leave a Comment"/>);
+      placeholder="Leave a Comment"/>
+      </View>);
   }
 
   _renderSeparator(sectionID: number, rowID: number, adjacentRowHighlighted: bool) {
