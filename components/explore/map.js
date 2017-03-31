@@ -107,7 +107,8 @@ export default class ExploreMapView extends Component {
           title={event.name}
           description={event.description}
         >
-        <MapView.Callout tooltip style={styles.callout}>
+        <MapView.Callout tooltip={true} style={styles.callout} onPress={
+          ()=>this.props.navigator.push({index: 2, data: event})}>
             <View style={[styles.calloutContainer]}>
                 <TouchableHighlight onPress={() => {
                     this.props.navigator.push({index: 2, data: event});
@@ -134,7 +135,7 @@ export default class ExploreMapView extends Component {
 
 const styles = StyleSheet.create({
   callout: {
-      width: 140,
+      width: 300,
       height: 100,
   },
   calloutContainer: {
