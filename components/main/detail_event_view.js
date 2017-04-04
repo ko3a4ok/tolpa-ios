@@ -81,6 +81,7 @@ export default class DetailEventView extends Component {
 
     _joinEvent(join) {
       this.state.data.joined = join;
+      this.state.data.attenders_count += join ? 1 : -1;
       this.setState(this.state);
       joinEvent(this.state.data.id, join);
     }
