@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  Animated,
   ActivityIndicator,
   StyleSheet,
   Text,
@@ -43,9 +44,11 @@ export default class CommentsView extends Component {
       var imageSource = {};
       if (imageUrl)
         imageSource.uri = imageUrl;
-
+      var anim_style = {};
+      if (this.state['_rowOpacity' + rowData.id])
+        anim_style={opacity: this.state['_rowOpacity' + rowData.id]};
       return (
-        <View style={{padding: 5}}>
+        <Animated.View style={[{padding: 5}, anim_style]}>
               <TouchableOpacity style={styles.container} onPress={() => {
                   nav.push({index: 3, data: user, title: userName})
                 }}>
@@ -56,7 +59,7 @@ export default class CommentsView extends Component {
                 </View>
               </TouchableOpacity>
               <Text style={{paddingLeft: 40}}>{rowData.text}</Text>
-        </View>
+        </Animated.View>
     );
   }
 
@@ -87,9 +90,17 @@ export default class CommentsView extends Component {
       return;
     }
     this.state.results.unshift(res);
+    const animKey = '_rowOpacity' + res.id;
     this.setState({
       results: this.state.results,
+      [animKey]: new Animated.Value(0),
     });
+    Animated.timing(this.state[animKey], {
+      toValue  : 1,
+      duration : 2000,
+      useNativeDriver: true,
+    }).start();
+
   }
 
   _renderHeader() {
