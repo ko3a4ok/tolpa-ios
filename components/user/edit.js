@@ -48,7 +48,6 @@ export default class EditUserProfileView extends Component {
 
   _renderTags() {
     var user = this.state.user;
-    if (!user.categories) return null;
     var res = [];
     var that = this;
     CATEGORIES.map(function(tag, tagId){
@@ -125,6 +124,9 @@ export default class EditUserProfileView extends Component {
     let that = this;
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
+      if (response.didCancel) {
+        return;
+      }
       if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
@@ -216,7 +218,7 @@ export default class EditUserProfileView extends Component {
                   underlineColorAndroid='transparent'
                   editable={false}
                   placeholder="Gender"
-                  value={this.state.gender === undefined ? "" : (this.state.gender ? '♂' : '♀')} />
+                  value={(this.state.gender === undefined || this.state.gender === null) ? "" : (this.state.gender ? '♂' : '♀')} />
           </ModalPicker>
           <DatePicker
             date={this.state.birthday}
