@@ -237,6 +237,21 @@ export async function sendComment(eventId, text) {
   return null;
 }
 
+export async function deleteComment(eventId, commentId) {
+  let url = SERVER_URL + "/event/" + eventId + "/comment/" + commentId + "/";
+  try {
+    const res = await fetch(url,
+      {
+        method: "DELETE",
+        headers: HEADERS,
+      });
+      return (res.status == 204);
+  } catch(error) {
+    console.error(error);
+  }
+  return false;
+}
+
 export async function createEvent(event, eventId) {
   let url = SERVER_URL + "/event/";
   if (eventId)

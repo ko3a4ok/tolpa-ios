@@ -170,7 +170,7 @@ class MainView extends Component {
            </View>
          } else if (route.index == 9) {
          return <View style={{top: TOP, flex: 1}}>
-           <CommentsView navigator={navigator} eventId={route.event_id} />
+           <CommentsView navigator={navigator} eventId={route.event_id} app={this.props.app} />
          </View>
        } else if (route.index == 10) {
          return <View style={{top: TOP, flex: 1}}>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {
+  Alert,
   Animated,
   ActivityIndicator,
   StyleSheet,
@@ -14,6 +15,7 @@ import {
 import {
   getComments,
   sendComment,
+  deleteComment,
 } from '../network';
 import {timeSince} from '../global';
 
@@ -29,10 +31,33 @@ export default class CommentsView extends Component {
     this._sendComment = this._sendComment.bind(this);
     this._renderRow = this._renderRow.bind(this);
     this._renderHeader = this._renderHeader.bind(this);
+    this._deleteComment = this._deleteComment.bind(this);
     this.loading = -1;
   }
 
-  _renderRow(rowData) {
+  async _deleteComment(rowId) {
+    res = this.state.results[rowId];
+    const animKey = '_rowOpacity' + res.id;
+    this.setState({
+      [animKey]: new Animated.Value(1),
+    });
+    Animated.timing(this.state[animKey], {
+      toValue  : 0,
+      duration : 400,
+      useNativeDriver: true,
+    }).start();
+    result = await deleteComment(res.event_id, res.id);
+    if (!result) {
+      this.setState({
+        [animKey]: new Animated.Value(1),
+      });
+      return;
+    }
+    this.state.results.splice(rowId, 1);
+    this.setState({results: this.state.results});
+  }
+
+  _renderRow(rowData,  sectionID, rowID, highlightRow) {
       if (!rowData) {
         return (<ActivityIndicator style={{paddingTop: 20}}/>);
       }
@@ -49,7 +74,20 @@ export default class CommentsView extends Component {
         anim_style={opacity: this.state['_rowOpacity' + rowData.id]};
       return (
         <Animated.View style={[{padding: 5}, anim_style]}>
-              <TouchableOpacity style={styles.container} onPress={() => {
+              <TouchableOpacity style={styles.container}
+                  onLongPress={() => {
+                    if (this.props.app.state.profile.user_id != rowData.user.user_id)
+                      return;
+                    Alert.alert(
+                      'Delete your comment?',
+                      rowData.text,
+                      [
+                        {text: 'Cancel', onPress: () => {}, style: 'cancel'},
+                        {text: 'OK', onPress: () => this._deleteComment(rowID)},
+                      ],
+                    )
+                  }}
+                  onPress={() => {
                   nav.push({index: 3, data: user, title: userName})
                 }}>
                 <Image source={imageSource} style={styles.user_image} />
