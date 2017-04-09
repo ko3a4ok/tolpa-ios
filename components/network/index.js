@@ -21,7 +21,7 @@ async function _sign(data, path) {
     );
     return await response.json();
   } catch(error) {
-    console.error(error);
+    console.warn(error);
   }
   return null;
 }
@@ -55,7 +55,7 @@ export async function checkEmail(email) {
     let responseJson = await response.json();
     return responseJson.registered;
   } catch(error) {
-    console.error(error);
+    console.warn(error);
   }
   return true;
 }
@@ -89,7 +89,7 @@ export async function getEvent(eventId) {
     let responseJson = await response.json();
     return responseJson;
   } catch(error) {
-    console.error(error);
+    console.warn(error);
   }
   return null;
 }
@@ -183,7 +183,7 @@ export async function updateProfile(user_id, data) {
     let responseJson = await response.json();
     return responseJson;
   } catch(error) {
-    console.error(error);
+    console.warn(error);
   }
   return null;
 }
@@ -232,7 +232,7 @@ export async function sendComment(eventId, text) {
       if (res.status != 201) return null;
       return await res.json();
   } catch(error) {
-    console.error(error);
+    console.warn(error);
   }
   return null;
 }
@@ -247,7 +247,7 @@ export async function deleteComment(eventId, commentId) {
       });
       return (res.status == 204);
   } catch(error) {
-    console.error(error);
+    console.warn(error);
   }
   return false;
 }
@@ -265,7 +265,7 @@ export async function createEvent(event, eventId) {
       });
       return await res.json();
   } catch(error) {
-    console.error(error);
+    console.warn(error);
   }
   return null;
 }
@@ -297,7 +297,7 @@ export async function loginWithFb(token) {
     let responseJson = await response.json();
     return responseJson;
   } catch(error) {
-    console.error(error);
+    console.warn(error);
   }
   return null;
 }
@@ -333,7 +333,7 @@ async function getSettings(url) {
     });
     return await response.json();
   } catch(error) {
-    console.error(error);
+    console.warn(error);
   }
   return null;
 }
