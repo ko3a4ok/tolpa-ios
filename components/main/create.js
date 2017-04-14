@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   ScrollView,
+  Switch,
   TouchableOpacity,
   View,
   Image,
@@ -34,6 +35,7 @@ import {
 import {
   CATEGORIES,
 } from './categories_header.js';
+import {nextDate} from "../global/index";
 
 const DATE_FORMAT = "YYYY-MMM-DD HH:mm";
 export default class CreateEventView extends Component {
@@ -48,6 +50,7 @@ export default class CreateEventView extends Component {
         height: 0,
         imageSource: {},
         tags: new Set(),
+        days: {},
       }
       if (props.data) {
         var event = props.data;
@@ -161,6 +164,49 @@ export default class CreateEventView extends Component {
       );
     }
 
+    _renderOnlyTime(day, end) {
+      const that = this;
+      let d = this.state.days[day];
+      if (d)
+        d = d[end ? 'end' : 'start'];
+      var startDate, endDate;
+      if (end)
+        startDate = this.state.days[day] ? this.state.days[day].start : undefined;
+      else
+        endDate = this.state.days[day] ? this.state.days[day].end : undefined;
+      return (
+        <DatePicker
+          ref={""+day+end}
+          date={d}
+          is24Hour={true}
+          minDate={startDate}
+          maxDate={endDate}
+          showIcon={false}
+          mode="time"
+          placeholder={end? 'End' : 'Start'}
+          confirmBtnText={(end ? "End" : "Start") + " confirm"}
+          cancelBtnText="Cancel"
+          style={{width: 60}}
+          customStyles={{
+            dateInput: [styles.input, styles.only_date],
+          }}
+          onDateChange={(t) => {
+            if (!that.state.days[day])
+              that.state.days[day] = {};
+            that.state.days[day][end ? 'end' : 'start'] = t;
+            that.setState({days: that.state.days});
+            if (!end && !that.state.days[day].end) {
+             const next = that.refs[""+day+true];
+             setTimeout(()=>{
+              next.onPressDate();
+             }, 500);
+            }
+          }}
+        />
+      );
+
+    }
+
     _renderPrice() {
       var priceText = 'None';
       if (this.state.budget_min !== undefined) {
@@ -245,12 +291,7 @@ export default class CreateEventView extends Component {
         return (<ActivityIndicator style={{paddingTop: 20}}/>);
       }
       return (
-        <TouchableOpacity onPress={this._createEvent} style={{
-          marginTop: 10,
-          backgroundColor: "darkred",
-          height: 35,
-          borderRadius: 12,
-          }}>
+        <TouchableOpacity onPress={this._createEvent} style={styles.create_btn}>
           <Text style={[styles.category, {
               color: "white",
               fontWeight: "bold",
@@ -260,6 +301,11 @@ export default class CreateEventView extends Component {
     }
 
     async _createEvent() {
+      err = this._validateInput();
+      if (err) {
+        this.refs.toast.show(err);
+        return;
+      }
       this.setState({creating: true});
       var event = {
         name: this.state.title,
@@ -298,6 +344,7 @@ export default class CreateEventView extends Component {
     }
     render() {
       return (
+        <View style={{flex: 1}}>
         <ScrollView style={{flex: 1, padding: 5}}>
           <View style={styles.image}>
             <Image
@@ -310,7 +357,6 @@ export default class CreateEventView extends Component {
               {this._renderImagePicker()}
             </TouchableOpacity>
           </View>
-          <Toast ref="toast" />
           <TextInput
             defaultValue={this.state.title}
             style={[styles.input, styles.input_text, {fontWeight: 'bold'}]}
@@ -330,18 +376,108 @@ export default class CreateEventView extends Component {
             style={[styles.input, styles.input_text, {height: this.state.height}]}
             />
           {this._renderTags()}
-          <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-around'}}>
-            {this._renderTime(false)}
-            {this._renderTime(true)}
-          </View>
+          {this._renderDate()}
           {this._renderPrice()}
           {this._renderLocation()}
           {this._createButton()}
           <View style={{height: 100}} />
         </ScrollView>
+        <Toast ref="toast" />
+        </View>
       );
     }
 
+  _renderSingleEvent() {
+      return (
+        <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-around'}}>
+          {this._renderTime(false)}
+          {this._renderTime(true)}
+        </View>
+      );
+  }
+  _renderMultiEvent() {
+    const res = [];
+    const that = this;
+    moment.weekdays().map((day, idx)=>{
+      const dayState = that.state.days[idx];
+      const missing = dayState && ((!!dayState.end) ^ (!!dayState.start));
+      const filled = dayState && (dayState.end && dayState.start);
+      res.push(
+        <View
+          key={day}
+          style={[
+            {padding: 5, flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-around'},
+            {backgroundColor: missing ? '#f002': 'transparent'}]
+          }>
+          <Text style={[
+            styles.category,
+            filled ? styles.selected_category : styles.nonselected_category,
+            {width: 100, height: 30, padding: 5}]}>{day}</Text>
+          {this._renderOnlyTime(idx, false)}
+          {this._renderOnlyTime(idx, true)}
+          <Icon
+            onPress={()=>{
+              delete that.state.days[idx];
+              that.setState({days: that.state.days});
+            }}
+            name="clear"
+            size={30}
+            color={dayState ? PRIMARY_COLOR : 'transparent'}
+          />
+        </View>
+      );
+    });
+    m = nextDate(this.state.days);
+    return (<View>
+      <Text style={{marginLeft: 5}}>{m ? "Next event: " + m.calendar() : ""}</Text>
+      {res}
+      </View>);
+  }
+
+  _renderDate() {
+    return (<View>
+      <View style={{marginLeft: 5, flexDirection: 'row', alignItems: 'center'}}>
+        <Text>Multi Event: </Text>
+        <Switch
+          onTintColor={PRIMARY_COLOR}
+          tintColor={PRIMARY_COLOR}
+          value={this.state.multi}
+          onValueChange={(val) => this.setState({multi: val})}
+          backgroundActive={PRIMARY_COLOR}
+        />
+      </View>
+      {!this.state.multi ? this._renderSingleEvent() : this._renderMultiEvent()}
+    </View>);
+
+  }
+
+  _validateDate() {
+      if (!this.state.multi) {
+        if (!this.state.start) throw new Error("Start Date");
+        if (!this.state.end) throw new Error("End Date");
+      } else {
+        if (Object.keys(this.state.days).length == 0) throw new Error("Days");
+        for (let day in this.state.days) {
+          const o = this.state.days[day];
+          if (!o.start) throw new Error("Start Date on " + day);
+          if (!o.end) throw new Error("End Date on " + day);
+        }
+      }
+  }
+  _validateInput() {
+    try {
+      this._validateTitle();
+      this._validateDate();
+    } catch (err) {
+      return "Please set " + err.message;
+    }
+  }
+
+  _validateTitle() {
+    if (!this.state.title) throw new Error("Title");
+    if (!this.state.desc) throw new Error("Description");
+
+  }
 }
 
 const styles = StyleSheet.create({
@@ -404,6 +540,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
-
+  only_date: {
+    minHeight: 30,
+    maxHeight: 30,
+    marginTop: 0,
+  },
+  create_btn: {
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: "darkred",
+    height: 35,
+    borderRadius: 12,
+  },
 
 });
