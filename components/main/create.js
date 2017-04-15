@@ -35,7 +35,7 @@ import {
 import {
   CATEGORIES,
 } from './categories_header.js';
-import {nextDate} from "../global/index";
+import {nextDate, intToTimeFormat} from "../global/index";
 
 const DATE_FORMAT = "YYYY-MMM-DD HH:mm";
 export default class CreateEventView extends Component {
@@ -50,7 +50,7 @@ export default class CreateEventView extends Component {
         height: 0,
         imageSource: {},
         tags: new Set(),
-        days: {},
+        week: {},
       }
       if (props.data) {
         var event = props.data;
@@ -166,21 +166,22 @@ export default class CreateEventView extends Component {
 
     _renderOnlyTime(day, end) {
       const that = this;
-      let d = this.state.days[day];
+      let d = this.state.week[day];
       if (d)
         d = d[end ? 'end' : 'start'];
+      d = intToTimeFormat(d);
       var startDate, endDate;
       if (end)
-        startDate = this.state.days[day] ? this.state.days[day].start : undefined;
+        startDate = this.state.week[day] ? this.state.week[day].start : undefined;
       else
-        endDate = this.state.days[day] ? this.state.days[day].end : undefined;
+        endDate = this.state.week[day] ? this.state.week[day].end : undefined;
       return (
         <DatePicker
           ref={""+day+end}
           date={d}
           is24Hour={true}
-          minDate={startDate}
-          maxDate={endDate}
+          minDate={intToTimeFormat(startDate)}
+          maxDate={intToTimeFormat(endDate)}
           showIcon={false}
           mode="time"
           placeholder={end? 'End' : 'Start'}
@@ -191,11 +192,13 @@ export default class CreateEventView extends Component {
             dateInput: [styles.input, styles.only_date],
           }}
           onDateChange={(t) => {
-            if (!that.state.days[day])
-              that.state.days[day] = {};
-            that.state.days[day][end ? 'end' : 'start'] = t;
-            that.setState({days: that.state.days});
-            if (!end && !that.state.days[day].end) {
+            let tt = t.split(':');
+            t = parseInt(tt[0])*60 + parseInt(tt[1]);
+            if (!that.state.week[day])
+              that.state.week[day] = {};
+            that.state.week[day][end ? 'end' : 'start'] = t;
+            that.setState({days: that.state.week});
+            if (!end && !that.state.week[day].end) {
              const next = that.refs[""+day+true];
              setTimeout(()=>{
               next.onPressDate();
@@ -314,6 +317,8 @@ export default class CreateEventView extends Component {
         budget_min: this.state.budget_min,
         budget_max: this.state.budget_max,
         address: this.state.address,
+        multi: this.state.multi,
+        week: this.state.week,
       }
       if (this.state.start)
         event.start = moment(this.state.start, DATE_FORMAT).toDate().toISOString();
@@ -327,7 +332,7 @@ export default class CreateEventView extends Component {
         res = await createEvent(event, this.props.data.id);
       else
         res = await createEvent(event);
-      if (!res.id) {
+      if (!res || !res.id) {
         this.refs.toast.show('Oops!');
         this.setState({creating: false});
         return;
@@ -399,7 +404,7 @@ export default class CreateEventView extends Component {
     const res = [];
     const that = this;
     moment.weekdays().map((day, idx)=>{
-      const dayState = that.state.days[idx];
+      const dayState = that.state.week[idx];
       const missing = dayState && ((!!dayState.end) ^ (!!dayState.start));
       const filled = dayState && (dayState.end && dayState.start);
       res.push(
@@ -417,8 +422,8 @@ export default class CreateEventView extends Component {
           {this._renderOnlyTime(idx, true)}
           <Icon
             onPress={()=>{
-              delete that.state.days[idx];
-              that.setState({days: that.state.days});
+              delete that.state.week[idx];
+              that.setState({days: that.state.week});
             }}
             name="clear"
             size={30}
@@ -427,7 +432,7 @@ export default class CreateEventView extends Component {
         </View>
       );
     });
-    m = nextDate(this.state.days);
+    m = nextDate(this.state.week);
     return (<View>
       <Text style={{marginLeft: 5}}>{m ? "Next event: " + m.calendar() : ""}</Text>
       {res}
@@ -456,9 +461,10 @@ export default class CreateEventView extends Component {
         if (!this.state.start) throw new Error("Start Date");
         if (!this.state.end) throw new Error("End Date");
       } else {
-        if (Object.keys(this.state.days).length == 0) throw new Error("Days");
-        for (let day in this.state.days) {
-          const o = this.state.days[day];
+        if (Object.keys(this.state.week).length == 0) throw new Error("Days");
+        for (let day in this.state.week) {
+          if (day == 'offset') continue;
+          const o = this.state.week[day];
           if (!o.start) throw new Error("Start Date on " + day);
           if (!o.end) throw new Error("End Date on " + day);
         }

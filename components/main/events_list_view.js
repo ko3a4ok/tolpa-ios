@@ -14,10 +14,7 @@ import {
 
 import {
   Card,
-  CardImage,
-  CardTitle,
   CardContent,
-  CardAction
 } from 'react-native-card-view';
 
 import moment from 'moment';
@@ -31,6 +28,7 @@ import {
 import {
   CATEGORIES,
 } from './categories_header';
+import {PRIMARY_COLOR} from "../global/index";
 
 const KEY_TAG = "property_tag_";
 export default class EventsListView extends Component {
@@ -66,6 +64,11 @@ export default class EventsListView extends Component {
               <View style={styles.date}>
               <Text style={{color: 'white'}}>{day}</Text>
               </View>
+              {!rowData.multi ? null :
+                <Icon
+                  style={{position: 'absolute', right:0, backgroundColor:"transparent"}}
+                  name="timelapse" size={30} color={PRIMARY_COLOR}  />
+              }
               <Text numberOfLines={2} style={{height: 50, fontSize: 16}}>{rowData.name}</Text>
               <View style={{flex: 1, flexDirection:'row', justifyContent: 'space-between'}}>
                 <Text>{time}</Text>
@@ -127,7 +130,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     position: 'absolute',
-    backgroundColor: '#25a67d77',
+    backgroundColor: PRIMARY_COLOR + '77',
     width: 50,
     height: 50,
     borderRadius: 25,
@@ -137,7 +140,7 @@ const styles = StyleSheet.create({
     margin: 50,
     justifyContent:'center',
     alignItems:'center',
-    backgroundColor: '#25a67d77',
+    backgroundColor: PRIMARY_COLOR + '77',
     width: 50,
     height: 50,
     borderRadius: 25,

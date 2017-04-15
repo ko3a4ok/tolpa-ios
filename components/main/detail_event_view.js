@@ -23,6 +23,7 @@ import {
 
 import moment from 'moment';
 import {PRIMARY_COLOR} from "../global";
+import {intToTimeFormat} from "../global/index";
 
 
 export default class DetailEventView extends Component {
@@ -104,6 +105,17 @@ export default class DetailEventView extends Component {
       navigator.push({title: data.name, index: 10, data: data});
     }
 
+    _renderMultiEvent(data) {
+      if (!data.multi || !data.week) return null;
+      var msg = "Periodic Event: ";
+      let week = data.week;
+      for (let i = 0; i < 7; i++)
+        if (week[i]) {
+          msg += '\nEvery ' + moment.weekdays()[i] + ' ' + intToTimeFormat(week[i].start) + '-' + intToTimeFormat(week[i].end);
+        }
+      return (<Text style={{fontStyle: 'italic'}}>{msg}</Text>);
+    }
+
     _renderContent(data) {
       var d = new Date(data.start);
       var day = moment(d).format('DD MMM');
@@ -137,7 +149,7 @@ export default class DetailEventView extends Component {
             </TouchableOpacity>
           </View>
           <Text>{time}</Text>
-
+          {this._renderMultiEvent(data)}
           {this._renderMoney(data)}
 
           <Text style={{marginTop: 10}}>{data.address}</Text>

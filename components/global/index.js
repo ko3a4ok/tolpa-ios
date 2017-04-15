@@ -46,15 +46,26 @@ export function nextDate(days) {
   if (Object.keys(days).length == 0) return;
   let m = moment();
   let tnow = m.hour()*60+ m.minute();
-
   for (var i = 0; i < 10; i++) {
     if (m.day() in days) {
-      if (tnow == 0) return m;
-      let t = moment(days[m.day()], 'h:mm');
-      let tt = t.hour()*60 + t.minute();
-      if (tnow <= tt) return m;
+      let tt = days[m.day()];
+      if (tnow <= tt) {
+        m.hours(Math.floor(tt/60));
+        m.minutes(tt%60);
+        m.seconds(0);
+        m.milliseconds(0);
+        return m;
+      }
     }
     m.add(1, 'day');
     tnow = 0;
   }
+}
+
+export function intToTimeFormat(d) {
+  if (d == null) return;
+  let hh = '00' + Math.floor(d/60);
+  let mm = '00' + d%60;
+  return hh.slice(hh.length-2) + ':' + mm.slice(mm.length-2);
+
 }

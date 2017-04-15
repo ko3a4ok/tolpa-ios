@@ -16,13 +16,10 @@ import {
 
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import {
   Card,
-  CardImage,
-  CardTitle,
-  CardContent,
-  CardAction
 } from 'react-native-card-view';
 
 import moment from 'moment';
@@ -42,6 +39,11 @@ export function renderEvent(rowData, nav) {
     <View style={styles.date}>
     <Text style={{color: 'white'}}>{day}</Text>
     </View>
+    {!rowData.multi ? null :
+      <MaterialIcon
+        style={{position: 'absolute', right:0, backgroundColor:"transparent"}}
+        name="timelapse" size={40} color={PRIMARY_COLOR}  />
+    }
     <Text numberOfLines={2} style={{height: 50, fontSize: 16}}>{rowData.name}</Text>
     <View style={{flex: 1, flexDirection:'row', justifyContent: 'space-between'}}>
       <Text>{time}</Text>

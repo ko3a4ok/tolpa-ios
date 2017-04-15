@@ -5,6 +5,7 @@ export function updateHeader(token) {
   HEADERS.append('Content-Type', 'application/json');
   HEADERS.append('Cache-Control', 'no-cache');
   HEADERS.append('Authorization', 'Token ' + token);
+  HEADERS.append('TimeZone-Offset', new Date().getTimezoneOffset());
 }
 
 async function _sign(data, path) {
