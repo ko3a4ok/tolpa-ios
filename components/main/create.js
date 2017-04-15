@@ -405,7 +405,7 @@ export default class CreateEventView extends Component {
     const that = this;
     moment.weekdays().map((day, idx)=>{
       const dayState = that.state.week[idx];
-      const missing = dayState && ((!!dayState.end) ^ (!!dayState.start));
+      const missing = dayState && ((dayState.end != null) ^ (!!dayState.start != null));
       const filled = dayState && (dayState.end && dayState.start);
       res.push(
         <View
@@ -465,8 +465,8 @@ export default class CreateEventView extends Component {
         for (let day in this.state.week) {
           if (day == 'offset') continue;
           const o = this.state.week[day];
-          if (!o.start) throw new Error("Start Date on " + day);
-          if (!o.end) throw new Error("End Date on " + day);
+          if (o.start == null) throw new Error("Start Date on " + day);
+          if (o.end == null) throw new Error("End Date on " + day);
         }
       }
   }
