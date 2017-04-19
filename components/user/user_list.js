@@ -43,7 +43,7 @@ export default class UsersListView extends Component {
       }
       var nav = this.props.navigator;
       var imageUrl = user.mini_profile_url;
-      var userName = user.first_name + " " + user.last_name;
+      var userName = user.name;
       var imageSource = {};
       if (imageUrl)
         imageSource.uri = imageUrl;

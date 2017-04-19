@@ -61,7 +61,7 @@ export default class CommentsView extends Component {
       if (!rowData) {
         return (<ActivityIndicator style={{paddingTop: 20}}/>);
       }
-      var userName = rowData.user.first_name + ' ' + rowData.user.last_name;
+      var userName = rowData.user.name;
       var nav = this.props.navigator;
       var time = timeSince(new Date(rowData.created_at));
       var user = rowData.user;

@@ -89,7 +89,7 @@ export default class DetailEventView extends Component {
 
     _renderOrganizer(user) {
         if (!user) return null;
-        var userName = user.first_name + " " + user.last_name;
+        var userName = user.name;
         return (
           <TouchableOpacity
             onPress={() => this.props.navigator.push({index: 3, data: user, title: userName})}

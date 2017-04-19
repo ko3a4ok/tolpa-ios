@@ -80,16 +80,6 @@ export default class EditUserProfileView extends Component {
     delete newProfile['user'];
     newProfile.categories = this.state.user.categories;
     var name = newProfile.name;
-    if (name) {
-      var sp = name.indexOf(' ');
-      if (sp != -1) {
-        newProfile.first_name = name.substring(0, sp);
-        newProfile.last_name = name.substring(1 + sp);
-      } else {
-        newProfile.first_name = name;
-      }
-      delete newProfile['name'];
-    }
     if (newProfile.birthday) {
       newProfile.birthday = new Date(newProfile.birthday).toISOString();
     }
@@ -176,7 +166,7 @@ export default class EditUserProfileView extends Component {
               placeholder="Full Name"
               autoCapitalize="words"
               style={[styles.input, {fontSize: 20, height: 35}]}
-              defaultValue={user.first_name + " " + user.last_name} />
+              defaultValue={user.name} />
             <TextInput
               onChangeText={(text) => this.setState({location: text})}
               placeholder="Location"

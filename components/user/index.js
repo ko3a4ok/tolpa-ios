@@ -40,6 +40,7 @@ class ProfileView extends Component {
 
   async componentDidMount() {
     var data = await getUserProfile(this.props.user.user_id);
+    if (data == null) return;
     this.setState({user: data});
   }
 
@@ -145,7 +146,7 @@ class ProfileView extends Component {
             source={imageSource} style={styles.profile_image} />
           <View style={{marginLeft: 15}}>
             {this._renderFollowButton()}
-            <Text style={{fontSize: 20}}>{user.first_name} {user.last_name}</Text>
+            <Text style={{fontSize: 20}}>{user.name}</Text>
             <Text>{user.location}</Text>
             <Text>{this._getAge()} {this._getGender()} </Text>
             {this._renderEmail()}

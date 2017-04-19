@@ -56,7 +56,7 @@ export default class ControlPanel extends Component {
               source={imageSource}
             />
             <View>
-              <Text style={styles.profileName}>{this.state.profile.first_name + " " + this.state.profile.last_name} </Text>
+              <Text style={styles.profileName}>{this.state.profile.name} </Text>
               <Text style={styles.profileName}>{this.state.profile.location} </Text>
             </View>
           </LinearGradient>

@@ -258,7 +258,7 @@ export default class MainScreen extends Component {
       this._mainView.refs.navigator.resetTo({index: 0, title: 'Tolpa'});
     } else if (index == 1) {
       var user = this.props.app.state.profile;
-      this._mainView.refs.navigator.resetTo({index: 3, title: user.first_name + ' ' + user.last_name, data: user});
+      this._mainView.refs.navigator.resetTo({index: 3, title: user.name, data: user});
     } else if (index == 2) {
       this._mainView.refs.navigator.push({index: 10, title: 'Create Event'});
     } else if (index == 3) {
