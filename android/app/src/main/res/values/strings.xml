@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Tolpa</string>
     <string name="facebook_app_id" translatable="false">898632866938130</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBGaCGMVl4tEGgOhyfRk1iSLmvhs68bP0s</string>
 </resources>
