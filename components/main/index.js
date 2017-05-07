@@ -251,6 +251,7 @@ export default class MainScreen extends Component {
   constructor(props) {
     super(props);
     this._selectedMenuItem = this._selectedMenuItem.bind(this);
+    this.controlPanel = <ControlPanel selectedMenuItem={this._selectedMenuItem} app={this.props.app}/>;
   }
   _selectedMenuItem(index) {
     this._drawer.close();
@@ -276,7 +277,7 @@ export default class MainScreen extends Component {
       <Drawer
         type="overlay"
         ref={(ref) => this._drawer = ref}
-        content={<ControlPanel selectedMenuItem={this._selectedMenuItem} app={this.props.app}/>}
+        content={this.controlPanel}
         openDrawerOffset={50}
         closedDrawerOffset={-3}
         styles={drawerStyles}

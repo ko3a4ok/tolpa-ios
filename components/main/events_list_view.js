@@ -10,12 +10,9 @@ import {
   Navigator,
   TouchableOpacity,
   ListView,
+  TouchableHighlight,
 } from 'react-native';
 
-import {
-  Card,
-  CardContent,
-} from 'react-native-card-view';
 
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -52,11 +49,11 @@ export default class EventsListView extends Component {
       var time =  moment(d).format('ddd, HH:mm');
       var nav = this.props.navigator;
       return (
-        <TouchableOpacity
-          activeOpacity={0.7}
+        <TouchableHighlight
+          underlayColor="white"
           onPress={() => nav.push({index: 2, title: rowData.name, data: rowData})}>
-        <Card>
-          <CardContent>
+        <View style={[styles.container, styles.card]}>
+          <View style={[styles.cardContent]}>
             <View style={{width: 200, height: 270, margin: -10}}>
               <Image style={{height: 200, width: 200}}
                 source={{uri: rowData.mini_image_url}}/>
@@ -75,9 +72,9 @@ export default class EventsListView extends Component {
                 <Text>👥{rowData.attenders_count}</Text>
               </View>
             </View>
-          </CardContent>
-        </Card>
-      </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableHighlight>
     );
   }
 
@@ -151,4 +148,30 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'grey',
   },
+
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+    margin: 5
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 2,
+    shadowColor: "#000000",
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 1,
+      width: 0.3,
+    }
+  },
+
+  cardContent: {
+    paddingRight: 16,
+    paddingLeft: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
+  },
+
 });

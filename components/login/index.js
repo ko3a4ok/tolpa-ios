@@ -40,8 +40,7 @@ const navigationBar = (
 
 
 export default class FirstScreen extends Component {
-  static navBarRouteMapper = {
-  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -96,7 +95,7 @@ class Intro extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
     this.fbLogin = this.fbLogin.bind(this);
     this.facebookButton = this.facebookButton.bind(this);
     this.loginWithFacebook = this.loginWithFacebook.bind(this);
