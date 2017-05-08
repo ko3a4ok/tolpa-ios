@@ -26,14 +26,17 @@ async function _sign(data, path) {
   }
   return null;
 }
-export async function loginWithEmail(login, password) {
+export async function loginWithEmail(login, password, token) {
   let data = 'email='+login+'&password=' + password;
+  if (token) {
+    data += '&notification_token='+token;
+  }
   let path = "/auth/email/login";
   return await _sign(data, path);
 }
 
 
-export async function signUp(login, password, first_name, last_name) {
+export async function signUp(login, password, first_name, last_name, token) {
   let params = {
     email: login,
     password: password,
@@ -41,6 +44,9 @@ export async function signUp(login, password, first_name, last_name) {
     first_name: first_name,
     last_name: last_name,
   };
+  if (token) {
+    params['notification_token'] = token;
+  }
 
   let esc = encodeURIComponent;
   let data = Object.keys(params)

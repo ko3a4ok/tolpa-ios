@@ -13,6 +13,7 @@
 #import <React/RCTRootView.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 @import GoogleMaps;
+#import "RNFIRMessaging.h"
 
 @implementation AppDelegate
 
@@ -39,6 +40,10 @@
   [self.window makeKeyAndVisible];
 
   [GMSServices provideAPIKey:@"AIzaSyAn3enmASCzvqeB3y9kdYN97RLHRH9Osak"];
+
+  [FIRApp configure];
+  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+  
   return YES;
 }
 
@@ -50,6 +55,24 @@
                                                         openURL:url
                                               sourceApplication:sourceApplication
                                                      annotation:annotation];
+}
+
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
+{
+  [RNFIRMessaging willPresentNotification:notification withCompletionHandler:completionHandler];
+}
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
+{
+  [RNFIRMessaging didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
+}
+//You can skip this method if you don't want to use local notification
+-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+  [RNFIRMessaging didReceiveLocalNotification:notification];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
+  [RNFIRMessaging didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
 
 @end

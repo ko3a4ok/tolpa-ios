@@ -1,5 +1,4 @@
 apply plugin: "com.android.application"
-
 import com.android.build.OutputFile
 
 /**
@@ -137,6 +136,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fcm')
+    compile 'com.google.firebase:firebase-core:10.2.4'
     compile project(':react-native-picker')
     compile project(':react-native-image-picker')
     compile project(':react-native-vector-icons')
@@ -144,7 +145,9 @@ dependencies {
     compile project(':react-native-fbsdk')
     compile project(':react-native-linear-gradient')
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:25.1.1"
+    compile ("com.android.support:appcompat-v7:25.1.1") {
+        exclude group: 'com.google.android', module: 'support-v4'
+    }
     compile "com.facebook.react:react-native:+"  // From node_modules
 }
 
@@ -154,3 +157,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -58,7 +58,8 @@ export default class LoginScreen extends Component {
   }
 
   async _onSignIn() {
-    return await loginWithEmail(this.state.email, this.state.password);
+    let token = this.props.app.fcmToken;
+    return await loginWithEmail(this.state.email, this.state.password, token);
   }
 
   async _onSignUp() {
@@ -78,8 +79,8 @@ export default class LoginScreen extends Component {
       first_name = this.state.full_name.substring(0, sp);
       last_name = this.state.full_name.substring(1 + sp);
     }
-
-    return await signUp(this.state.email, this.state.password, first_name, last_name);
+    let token = this.props.app.fcmToken;
+    return await signUp(this.state.email, this.state.password, first_name, last_name, token);
 
   }
   async _onSign(signIn) {
