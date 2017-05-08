@@ -116,9 +116,6 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
-        debug {
-            applicationIdSuffix ".debug"
-        }
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
@@ -131,6 +128,14 @@ android {
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
+        }
+    }
+
+    productFlavors {
+        dev {
+            applicationIdSuffix ".debug"
+        }
+        prod {
         }
     }
 }

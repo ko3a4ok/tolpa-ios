@@ -260,7 +260,7 @@ export default class CreateEventView extends Component {
       <View style={{flex: 1, marginTop: 10, height: 300}}>
         <MapView
           onPress={this._updateAddress}
-            liteMode={true}
+            liteMode={false}
             style={{height: 250}}
             initialRegion={this.state.location ? this.state.location : {
               latitude: KYIV.latitude,

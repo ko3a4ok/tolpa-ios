@@ -12,6 +12,7 @@ import {
   ListView,
   TouchableHighlight,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   StatusBar,
   BackAndroid,
 } from 'react-native';
@@ -99,9 +100,16 @@ class MainView extends Component {
     };
     const that = this;
     BackAndroid.addEventListener('hardwareBackPress', function() {
+      if (!that || that.refs || !that.refs.navigator) {
+        return false;
+      }
       const routes = that.refs.navigator.getCurrentRoutes();
       if (routes && routes.length > 1) {
         that.refs.navigator.pop();
+        return true;
+      }
+      if (this.state.search) {
+        this.setState({search: false});
         return true;
       }
       return false;
@@ -109,7 +117,12 @@ class MainView extends Component {
   }
   _renderSearch() {
     if (!this.state.search) return null;
-    return (<TextInput
+    return (
+      <TouchableOpacity
+        activeOpacity={1}
+        style={styles.search_container} onPress={() => this.setState({search: false})
+      }>
+      <TextInput
       keyboardType="web-search"
       returnKeyType="search"
       autoFocus={true}
@@ -122,7 +135,8 @@ class MainView extends Component {
         this.refs.navigator.push({index: 5, text: text.toLowerCase(), title: 'Search ' + text});
       }}
       onEndEditing={(event) => this.setState({search: false})}
-        />);
+        />
+      </TouchableOpacity>);
   }
   render () {
     var TOP = 44 + (Platform.OS == 'android' ? 10: 26);
@@ -308,13 +322,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   search: {
+    height: 56,
+    backgroundColor: 'white',
+    paddingLeft: 20,
+  },
+  search_container: {
     position: 'absolute',
     top: Platform.OS == 'android' ? 0: 26,
     left: 0,
     right: 0,
-    height: 56,
-    backgroundColor: 'white',
-    paddingLeft: 20,
+    bottom: 0,
+    backgroundColor: '#7777',
   },
   in_center: {
     flex: 1,

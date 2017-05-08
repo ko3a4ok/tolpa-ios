@@ -9,7 +9,6 @@ import {
   Image,
   Button,
   Navigator,
-  TouchableHighlight,
   TouchableOpacity,
   ListView,
 } from 'react-native';
@@ -32,6 +31,7 @@ export function renderEvent(rowData, nav) {
   var day = d.toDateString().split(" ").slice(1,3).join(' ');
   var time =  moment(d).format('ddd, HH:mm');
   return (<TouchableOpacity onPress={() => {nav.push({index: 2, title: rowData.name, data: rowData})}}
+    activeOpacity={0.7}
     style={{height: 270, margin: 10, alignSelf: 'stretch',}}>
     <Image style={{height: 200}}
       resizeMode="cover"
