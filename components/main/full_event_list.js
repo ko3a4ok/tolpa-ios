@@ -16,6 +16,7 @@ import {
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import I18n from 'react-native-i18n';
 
 import {
   Card,
@@ -28,8 +29,10 @@ import {PRIMARY_COLOR} from '../global';
 export function renderEvent(rowData, nav) {
   if (!rowData) return null;
   var d = new Date(rowData.start);
-  var day = d.toDateString().split(" ").slice(1,3).join(' ');
-  var time =  moment(d).format('ddd, HH:mm');
+  var options = {month :'short', day: 'numeric'} ;
+  var day = d.toLocaleDateString([], options);
+  var options = {weekday :'short', hour: '2-digit', minute:'2-digit'} ;
+  var time =  d.toLocaleTimeString([], options);
   return (<TouchableOpacity onPress={() => {nav.push({index: 2, title: rowData.name, data: rowData})}}
     activeOpacity={0.7}
     style={{height: 270, margin: 10, alignSelf: 'stretch',}}>
@@ -37,7 +40,7 @@ export function renderEvent(rowData, nav) {
       resizeMode="cover"
       source={{uri: rowData.mini_image_url}}/>
     <View style={styles.date}>
-    <Text style={{color: 'white'}}>{day}</Text>
+    <Text style={{color: 'white', textAlign: 'center'}}>{day}</Text>
     </View>
     {!rowData.multi ? null :
       <MaterialIcon
@@ -47,7 +50,7 @@ export function renderEvent(rowData, nav) {
     <Text numberOfLines={2} style={{height: 50, fontSize: 16}}>{rowData.name}</Text>
     <View style={{flex: 1, flexDirection:'row', justifyContent: 'space-between'}}>
       <Text>{time}</Text>
-      <Text>{!rowData.budget_min ? "free" : "₴" + rowData.budget_min + "+"}</Text>
+      <Text>{!rowData.budget_min ? I18n.t("Free") : "₴" + rowData.budget_min + "+"}</Text>
       <Text>👥{rowData.attenders_count}</Text>
     </View>
 </TouchableOpacity>);
@@ -142,21 +145,21 @@ export default class FullEventsListView extends Component {
         degrees={180}
         icon={<Icon name={mainIcon} style={styles.actionButtonIcon}/>}
         buttonColor={PRIMARY_COLOR} >
-        <ActionButton.Item buttonColor='#9b59b6' title="Sort by Cost" onPress={() => {
+        <ActionButton.Item buttonColor='#9b59b6' title={I18n.t("Sort by Cost")} onPress={() => {
             if (sort == 'budget_min') that.state.sort = '-budget_min';
             else that.state.sort = 'budget_min';
             this.invalidateSearch();
           }}>
           <Icon name="md-cash" style={styles.actionButtonIcon} />
         </ActionButton.Item>
-        <ActionButton.Item buttonColor='#3498db' title="Sort by Time" onPress={() => {
+        <ActionButton.Item buttonColor='#3498db' title={I18n.t("Sort by Time")} onPress={() => {
             if (sort == 'start') that.state.sort = '-start';
             else that.state.sort = 'start';
             this.invalidateSearch();
           }}>
           <Icon name="md-time" style={styles.actionButtonIcon} />
         </ActionButton.Item>
-        <ActionButton.Item buttonColor='#1abc9c' title="Sort by Distance" onPress={() => {
+        <ActionButton.Item buttonColor='#1abc9c' title={I18n.t("Sort by Distance")} onPress={() => {
             that.state.sort = 'location';
             this.invalidateSearch();
           }}>

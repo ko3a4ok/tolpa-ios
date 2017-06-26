@@ -13,6 +13,7 @@ import {
 
 import MapView from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import I18n from 'react-native-i18n';
 
 import {
   getAttendersList,
@@ -21,7 +22,6 @@ import {
   joinEvent,
 } from '../network';
 
-import moment from 'moment';
 import {PRIMARY_COLOR} from "../global";
 import {intToTimeFormat} from "../global/index";
 
@@ -49,13 +49,13 @@ export default class DetailEventView extends Component {
 
     _renderMoney(data) {
       if (!data.budget_min && !data.budget_max) {
-        return (<Text>free</Text>);
+        return (<Text>{I18n.t("Free")}</Text>);
       }
       var value = "";
       if (data.budget_min)
-        value += "From ₴" + data.budget_min;
+        value += I18n.t("From") + " ₴" + data.budget_min;
       if (data.budget_max)
-        value += " to ₴" + data.budget_max;
+        value += " " + I18n.t("to") +" ₴" + data.budget_max;
       return (<Text>{value}</Text>);
     }
 
@@ -94,7 +94,7 @@ export default class DetailEventView extends Component {
           <TouchableOpacity
             onPress={() => this.props.navigator.push({index: 3, data: user, title: userName})}
             style={styles.profile_container}>
-            <Text>Organized by: </Text>
+            <Text>{I18n.t("Organized by: ")}</Text>
             <Text style={styles.profile_name}>{userName}</Text>
             <Image source={{ uri: user.mini_profile_url }} style={styles.profile_icon}/>
           </TouchableOpacity>
@@ -107,19 +107,25 @@ export default class DetailEventView extends Component {
 
     _renderMultiEvent(data) {
       if (!data.multi || !data.week) return null;
-      var msg = "Periodic Event: ";
+      var msg = I18n.t("Periodic Event") + ": ";
       let week = data.week;
       for (let i = 0; i < 7; i++)
         if (week[i]) {
-          msg += '\nEvery ' + moment.weekdays()[i] + ' ' + intToTimeFormat(week[i].start) + '-' + intToTimeFormat(week[i].end);
+          var date = new Date();
+          var currentDay = date.getDay();
+          var distance = (i + 7 - currentDay) % 7;
+          date.setDate(date.getDate() + distance);
+          msg += '\n' + I18n.t('Every') + '  ' + date.toLocaleDateString([], {weekday: "long"}) + ' ' + intToTimeFormat(week[i].start) + '-' + intToTimeFormat(week[i].end);
         }
       return (<Text style={{fontStyle: 'italic'}}>{msg}</Text>);
     }
 
     _renderContent(data) {
       var d = new Date(data.start);
-      var day = moment(d).format('DD MMM');
-      var time =  moment(d).format('ddd, hh:mm');
+      var options = {month :'long', day: 'numeric'} ;
+      var day = d.toLocaleDateString([], options);
+      var options = {weekday :'short', hour: '2-digit', minute:'2-digit'} ;
+      var time =  d.toLocaleTimeString([], options);
       var event = this.state.data;
       var can_edit = event.created_by && event.created_by.user_id == this.props.app.state.profile.user_id;
       return (
@@ -128,8 +134,8 @@ export default class DetailEventView extends Component {
             onPress={() => can_edit ? this._edit(this.state.data, this.props.navigator) : this._joinEvent(!this.state.data.joined)}
             style={[{backgroundColor: !this.state.data.joined ? PRIMARY_COLOR: '#a00'}, styles.join]}>
             <Text style={styles.joinText}>{
-                can_edit ? "Edit" :
-                this.state.data.joined ? "Leave" : "Join"}</Text>
+                can_edit ? I18n.t("Edit") :
+                  I18n.t(this.state.data.joined ? "Leave" : "Join")}</Text>
           </TouchableOpacity>
           {this._renderOrganizer(data.created_by)}
 
@@ -140,7 +146,7 @@ export default class DetailEventView extends Component {
                   invitedEvent: event.id,
                   index: 4,
                   getUsers: getFollowList.bind(null, this.props.app.state.profile.user_id, false),
-                  title: 'Invite friends',
+                  title: I18n.t("Invite friends"),
                 },
                 index: 4,
                 getUsers: getAttendersList.bind(null, data.id),
@@ -162,7 +168,7 @@ export default class DetailEventView extends Component {
     _renderChatButton(eventId, navigator) {
       return (<Icon.Button
         onPress={() => {
-          navigator.push({title: 'Comments', index: 9, event_id: eventId})
+          navigator.push({title: I18n.t('Comments'), index: 9, event_id: eventId})
         }}
         name="chat"
         backgroundColor='transparent'

@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -64,6 +63,7 @@
 		EB2467CBFA6243A28D41FCDF /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E1B2926219F45D0B0D53920 /* libBVLinearGradient.a */; };
 		F0E6327877FA4648BED09B02 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 763D5318853845CDA764C509 /* libAirMaps.a */; };
 		F317CAD185E6422190705EC8 /* libRNSearchBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D64696436504A2585F1509F /* libRNSearchBar.a */; };
+		6F973554F28D4369923C1E65 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE2FEF3102554F718E01F461 /* libRNI18n.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -408,6 +408,8 @@
 		C0F3365B1E62C1B8009A7E01 /* RCTConvert+GMSMapViewType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTConvert+GMSMapViewType.m"; sourceTree = "<group>"; };
 		D13EBAB709604A43ABBF2169 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		D4208C7162614EC0B8990E49 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		30E55F8F6A9C4CF0AC2C9148 /* RNI18n.xcodeproj */ = {isa = PBXFileReference; name = "RNI18n.xcodeproj"; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		DE2FEF3102554F718E01F461 /* libRNI18n.a */ = {isa = PBXFileReference; name = "libRNI18n.a"; path = "libRNI18n.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -440,6 +442,7 @@
 				E03E5BF5D9764A9D83C28E3F /* libRCTActionSheet.a in Frameworks */,
 				75BA6632AAFA46BCAA883838 /* libRCTBEEPickerManager.a in Frameworks */,
 				E7A0E561FF914147A0AB8B15 /* libRNFIRMessaging.a in Frameworks */,
+				6F973554F28D4369923C1E65 /* libRNI18n.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,6 +602,7 @@
 				4957272049FC42CBA2A4322E /* Slider.xcodeproj */,
 				A79C16BB1C9F4B77A8A2FEE0 /* RCTBEEPickerManager.xcodeproj */,
 				1A85405762C24A14A8AA8F30 /* RNFIRMessaging.xcodeproj */,
+				30E55F8F6A9C4CF0AC2C9148 /* RNI18n.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1349,6 +1353,7 @@
 					"\"$(SRCROOT)/Tolpa\"",
 					"\"$(SRCROOT)/Tolpa\"",
 					"\"$(SRCROOT)/Tolpa\"",
+					"\"$(SRCROOT)/Tolpa\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1388,6 +1393,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/Tolpa\"",
 					"\"$(SRCROOT)/Tolpa\"",
 					"\"$(SRCROOT)/Tolpa\"",
 					"\"$(SRCROOT)/Tolpa\"",

@@ -3,30 +3,31 @@ import moment from 'moment';
 
 export const PRIMARY_COLOR = '#25a67d';
 export const DARK_COLOR = '#16805e';
+import I18n from 'react-native-i18n';
 
 export function timeSince(date) {
   var seconds = Math.floor((new Date() - date) / 1000);
   var interval = Math.floor(seconds / 31536000);
   if (interval > 1) {
-      return interval + " years ago";
+      return interval + " " + I18n.t("years ago");
   }
   interval = Math.floor(seconds / 2592000);
   if (interval > 1) {
-      return interval + " months ago";
+      return interval + " " + I18n.t("months ago");
   }
   interval = Math.floor(seconds / 86400);
   if (interval > 1) {
-      return interval + " days ago";
+      return interval + " " + I18n.t("days ago");
   }
   interval = Math.floor(seconds / 3600);
   if (interval > 1) {
-      return interval + " hours ago";
+      return interval + " " + I18n.t("hours ago");
   }
   interval = Math.floor(seconds / 60);
   if (interval > 1) {
-      return interval + " minutes ago";
+      return interval + " " + I18n.t("minutes ago");
   }
-  return "just now";
+  return I18n.t("just now");
 }
 
 export const KYIV = {

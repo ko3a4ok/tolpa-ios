@@ -19,6 +19,7 @@ import {
 
 import Drawer from 'react-native-drawer';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import I18n from 'react-native-i18n';
 
 
 import CategoriesHeader from './categories_header.js';
@@ -128,7 +129,7 @@ class MainView extends Component {
       autoFocus={true}
       style={styles.search}
       ref='searchBar'
-      placeholder='Search'
+      placeholder={I18n.t('Search')}
       onSubmitEditing={(e)=>{
         var text = e.nativeEvent.text;
         this.setState({search: false});
@@ -275,15 +276,15 @@ export default class MainScreen extends Component {
       var user = this.props.app.state.profile;
       this._mainView.refs.navigator.resetTo({index: 3, title: user.name, data: user});
     } else if (index == 2) {
-      this._mainView.refs.navigator.push({index: 10, title: 'Create Event'});
+      this._mainView.refs.navigator.push({index: 10, title: I18n.t('Create Event')});
     } else if (index == 3) {
-      this._mainView.refs.navigator.push({index: 11, title: 'Settings'});
+      this._mainView.refs.navigator.push({index: 11, title: I18n.t('Settings')});
     } else if (index == 4) {
-      this._mainView.refs.navigator.resetTo({index: 6, title: 'Explore'});
+      this._mainView.refs.navigator.resetTo({index: 6, title: I18n.t('Explore')});
     } else if (index == 5) {
-      this._mainView.refs.navigator.resetTo({index: 8, title: 'News'});
+      this._mainView.refs.navigator.resetTo({index: 8, title: I18n.t('News')});
     } else if (index == 6) {
-      this._mainView.refs.navigator.push({index: 12, title: 'Categories'});
+      this._mainView.refs.navigator.push({index: 12, title: I18n.t('Categories')});
     }
   }
   render () {

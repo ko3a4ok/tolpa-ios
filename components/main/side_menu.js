@@ -12,6 +12,8 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import I18n from 'react-native-i18n';
+
 import {PRIMARY_COLOR} from '../global';
 
 export default class ControlPanel extends Component {
@@ -85,7 +87,7 @@ export default class ControlPanel extends Component {
           size={30}
           style={{margin: 10}}
           color={color} />
-        <Text style={{fontSize: 20, color: color}}>{data.text}</Text>
+        <Text style={{fontSize: 20, color: color}}>{I18n.t(data.text)}</Text>
       </View>
       </TouchableOpacity>);
   }

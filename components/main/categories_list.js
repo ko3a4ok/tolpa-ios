@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import I18n from 'react-native-i18n';
 
 import {
   CATEGORIES,
@@ -48,10 +49,10 @@ export default class CategoriesList extends Component {
       <TouchableHighlight
         activeOpacity={0.9}
         underlayColor="#ddd"
-        onPress={() => nav.push({index: 1, title: CATEGORIES[idx], tagId: idx})}>
+        onPress={() => nav.push({index: 1, title: I18n.t(CATEGORIES[idx]), tagId: idx})}>
         <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'row', flex: 1}}>
           <Icon style={styles.icon} name={ICONS[idx]} color={PRIMARY_COLOR} size={40} />
-          <Text style={styles.text}>{CATEGORIES[idx]}</Text>
+          <Text style={styles.text}>{I18n.t(CATEGORIES[idx])}</Text>
         </View>
       </TouchableHighlight>
     );

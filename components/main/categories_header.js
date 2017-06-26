@@ -12,6 +12,8 @@ import {
   ListView,
 } from 'react-native';
 
+import I18n from 'react-native-i18n';
+
 import {
   getPopularCategories
 } from '../network';
@@ -72,7 +74,7 @@ export default class CategoriesHeader extends Component {
   }
 
   _renderRow(tagId) {
-      var categoryName = CATEGORIES[parseInt(tagId)];
+      var categoryName = I18n.t(CATEGORIES[parseInt(tagId)]);
       return (<TouchableHighlight style={{height: 40}} underlayColor='#d5f6ed' onPress={() => {
         this.props.navigator.push({index: 1, title: categoryName, tagId: tagId});
       }}>

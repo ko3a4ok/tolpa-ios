@@ -14,8 +14,8 @@ import {
 } from 'react-native';
 
 
-import moment from 'moment';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import I18n from 'react-native-i18n';
 
 
 import {
@@ -45,8 +45,10 @@ export default class EventsListView extends Component {
 
   _renderRow(rowData) {
       var d = new Date(rowData.start);
-      var day = d.toDateString().split(" ").slice(1,3).join(' ');
-      var time =  moment(d).format('ddd, HH:mm');
+      var options = {month :'short', day: 'numeric'} ;
+      var day = d.toLocaleDateString([], options);
+      var options = {weekday :'short', hour: '2-digit', minute:'2-digit'} ;
+      var time =  d.toLocaleTimeString([], options);
       var nav = this.props.navigator;
       return (
         <TouchableHighlight
@@ -58,7 +60,7 @@ export default class EventsListView extends Component {
               <Image style={{height: 200, width: 200}}
                 source={{uri: rowData.mini_image_url}}/>
               <View style={styles.date}>
-              <Text style={{color: 'white'}}>{day}</Text>
+              <Text style={{color: 'white', textAlign: 'center'}}>{day}</Text>
               </View>
               {!rowData.multi ? null :
                 <Icon
@@ -68,7 +70,7 @@ export default class EventsListView extends Component {
               <Text numberOfLines={2} style={{height: 50, fontSize: 16}}>{rowData.name}</Text>
               <View style={{flex: 1, flexDirection:'row', justifyContent: 'space-between'}}>
                 <Text>{time}</Text>
-                <Text>{!rowData.budget_min ? "free" : "₴" + rowData.budget_min + "+"}</Text>
+                <Text>{!rowData.budget_min ? I18n.t('Free') : "₴" + rowData.budget_min + "+"}</Text>
                 <Text>👥{rowData.attenders_count}</Text>
               </View>
             </View>
@@ -103,7 +105,7 @@ export default class EventsListView extends Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     var dataSource = ds.cloneWithRows(this.state.results);
     var tagId = this.props.categoryId;
-    var categoryName = tagId === "popular" ? "Popular" : CATEGORIES[tagId];
+    var categoryName = I18n.t(tagId === "popular" ? "Popular" : CATEGORIES[tagId]);
     return (
       <View style={{height: 340, paddingTop: 20}}>
         <Text style={styles.title}>{categoryName}</Text>

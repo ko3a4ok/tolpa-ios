@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import com.beefe.picker.PickerViewPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNI18nPackage(),
             new FIRMessagingPackage(),
             new PickerViewPackage(),
             new ImagePickerPackage(),

@@ -23,6 +23,8 @@ import FCM, {
   NotificationType
 } from 'react-native-fcm';
 
+import './localization';
+
 export default class Tolpa extends Component {
 
   constructor(props) {

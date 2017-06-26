@@ -9,6 +9,7 @@ import {
 import ScrollableTabView,{
   DefaultTabBar,
 } from 'react-native-scrollable-tab-view';
+import I18n from 'react-native-i18n';
 
 import FullEventsListView from './full_event_list.js';
 import UsersListView from '../user/user_list.js';
@@ -30,14 +31,14 @@ export default class SearchContentView extends Component {
       >
       <FullEventsListView
         style={{flex: 1}}
-        tabLabel='Events'
+        tabLabel={I18n.t('Events')}
         sortable={true}
         navigator={this.props.navigator}
         getEvents={searchEventsByText.bind(null, this.props.searchText)}
       />
       <UsersListView
         style={{flex: 1}}
-        tabLabel='Users'
+        tabLabel={I18n.t('Users')}
         navigator={this.props.navigator}
         getUsers={searchUsersByText.bind(null, this.props.searchText)}
       />
