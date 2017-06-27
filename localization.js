@@ -84,6 +84,10 @@ I18n.translations = {
     "Please set ": "Please set ",
     Price: "Price",
     "Multi Event: ": "Multi Event: ",
+    " invited you": " invited you",
+    " joined to": " joined to",
+    " organized": " organized",
+    " started following you": " started following you",
 },
   uk: {
     Popular: "Популярне",
@@ -153,5 +157,10 @@ I18n.translations = {
     "Please set ": "Будь-ласка вкажіть ",
     Price: "Ціна",
     "Multi Event: ": "Багаторазова Подія: ",
+    " invited you": " запросив(ла) тебе",
+    " joined to": " приєднався(лась) до",
+    " organized": " організував(ла)",
+    " started following you": " Почав(ла) слідкувати за твоїми оновленнями",
+
   },
 };

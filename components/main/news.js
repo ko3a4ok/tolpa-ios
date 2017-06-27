@@ -13,7 +13,7 @@ import {
   Card,
 } from 'react-native-card-view';
 
-import moment from 'moment';
+import I18n from 'react-native-i18n';
 import {renderEvent} from './full_event_list.js';
 import {timeSince} from '../global';
 import {
@@ -34,10 +34,10 @@ export default class NewsView extends Component {
   }
 
   _getTitle(userName, rowData) {
-    if (rowData.type == 'INVITE') return userName + " invited you";
-    if (rowData.type == 'JOINED') return userName + " joined to";
-    if (rowData.type == 'CREATE_EVENT') return userName + " organized";
-    if (rowData.type == 'FOLLOW') return userName + " started following you";
+    if (rowData.type == 'INVITE') return userName + I18n.t(" invited you");
+    if (rowData.type == 'JOINED') return userName + I18n.t(" joined to");
+    if (rowData.type == 'CREATE_EVENT') return userName + I18n.t(" organized");
+    if (rowData.type == 'FOLLOW') return userName + I18n.t(" started following you");
   }
 
   _renderRow(rowData) {
@@ -62,7 +62,7 @@ export default class NewsView extends Component {
                   nav.push({index: 3, data: user, title: userName})
                 }}>
               <Image source={imageSource} style={styles.user_image} />
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+              <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
                 <Text style={styles.title}>{this._getTitle(userName, rowData)}</Text>
               </View>
               </TouchableOpacity>
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   title: {
-    textAlign: 'center',
+    textAlign: 'left',
     fontSize: 14,
     fontWeight: 'bold',
   },
