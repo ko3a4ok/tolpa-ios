@@ -3,7 +3,6 @@
  */
 
 import I18n from 'react-native-i18n';
-import moment from 'moment';
 
 export function localDay(i) {
   var date = new Date();
@@ -88,6 +87,19 @@ I18n.translations = {
     " joined to": " joined to",
     " organized": " organized",
     " started following you": " started following you",
+
+    "Full Name": "Full Name",
+    Location: "Location",
+    Phone: "Phone",
+    Gender: "Gender",
+    Birthday: "Birthday",
+    "Save Profile": "Save Profile",
+    "Edit Profile": "Edit profile",
+    " years": " years",
+    Followers: "Followers",
+    Following: "Following",
+    Past: "Past",
+    Future: "Future",
 },
   uk: {
     Popular: "Популярне",
@@ -161,6 +173,19 @@ I18n.translations = {
     " joined to": " приєднався(лась) до",
     " organized": " організував(ла)",
     " started following you": " Почав(ла) слідкувати за твоїми оновленнями",
+
+    "Full Name": "Повне ім'я",
+    Location: "Місце",
+    Phone: "Номер телефону",
+    Gender: "Стать",
+    Birthday: "День народження",
+    "Save Profile": "Зберегти",
+    "Edit Profile": "Редагувати профайл",
+    " years": " років",
+    Followers: "Підписники",
+    Following: "Підписано",
+    Past: "Минуле",
+    Future: "Майбутнє",
 
   },
 };

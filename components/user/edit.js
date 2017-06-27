@@ -13,6 +13,7 @@ import {
 
 import DatePicker from 'react-native-datepicker'
 import ModalPicker from 'react-native-modal-picker'
+import I18n from 'react-native-i18n';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Toast from 'react-native-easy-toast';
@@ -67,7 +68,7 @@ export default class EditUserProfileView extends Component {
           style={styles.tag_container}>
         <Text
           style={[styles.category, selected ? styles.selected_category : styles.nonselected_category]}
-          key={tagId}>{tag}
+          key={tagId}>{I18n.t(tag)}
         </Text>
       </TouchableOpacity>
       );
@@ -163,13 +164,13 @@ export default class EditUserProfileView extends Component {
           <View style={{marginLeft: 5, flex: 1}} >
             <TextInput
               onChangeText={(text) => this.setState({name: text})}
-              placeholder="Full Name"
+              placeholder={I18n.t("Full Name")}
               autoCapitalize="words"
               style={[styles.input, {fontSize: 20, height: 35}]}
               defaultValue={user.name} />
             <TextInput
               onChangeText={(text) => this.setState({location: text})}
-              placeholder="Location"
+              placeholder={I18n.t("Location")}
               autoCapitalize="words"
               style={styles.input}
               defaultValue={user.location}/>
@@ -184,7 +185,7 @@ export default class EditUserProfileView extends Component {
               onChangeText={(text) => this.setState({phone: text})}
               autoCapitalize="none"
               keyboardType="numeric"
-              placeholder="Phone"
+              placeholder={I18n.t("Phone")}
               style={styles.input}
               defaultValue={user.phone}/>
           </View>
@@ -207,19 +208,19 @@ export default class EditUserProfileView extends Component {
                   }}
                   underlineColorAndroid='transparent'
                   editable={false}
-                  placeholder="Gender"
+                  placeholder={I18n.t("Gender")}
                   value={(this.state.gender === undefined || this.state.gender === null) ? "" : (this.state.gender ? '♂' : '♀')} />
           </ModalPicker>
           <DatePicker
             date={this.state.birthday}
             mode="date"
             showIcon={false}
-            placeholder="Birthday"
+            placeholder={I18n.t("Birthday")}
             format="YYYY-MM-DD"
             minDate="1900-01-01"
             maxDate="2016-01-01"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
+            confirmBtnText={I18n.t("Confirm")}
+            cancelBtnText={I18n.t("Cancel")}
             underlineColorAndroid='transparent'
             customStyles={{
               dateInput: {
@@ -241,7 +242,7 @@ export default class EditUserProfileView extends Component {
               color: "white",
               borderRadius: 12,
               fontWeight: "bold",
-            }]}>Save Profile</Text>
+            }]}>{I18n.t("Save Profile")}</Text>
         </TouchableOpacity>
         <Toast ref="toast"/>
       </View>

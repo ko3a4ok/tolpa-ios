@@ -13,6 +13,7 @@ import {
 import ScrollableTabView,{
   DefaultTabBar,
 } from 'react-native-scrollable-tab-view';
+import I18n from 'react-native-i18n';
 
 import {
   followUser,
@@ -50,7 +51,7 @@ class ProfileView extends Component {
     var ageDifMs = Date.now() - new Date(user.birthday).getTime();
     var ageDate = new Date(ageDifMs);
     var years = Math.abs(ageDate.getUTCFullYear() - 1970);
-    return years + " years";
+    return years + I18n.t(" years");
   }
 
   _getGender() {
@@ -75,7 +76,7 @@ class ProfileView extends Component {
       res.push(
         <Text
           style={styles.category}
-          key={tagId}>{CATEGORIES[tagId]}
+          key={tagId}>{I18n.t(CATEGORIES[tagId])}
         </Text>);
     });
     return <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>{res}</View>;
@@ -88,20 +89,20 @@ class ProfileView extends Component {
       <TouchableOpacity
         onPress={ () => this.props.navigator.push({
           index: 4,
-          title: 'Followers',
+          title: I18n.t('Followers'),
           getUsers: getFollowList.bind(null, user.user_id, false),
         })}
         style={[styles.follow_container, {marginLeft: 0}]}>
-        <Text style={styles.follow}>{user.followers_count ? user.followers_count : 0} Followers</Text>
+        <Text style={styles.follow}>{user.followers_count ? user.followers_count : 0} {I18n.t('Followers')}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={ () => this.props.navigator.push({
           index: 4,
-          title: 'Following',
+          title: I18n.t('Following'),
           getUsers: getFollowList.bind(null, user.user_id, true),
         })}
         style={[styles.follow_container, {marginRight: 0}]}>
-        <Text style={styles.follow}>{user.followings_count ? user.followings_count : 0} Following</Text>
+        <Text style={styles.follow}>{user.followings_count ? user.followings_count : 0} {I18n.t('Following')}</Text>
       </TouchableOpacity>
     </View>);
   }
@@ -116,10 +117,10 @@ class ProfileView extends Component {
     if (this.state.user.user_id == this.props.app.state.profile.user_id) {
       return (<TouchableOpacity
         onPress={() => {
-          this.props.navigator.push({title: "Edit profile", data: this.state.user, index: 7});
+          this.props.navigator.push({title: I18n.t("Edit Profile"), data: this.state.user, index: 7});
         }}
         style={[{backgroundColor: PRIMARY_COLOR}, styles.make_follow]}>
-        <Text style={styles.make_follow_text}>Edit Profile</Text>
+        <Text style={styles.make_follow_text}>{I18n.t("Edit Profile")}</Text>
       </TouchableOpacity>);
     }
     return (<TouchableOpacity
@@ -180,9 +181,9 @@ export default class UserProfileView extends Component {
         renderTabBar={() => <DefaultTabBar underlineStyle={{backgroundColor: PRIMARY_COLOR}} />}
         ref={(tabView) => { this.tabView = tabView; }}
       >
-      <FullEventsListView tabLabel='Profile' getEvents={createdByFn} navigator={this.props.navigator} header={this.profileHeader}/>
-      <FullEventsListView tabLabel='Past' getEvents={pastEventsFn} navigator={this.props.navigator}/>
-      <FullEventsListView tabLabel='Future' getEvents={futureEventsFn} navigator={this.props.navigator}/>
+      <FullEventsListView tabLabel={I18n.t('Profile')} getEvents={createdByFn} navigator={this.props.navigator} header={this.profileHeader}/>
+      <FullEventsListView tabLabel={I18n.t('Past')} getEvents={pastEventsFn} navigator={this.props.navigator}/>
+      <FullEventsListView tabLabel={I18n.t('Future')} getEvents={futureEventsFn} navigator={this.props.navigator}/>
 
     </ScrollableTabView>
     );
