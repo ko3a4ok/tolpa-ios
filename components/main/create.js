@@ -12,6 +12,7 @@ import {
   Image,
   Platform
 } from 'react-native';
+import I18n from 'react-native-i18n';
 
 import MapView from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -21,6 +22,11 @@ import MultiSlider from './multi-slider';
 import Toast, {DURATION} from 'react-native-easy-toast';
 
 import moment from 'moment';
+
+import {
+  localDay,
+} from "../../localization";
+
 
 import {
   createEvent,
@@ -131,7 +137,7 @@ export default class CreateEventView extends Component {
             style={styles.tag_container}>
           <Text
             style={[styles.category, selected ? styles.selected_category : styles.nonselected_category]}
-            key={tagId}>{tag}
+            key={tagId}>{I18n.t(tag)}
           </Text>
         </TouchableOpacity>
         );
@@ -147,9 +153,9 @@ export default class CreateEventView extends Component {
           mode="datetime"
           format={DATE_FORMAT}
           showIcon={false}
-          placeholder={end? 'End' : 'Start'}
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
+          placeholder={I18n.t(end? 'End' : 'Start')}
+          confirmBtnText={I18n.t("Confirm")}
+          cancelBtnText={I18n.t("Cancel")}
           style={{height: 50}}
           customStyles={{
             dateInput: styles.input,
@@ -184,10 +190,10 @@ export default class CreateEventView extends Component {
           maxDate={intToTimeFormat(endDate)}
           showIcon={false}
           mode="time"
-          placeholder={end? 'End' : 'Start'}
-          confirmBtnText={(end ? "End" : "Start") + " confirm"}
-          cancelBtnText="Cancel"
-          style={{width: 60}}
+          placeholder={I18n.t(end? 'End' : 'Start')}
+          confirmBtnText={I18n.t(end ? "End" : "Start") + " " + I18n.t("Confirm")}
+          cancelBtnText={I18n.t("Cancel")}
+          style={{width: 70}}
           customStyles={{
             dateInput: [styles.input, styles.only_date],
           }}
@@ -211,10 +217,10 @@ export default class CreateEventView extends Component {
     }
 
     _renderPrice() {
-      var priceText = 'None';
+      var priceText = I18n.t('None');
       if (this.state.budget_min !== undefined) {
         if (this.state.budget_max == 0)
-          priceText = 'Free';
+          priceText = I18n.t('Free');
         else if (this.state.budget_max == this.state.budget_min)
           priceText = '₴' + this.state.budget_max;
         else if (this.state.budget_max == 1001)
@@ -224,7 +230,7 @@ export default class CreateEventView extends Component {
       }
       return (
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{marginTop: 10, flex: 1}}>Price: {priceText}</Text>
+          <Text style={{marginTop: 10, flex: 1}}>{I18n.t("Price")}: {priceText}</Text>
           <MultiSlider
             onValuesChange={(arr)=>{
               this.setState({
@@ -281,7 +287,7 @@ export default class CreateEventView extends Component {
         </MapView>
         <TextInput
           style={[styles.input, styles.input_text]}
-          placeholder="Address"
+          placeholder={I18n.t("Address")}
           defaultValue={this.state.address}
           onChangeText={text => this.setState({address: text, addressed: true})}
         />
@@ -298,7 +304,7 @@ export default class CreateEventView extends Component {
           <Text style={[styles.category, {
               color: "white",
               fontWeight: "bold",
-            }]}>{this.props.data ? "Update" : "Create"} Event</Text>
+            }]}>{I18n.t(this.props.data ? "Update" : "Create" + " Event")}</Text>
         </TouchableOpacity>
       );
     }
@@ -365,14 +371,14 @@ export default class CreateEventView extends Component {
           <TextInput
             defaultValue={this.state.title}
             style={[styles.input, styles.input_text, {fontWeight: 'bold'}]}
-            placeholder="Title"
+            placeholder={I18n.t("Title")}
             autoCapitalize="sentences"
             onChangeText={text => this.setState({title: text})}
             multiline={false}
             />
           <TextInput
             defaultValue={this.state.desc}
-            placeholder="Description"
+            placeholder={I18n.t("Description")}
             multiline={true}
             onChangeText={text => this.setState({desc: text})}
             onContentSizeChange={(event) => {
@@ -417,7 +423,7 @@ export default class CreateEventView extends Component {
           <Text style={[
             styles.category,
             filled ? styles.selected_category : styles.nonselected_category,
-            {width: 100, height: 30, padding: 5}]}>{day}</Text>
+            {width: 100, height: 30, padding: 5}]}>{localDay(idx)}</Text>
           {this._renderOnlyTime(idx, false)}
           {this._renderOnlyTime(idx, true)}
           <Icon
@@ -434,7 +440,7 @@ export default class CreateEventView extends Component {
     });
     m = nextDate(this.state.week);
     return (<View>
-      <Text style={{marginLeft: 5}}>{m ? "Next event: " + m.calendar() : ""}</Text>
+      <Text style={{marginLeft: 5}}>{m ? I18n.t("Next event: ") + m.calendar() : ""}</Text>
       {res}
       </View>);
   }
@@ -442,7 +448,7 @@ export default class CreateEventView extends Component {
   _renderDate() {
     return (<View>
       <View style={{marginLeft: 5, flexDirection: 'row', alignItems: 'center'}}>
-        <Text>Multi Event: </Text>
+        <Text>{I18n.t("Multi Event: ")}</Text>
         <Switch
           onTintColor={PRIMARY_COLOR}
           tintColor={PRIMARY_COLOR}
@@ -465,8 +471,8 @@ export default class CreateEventView extends Component {
         for (let day in this.state.week) {
           if (day == 'offset') continue;
           const o = this.state.week[day];
-          if (o.start == null) throw new Error("Start Date on " + day);
-          if (o.end == null) throw new Error("End Date on " + day);
+          if (o.start == null) throw new Error("Start Date");
+          if (o.end == null) throw new Error("End Date");
         }
       }
   }
@@ -475,7 +481,7 @@ export default class CreateEventView extends Component {
       this._validateTitle();
       this._validateDate();
     } catch (err) {
-      return "Please set " + err.message;
+      return I18n.t("Please set ") + I18n.t(err.message);
     }
   }
 

@@ -22,6 +22,10 @@ import {
   joinEvent,
 } from '../network';
 
+import {
+  localDay,
+} from "../../localization";
+
 import {PRIMARY_COLOR} from "../global";
 import {intToTimeFormat} from "../global/index";
 
@@ -111,11 +115,7 @@ export default class DetailEventView extends Component {
       let week = data.week;
       for (let i = 0; i < 7; i++)
         if (week[i]) {
-          var date = new Date();
-          var currentDay = date.getDay();
-          var distance = (i + 7 - currentDay) % 7;
-          date.setDate(date.getDate() + distance);
-          msg += '\n' + I18n.t('Every') + '  ' + date.toLocaleDateString([], {weekday: "long"}) + ' ' + intToTimeFormat(week[i].start) + '-' + intToTimeFormat(week[i].end);
+          msg += '\n' + I18n.t('Every') + '  ' + localDay(i) + ' ' + intToTimeFormat(week[i].start) + '-' + intToTimeFormat(week[i].end);
         }
       return (<Text style={{fontStyle: 'italic'}}>{msg}</Text>);
     }

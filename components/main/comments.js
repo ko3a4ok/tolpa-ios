@@ -11,6 +11,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import I18n from 'react-native-i18n';
 
 import {
   getComments,
@@ -79,11 +80,11 @@ export default class CommentsView extends Component {
                     if (this.props.app.state.profile.user_id != rowData.user.user_id)
                       return;
                     Alert.alert(
-                      'Delete your comment?',
+                      I18n.t('Delete your comment?'),
                       rowData.text,
                       [
-                        {text: 'Cancel', onPress: () => {}, style: 'cancel'},
-                        {text: 'OK', onPress: () => this._deleteComment(rowID)},
+                        {text: I18n.t('Cancel'), onPress: () => {}, style: 'cancel'},
+                        {text: I18n.t('OK'), onPress: () => this._deleteComment(rowID)},
                       ],
                     )
                   }}
@@ -157,7 +158,7 @@ export default class CommentsView extends Component {
       autoCapitalize='sentences'
       autoFocus={true}
       returnKeyType='send'
-      placeholder="Leave a Comment"/>
+      placeholder={I18n.t("Leave a Comment")}/>
       </View>);
   }
 

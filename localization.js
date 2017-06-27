@@ -5,6 +5,13 @@
 import I18n from 'react-native-i18n';
 import moment from 'moment';
 
+export function localDay(i) {
+  var date = new Date();
+  var currentDay = date.getDay();
+  var distance = (i + 7 - currentDay) % 7;
+  date.setDate(date.getDate() + distance);
+  return date.toLocaleDateString([], {weekday: "long"});
+}
 
 I18n.fallbacks = true;
 
@@ -58,6 +65,25 @@ I18n.translations = {
     Leave: "Leave",
     Join: "Join",
     Comments: "Comments",
+    "Leave a Comment": "Leave a Comment",
+    OK: "OK",
+    Cancel: "Cancel",
+    "Delete your comment?": "Delete your comment?",
+    Start: "Start",
+    End: "End",
+    Confirm: "Confirm",
+    None: "None",
+    Address: "Address",
+    "Update event": "Update Event",
+    Title: "Title",
+    Description: "Description",
+    "Next event: ": "Next event: ",
+    "Start Date": "Start Date",
+    "End Date": "End Date",
+    Days: "Days",
+    "Please set ": "Please set ",
+    Price: "Price",
+    "Multi Event: ": "Multi Event: ",
 },
   uk: {
     Popular: "Популярне",
@@ -108,6 +134,24 @@ I18n.translations = {
     Leave: "Лишити",
     Join: "Приєднатись",
     Comments: "Коментарі",
-
+    "Leave a Comment": "Лишити коментар",
+    OK: "Так",
+    Cancel: "Відміна",
+    "Delete your comment?": "Видалити коментар?",
+    Start: "Початок",
+    End: "Кінець",
+    Confirm: "Підтвердити",
+    None: "Нема",
+    Address: "Адреса",
+    "Update event": "Оновити Подію",
+    Title: "Назва",
+    Description: "Опис",
+    "Next event: ": "Наступна подія: ",
+    "Start Date": "Дата початку",
+    "End Date": "Дата кінця",
+    Days: "Days",
+    "Please set ": "Будь-ласка вкажіть ",
+    Price: "Ціна",
+    "Multi Event: ": "Багаторазова Подія: ",
   },
 };
