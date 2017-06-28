@@ -10,6 +10,7 @@ import {
   Navigator,
 } from 'react-native';
 import Toast from 'react-native-easy-toast'
+import I18n from 'react-native-i18n';
 
 import {
   checkEmail,
@@ -51,7 +52,7 @@ export default class LoginScreen extends Component {
       return (<Button
         disabled={this.state.invalid || !this.state.email}
         onPress={() => this.signIn()}
-        title="Sign In"
+        title={I18n.t("Sign In")}
         style={styles.input}/>);
     }
     return null;
@@ -64,11 +65,11 @@ export default class LoginScreen extends Component {
 
   async _onSignUp() {
     if (this.state.password != this.state.conf_password) {
-      this.refs.toast.show('Passwords are not matched!');
+      this.refs.toast.show(I18n.t('Passwords are not matched!'));
       return;
     }
     if (!this.state.full_name) {
-      this.refs.toast.show("Name can't be empty!");
+      this.refs.toast.show(I18n.t("Name can't be empty!"));
       return;
     }
 
@@ -85,12 +86,12 @@ export default class LoginScreen extends Component {
   }
   async _onSign(signIn) {
     if (this.state.invalid) {
-      this.refs.toast.show('Invalid Email!');
+      this.refs.toast.show(I18n.t('Invalid Email!'));
       return;
     }
 
     if (this.state.password.length < 6) {
-      this.refs.toast.show('Password is too short!');
+      this.refs.toast.show(I18n.t('Password is too short!'));
       return;
     }
     this.setState({loading: true});
@@ -109,11 +110,11 @@ export default class LoginScreen extends Component {
           <TextInput
             secureTextEntry={true}
             onChangeText={conf_password => this.setState({conf_password})}
-            placeholder="Confirm Password" style={styles.input}/>
+            placeholder={I18n.t("Confirm Password")} style={styles.input}/>
           <TextInput
             autoCapitalize="words"
             onChangeText={full_name => this.setState({full_name})}
-            placeholder="Full Name" style={styles.input}/>
+            placeholder={I18n.t("Full Name")} style={styles.input}/>
         </View>
       );
     }
@@ -134,7 +135,7 @@ export default class LoginScreen extends Component {
         <Button
           disabled={this.state.invalid || !this.state.email}
           onPress={()=>this._onSign(signIn)}
-          title={"Sign " + (signIn ? "In" : "Up")} style={styles.input}/>
+          title={I18n.t("Sign " + (signIn ? "In" : "Up"))} style={styles.input}/>
       </View>
     );
 
@@ -158,7 +159,7 @@ export default class LoginScreen extends Component {
           value={this.state.password}
           ref="password"
           returnKeyType="next"
-          placeholder="Password"
+          placeholder={I18n.t("Password")}
           secureTextEntry={true}
           onChangeText={password => this.setState({password})}
           style={styles.input}

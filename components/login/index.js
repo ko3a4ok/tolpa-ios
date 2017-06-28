@@ -19,7 +19,7 @@ const {
   LoginManager,
   AccessToken
 } = FBSDK;
-
+import I18n from 'react-native-i18n';
 import {
   loginWithFb
 } from '../network' ;
@@ -30,7 +30,7 @@ const navigationBar = (
         RightButton(route, navigator) {
           return (
             <NavButton
-              text="Login"
+              text={I18n.t("Login")}
               onPress={ () => {} }
             />
           );
@@ -81,7 +81,7 @@ export default class FirstScreen extends Component {
                  if (route.index == 0) return null;
                  return (
                 <View style={styles.in_center}>
-                <Text>Sign In/Up</Text>
+                <Text>{I18n.t("Sign In/Up")}</Text>
                 </View>); },
            }}
          />
@@ -133,7 +133,7 @@ class Intro extends Component {
     return (<Icon.Button
       style={{alignItems: 'center', justifyContent: 'center'}}
        name="facebook" backgroundColor="#3b5998" onPress={this.loginWithFacebook}>
-    Login with Facebook
+      {I18n.t("Login with Facebook")}
   </Icon.Button>);
   }
 
@@ -148,7 +148,7 @@ class Intro extends Component {
           onPress={()=>{
             this.props.navigator.push({index: 1, title: 'Login'});
           }}
-        >Enter with email</Icon.Button>
+        >{I18n.t("Enter with email")}</Icon.Button>
       </View>
     </View>);
   }
