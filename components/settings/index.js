@@ -7,6 +7,7 @@ import {
   Image
 } from 'react-native';
 
+import I18n from 'react-native-i18n';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SettingsList from 'react-native-settings-list';
 import Picker from 'react-native-picker';
@@ -21,9 +22,9 @@ import {
 } from "../network/index";
 
 const PRIVACY = [
-  'Only Me',
-  'My Followings',
-  'Anyone',
+  I18n.t('Only Me'),
+  I18n.t('My Followings'),
+  I18n.t('Anyone'),
 ];
 export default class SettingsView extends Component {
 
@@ -57,6 +58,7 @@ export default class SettingsView extends Component {
       Picker.init({
         pickerData: PRIVACY,
         selectedValue: [PRIVACY[this.state[privacy]]],
+        pickerTitleText: "",
         onPickerConfirm: (data) => {
           let param = {};
           param[privacy] = PRIVACY.indexOf(data[0]);
@@ -69,14 +71,14 @@ export default class SettingsView extends Component {
   render() {
     return (
       <SettingsList borderColor='#d6d5d9' defaultItemSize={40}>
-        <SettingsList.Header headerText='Notifications' />
+        <SettingsList.Header headerText={I18n.t('Notifications')} />
         <SettingsList.Item
           icon={<Icon name="message" size={30} color={PRIMARY_COLOR} style={styles.icon}/>}
           hasSwitch={true}
           switchState={this.state.messages}
           switchOnValueChange={this.onNotificationChange.bind(this, 'messages')}
           hasNavArrow={false}
-          title='Messages'
+          title={I18n.t('Messages')}
         />
         <SettingsList.Item
           icon={<Icon name="timelapse" size={30} color={PRIMARY_COLOR} style={styles.icon}/>}
@@ -84,7 +86,7 @@ export default class SettingsView extends Component {
           switchState={this.state.upcoming_events}
           switchOnValueChange={this.onNotificationChange.bind(this, 'upcoming_events')}
           hasNavArrow={false}
-          title='Upcoming Events'
+          title={I18n.t('Upcoming Events')}
         />
         <SettingsList.Item
           icon={<Icon name="place" size={30} color={PRIMARY_COLOR} style={styles.icon}/>}
@@ -92,7 +94,7 @@ export default class SettingsView extends Component {
           switchState={this.state.near_events}
           switchOnValueChange={this.onNotificationChange.bind(this, 'near_events')}
           hasNavArrow={false}
-          title='Near Events'
+          title={I18n.t('Near Events')}
         />
         <SettingsList.Item
           icon={<Icon name="favorite" size={30} color={PRIMARY_COLOR} style={styles.icon}/>}
@@ -100,7 +102,7 @@ export default class SettingsView extends Component {
           switchState={this.state.recommended_events}
           switchOnValueChange={this.onNotificationChange.bind(this, 'recommended_events')}
           hasNavArrow={false}
-          title='Recommended Events'
+          title={I18n.t('Recommended Events')}
         />
 
         <SettingsList.Header headerText='Privacy'/>
@@ -117,7 +119,7 @@ export default class SettingsView extends Component {
           titleInfo={PRIVACY[this.state.phone]}
           onPress={this.onPrivacyChange.bind(this, 'phone')}
           hasNavArrow={true}
-          title='Phone'
+          title={I18n.t('Phone')}
         />
 
         <SettingsList.Item
@@ -125,7 +127,7 @@ export default class SettingsView extends Component {
           titleInfo={PRIVACY[this.state.private_info]}
           onPress={this.onPrivacyChange.bind(this, 'private_info')}
           hasNavArrow={true}
-          title='Private Info'
+          title={I18n.t('Private Info')}
         />
 
         <SettingsList.Item
@@ -133,7 +135,7 @@ export default class SettingsView extends Component {
           titleInfo={PRIVACY[this.state.categories]}
           onPress={this.onPrivacyChange.bind(this, 'categories')}
           hasNavArrow={true}
-          title='Categories'
+          title={I18n.t('Categories')}
         />
 
         <SettingsList.Item
@@ -141,7 +143,7 @@ export default class SettingsView extends Component {
           titleInfo={PRIVACY[this.state.follow]}
           onPress={this.onPrivacyChange.bind(this, 'follow')}
           hasNavArrow={true}
-          title='Following and Followers'
+          title={I18n.t('Following and Followers')}
         />
 
         <SettingsList.Item
@@ -149,13 +151,13 @@ export default class SettingsView extends Component {
           titleInfo={PRIVACY[this.state.events]}
           onPress={this.onPrivacyChange.bind(this, 'events')}
           hasNavArrow={true}
-          title='Events'
+          title={I18n.t('Events')}
         />
 
-        <SettingsList.Header headerText='Exit'/>
+        <SettingsList.Header headerText={I18n.t('Exit')}/>
         <SettingsList.Item
           hasNavArrow={false}
-          title='Logout'
+          title={I18n.t('Logout')}
           borderHide={'Both'}
           icon={
             <Icon name="exit-to-app" size={30} color={PRIMARY_COLOR} style={styles.icon}/>
