@@ -384,7 +384,7 @@ export default class CreateEventView extends Component {
             onContentSizeChange={(event) => {
               this.setState({height: event.nativeEvent.contentSize.height});
             }}
-            style={[styles.input, styles.input_text, {height: this.state.height}]}
+            style={[styles.input, styles.input_text, {paddingBottom: 5, height: this.state.height}]}
             />
           {this._renderTags()}
           {this._renderDate()}
