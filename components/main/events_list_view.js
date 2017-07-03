@@ -26,6 +26,7 @@ import {
   CATEGORIES,
 } from './categories_header';
 import {PRIMARY_COLOR} from "../global/index";
+import moment from 'moment';
 
 const KEY_TAG = "property_tag_";
 export default class EventsListView extends Component {
@@ -45,10 +46,8 @@ export default class EventsListView extends Component {
 
   _renderRow(rowData) {
       var d = new Date(rowData.start);
-      var options = {month :'short', day: 'numeric'} ;
-      var day = d.toLocaleDateString([], options);
-      var options = {weekday :'short', hour: '2-digit', minute:'2-digit'} ;
-      var time =  d.toLocaleTimeString([], options);
+      var day = I18n.t("_Months")[d.getMonth()].substring(0,3) + " " + d.getDate();
+      var time = I18n.t("_Weekdays")[d.getDay()] + moment(d).format(', HH:mm');
       var nav = this.props.navigator;
       return (
         <TouchableHighlight

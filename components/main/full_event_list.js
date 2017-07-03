@@ -29,10 +29,8 @@ import {PRIMARY_COLOR} from '../global';
 export function renderEvent(rowData, nav) {
   if (!rowData) return null;
   var d = new Date(rowData.start);
-  var options = {month :'short', day: 'numeric'} ;
-  var day = d.toLocaleDateString([], options);
-  var options = {weekday :'short', hour: '2-digit', minute:'2-digit'} ;
-  var time =  d.toLocaleTimeString([], options);
+  var day = I18n.t("_Months")[d.getMonth()].substring(0,3) + " " + d.getDate();
+  var time = I18n.t("_Weekdays")[d.getDay()] + moment(d).format(', HH:mm');
   return (<TouchableOpacity onPress={() => {nav.push({index: 2, title: rowData.name, data: rowData})}}
     activeOpacity={0.7}
     style={{height: 270, margin: 10, alignSelf: 'stretch',}}>

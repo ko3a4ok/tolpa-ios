@@ -423,7 +423,7 @@ export default class CreateEventView extends Component {
           <Text style={[
             styles.category,
             filled ? styles.selected_category : styles.nonselected_category,
-            {width: 100, height: 30, padding: 5}]}>{localDay(idx)}</Text>
+            {width: 100, height: 30, padding: 5}]}>{I18n.t("_Weekdays")[idx]}</Text>
           {this._renderOnlyTime(idx, false)}
           {this._renderOnlyTime(idx, true)}
           <Icon

@@ -14,6 +14,7 @@ import {
 import MapView from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import I18n from 'react-native-i18n';
+import moment from 'moment';
 
 import {
   getAttendersList,
@@ -22,9 +23,6 @@ import {
   joinEvent,
 } from '../network';
 
-import {
-  localDay,
-} from "../../localization";
 
 import {PRIMARY_COLOR} from "../global";
 import {intToTimeFormat} from "../global/index";
@@ -115,17 +113,15 @@ export default class DetailEventView extends Component {
       let week = data.week;
       for (let i = 0; i < 7; i++)
         if (week[i]) {
-          msg += '\n' + I18n.t('Every') + '  ' + localDay(i) + ' ' + intToTimeFormat(week[i].start) + '-' + intToTimeFormat(week[i].end);
+          msg += '\n' + I18n.t('Every') + '  ' + I18n.t("_Weekdays")[i].toLowerCase() + ' ' + intToTimeFormat(week[i].start) + '-' + intToTimeFormat(week[i].end);
         }
       return (<Text style={{fontStyle: 'italic'}}>{msg}</Text>);
     }
 
     _renderContent(data) {
       var d = new Date(data.start);
-      var options = {month :'long', day: 'numeric'} ;
-      var day = d.toLocaleDateString([], options);
-      var options = {weekday :'short', hour: '2-digit', minute:'2-digit'} ;
-      var time =  d.toLocaleTimeString([], options);
+      var day = I18n.t("_Months")[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
+      var time = I18n.t("_Weekdays")[d.getDay()] + moment(d).format(', HH:mm');
       var event = this.state.data;
       var can_edit = event.created_by && event.created_by.user_id == this.props.app.state.profile.user_id;
       return (

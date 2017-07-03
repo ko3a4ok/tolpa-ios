@@ -4,14 +4,6 @@
 
 import I18n from 'react-native-i18n';
 
-export function localDay(i) {
-  var date = new Date();
-  var currentDay = date.getDay();
-  var distance = (i + 7 - currentDay) % 7;
-  date.setDate(date.getDate() + distance);
-  return date.toLocaleDateString([], {weekday: "long"});
-}
-
 I18n.fallbacks = true;
 
 I18n.translations = {
@@ -126,6 +118,30 @@ I18n.translations = {
     "Sign In": "Sign In",
     "Sign Up": "Sign Up",
     Password: "Password",
+
+    _Weekdays: [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ],
+    _Months: [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ]
 },
   uk: {
     Popular: "Популярне",
@@ -240,6 +256,28 @@ I18n.translations = {
     "Sign In": "Увійти",
     "Sign Up": "Зареєструватись",
     Password: "Пароль",
-
+    _Weekdays: [
+      "Неділя",
+      "Понеділок",
+      "Вівторок",
+      "Середа",
+      "Четвер",
+      "П'ятниця",
+      "Субота",
+    ],
+    _Months: [
+      "Січень",
+      "Лютий",
+      "Березень",
+      "Квітень",
+      "Травень",
+      "Червень",
+      "Липень",
+      "Серпень",
+      "Вересень",
+      "Жовтень",
+      "Листопад",
+      "Грудень",
+    ]
   },
 };
