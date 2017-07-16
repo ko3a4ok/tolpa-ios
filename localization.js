@@ -21,6 +21,7 @@ I18n.translations = {
     "Family and kids": "Family and kids",
     Sport:"Sport",
     Hobby: "Hobby",
+    Travel: "Travel",
     Other: "Other",
 
     Events: "Events",
@@ -157,6 +158,7 @@ I18n.translations = {
     "Family and kids": "Сім'я та діти",
     Sport:"Спорт",
     Hobby: "Дозвілля",
+    Travel: "Подорож",
     Other: "Інше",
 
     Events: "Події",

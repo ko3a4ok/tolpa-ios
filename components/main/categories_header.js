@@ -33,6 +33,7 @@ export const CATEGORIES = [
   "Family and kids",
   "Sport",
   "Hobby",
+  "Travel",
   "Other",
 ];
 

@@ -33,6 +33,7 @@ export const ICONS = [
   "home-variant",
   "football",
   "beach",
+  "earth",
   "apps",
 ];
 
